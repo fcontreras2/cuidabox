@@ -9,6 +9,7 @@ import {
   Moon,
   NotebookPen,
 } from "lucide-react";
+import { Link } from "@/i18n/navigation";
 import type { TimelineEvent, TimelineEventType } from "@/shared/types";
 
 const ICONS: Record<TimelineEventType, typeof Thermometer> = {
@@ -34,13 +35,13 @@ const TILE: Record<TimelineEventType, string> = {
 export function TimelineEventCard({ event }: { event: TimelineEvent }) {
   const Icon = ICONS[event.type];
   return (
-    <article className="relative pl-12">
+    <Link href={`/history/${event.id}`} className="block relative pl-12 group">
       <span
         className={`absolute left-2 top-3 size-7 rounded-full grid place-items-center ring-4 ring-cream ${TILE[event.type]}`}
       >
         <Icon className="size-3.5" />
       </span>
-      <div className="rounded-[18px] bg-paper border border-line p-4 hover:border-coral-200 transition-colors">
+      <div className="rounded-[18px] bg-paper border border-line p-4 group-hover:border-coral-200 group-hover:shadow-sage transition-all">
         <div className="flex items-start justify-between gap-3 mb-1">
           <h4 className="font-display text-[17px] leading-tight text-primary-700">
             {event.title}
@@ -60,6 +61,6 @@ export function TimelineEventCard({ event }: { event: TimelineEvent }) {
           </span>
         )}
       </div>
-    </article>
+    </Link>
   );
 }

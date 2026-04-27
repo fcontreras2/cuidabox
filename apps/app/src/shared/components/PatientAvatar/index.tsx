@@ -26,11 +26,10 @@ export function PatientAvatar({
   size = "md",
   className,
 }: PatientAvatarProps) {
-  const initial = name.trim().charAt(0).toUpperCase();
   return (
     <Avatar
       src={src}
-      name={initial}
+      name={name}
       size={size}
       className={className}
       classNames={{

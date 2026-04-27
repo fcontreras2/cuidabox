@@ -1,0 +1,28 @@
+{
+  "es": {
+    "notFoundTitle": "No encontramos este registro",
+    "notFoundSubtitle": "Puede que se haya movido o eliminado.",
+    "notFoundCta": "Volver a la historia",
+    "longDescriptionTitle": "Qué pasó",
+    "measurementsTitle": "Datos",
+    "attachmentsTitle": "Adjuntos",
+    "doctorTitle": "Médico relacionado",
+    "relatedTitle": "Eventos relacionados",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "shareWithDoctor": "Compartir con médico"
+  },
+  "en": {
+    "notFoundTitle": "We couldn't find this entry",
+    "notFoundSubtitle": "It may have been moved or removed.",
+    "notFoundCta": "Back to history",
+    "longDescriptionTitle": "What happened",
+    "measurementsTitle": "Data",
+    "attachmentsTitle": "Attachments",
+    "doctorTitle": "Related doctor",
+    "relatedTitle": "Related events",
+    "edit": "Edit",
+    "delete": "Delete",
+    "shareWithDoctor": "Share with doctor"
+  }
+}

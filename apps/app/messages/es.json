@@ -15,6 +15,193 @@
     "back": "Atrás",
     "next": "Siguiente",
     "previous": "Anterior",
-    "confirm": "Confirmar"
+    "confirm": "Confirmar",
+    "appName": "CuidaBox"
+  },
+  "selector": {
+    "greeting": "Hola María,",
+    "question": "¿a quién cuidamos hoy?",
+    "subtitle": "Toca un familiar para abrir su historia.",
+    "addFamily": "Agregar familiar",
+    "secureNote": "Tu información está cifrada y privada"
+  },
+  "dashboard": {
+    "viewing": "Cuidando a",
+    "morningGreeting": "Buenos días,",
+    "important": "Hoy hay una cosa importante",
+    "noUrgent": "Hoy todo va tranquilo",
+    "nowMoment": "Ahora mismo",
+    "upcoming": "Lo que viene",
+    "tabs": {
+      "home": "Inicio",
+      "history": "Historia",
+      "register": "Registrar",
+      "doctors": "Médicos",
+      "profile": "Perfil"
+    }
+  },
+  "register": {
+    "title": "Cuéntame,",
+    "titleAccent": "¿qué pasó?",
+    "subtitle": "Habla, escribe o toma una foto. Yo me encargo de organizarlo.",
+    "speakNow": "Toca para hablar",
+    "typeInstead": "O escribe en su lugar",
+    "examples": "Ejemplos",
+    "process": "Procesar",
+    "save": "Guardar registro"
+  },
+  "modules-dashboard-pages-Main": {
+    "viewing": "Cuidando a",
+    "morningGreeting": "Buenos días,",
+    "important": "Hoy hay una cosa importante",
+    "noUrgent": "Hoy todo va tranquilo",
+    "nowMoment": "Ahora mismo",
+    "upcoming": "Lo que viene",
+    "tabs": {
+      "home": "Inicio",
+      "history": "Historia",
+      "register": "Registrar",
+      "doctors": "Médicos",
+      "profile": "Perfil"
+    }
+  },
+  "modules-doctors-pages-Main": {
+    "titleAccent": "Tu equipo de",
+    "title": "confianza",
+    "search": "Buscar médico",
+    "specialists": "Especialistas",
+    "addDoctor": "Agregar médico",
+    "primaryBadge": "Médico de cabecera",
+    "call": "Llamar",
+    "viewLocation": "Ver ubicación",
+    "nextAppointment": "Próxima cita"
+  },
+  "modules-history-pages-Main": {
+    "viewing": "Cuidando a",
+    "historyOf": "La historia de",
+    "dayByDay": "día a día",
+    "filter": "Filtrar",
+    "mostRecent": "Más reciente"
+  },
+  "modules-medications-pages-Main": {
+    "treatmentsOf": "Tratamientos de",
+    "titleAccent": "Estos son los",
+    "title": "medicamentos",
+    "tabActive": "Activos",
+    "tabPast": "Pasados",
+    "sectionActive": "En curso ahora",
+    "sectionPast": "Tratamientos pasados",
+    "addMedication": "Agregar medicamento",
+    "treatmentProgress": "Progreso del tratamiento",
+    "markDose": "Marcar dosis dada"
+  },
+  "modules-register-pages-Main": {
+    "title": "Cuéntame,",
+    "titleAccent": "¿qué pasó?",
+    "subtitle": "Habla, escribe o toma una foto. Yo me encargo de organizarlo.",
+    "speakNow": "Toca para hablar",
+    "typeInstead": "O escribe en su lugar",
+    "examples": "Ejemplos",
+    "process": "Procesar",
+    "save": "Guardar registro"
+  },
+  "modules-selector-pages-Main": {
+    "greeting": "Hola María,",
+    "question": "¿a quién cuidamos hoy?",
+    "subtitle": "Toca un familiar para abrir su historia.",
+    "addFamily": "Agregar familiar",
+    "secureNote": "Tu información está cifrada y privada"
+  },
+  "modules-patient-pages-Detail": {
+    "notFoundTitle": "No encontramos a este familiar",
+    "notFoundSubtitle": "Puede que el enlace esté desactualizado.",
+    "notFoundCta": "Volver al inicio",
+    "basics": "Datos básicos",
+    "birthDate": "Fecha de nacimiento",
+    "bloodType": "Tipo de sangre",
+    "weight": "Peso",
+    "height": "Altura",
+    "allergies": "Alergias",
+    "noAllergies": "Sin alergias registradas",
+    "conditions": "Condiciones",
+    "noConditions": "Sin condiciones crónicas",
+    "primaryDoctor": "Médico de cabecera",
+    "notes": "Notas tuyas",
+    "shortcutsTitle": "Atajos",
+    "openHistory": "Ver historia completa",
+    "openMedications": "Medicamentos",
+    "openDoctors": "Equipo médico",
+    "registerNew": "Registrar algo nuevo",
+    "edit": "Editar perfil"
+  },
+  "modules-history-pages-Detail": {
+    "notFoundTitle": "No encontramos este registro",
+    "notFoundSubtitle": "Puede que se haya movido o eliminado.",
+    "notFoundCta": "Volver a la historia",
+    "longDescriptionTitle": "Qué pasó",
+    "measurementsTitle": "Datos",
+    "attachmentsTitle": "Adjuntos",
+    "doctorTitle": "Médico relacionado",
+    "relatedTitle": "Eventos relacionados",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "shareWithDoctor": "Compartir con médico"
+  },
+  "modules-medications-pages-Detail": {
+    "notFoundTitle": "No encontramos este medicamento",
+    "notFoundSubtitle": "Puede que ya no esté en el tratamiento.",
+    "notFoundCta": "Volver a medicamentos",
+    "presentationTitle": "Presentación",
+    "instructionsTitle": "Cómo darlo",
+    "warningsTitle": "Cuidados",
+    "scheduleTitle": "Horarios del día",
+    "progressTitle": "Progreso del tratamiento",
+    "progressLabel": "{taken} de {total} dosis dadas",
+    "nextDose": "Próxima dosis",
+    "markGiven": "Marcar dosis dada",
+    "historyTitle": "Historial de dosis",
+    "doctorTitle": "Recetado por",
+    "edit": "Editar",
+    "stop": "Suspender",
+    "statusTaken": "Dada",
+    "statusMissed": "Olvidada",
+    "statusScheduled": "Próxima",
+    "startDate": "Inicio",
+    "endDate": "Fin"
+  },
+  "modules-profile-pages-Main": {
+    "header": "Mi perfil",
+    "caregiverRole": "Cuidadora principal",
+    "edit": "Editar",
+    "stats": {
+      "family": "Familiares",
+      "registers": "Registros",
+      "years": "Años cuidando"
+    },
+    "familyTitle": "A tu cuidado",
+    "familyHint": "Toca para ver historia",
+    "manageFamily": "Gestionar familiares",
+    "settingsTitle": "Ajustes",
+    "preferencesTitle": "Preferencias",
+    "languageSheetDescription": "Elige el idioma en el que prefieres que CuidaBox te hable.",
+    "items": {
+      "notifications": "Notificaciones",
+      "notificationsDesc": "Recordatorios de medicamentos y citas",
+      "language": "Idioma",
+      "languageDesc": "Español",
+      "theme": "Apariencia",
+      "themeDesc": "Claro",
+      "privacy": "Privacidad y datos",
+      "privacyDesc": "Tu información está cifrada",
+      "export": "Exportar mi historia",
+      "exportDesc": "PDF descargable",
+      "help": "Ayuda y soporte",
+      "helpDesc": "Habla con nosotros",
+      "about": "Sobre CuidaBox",
+      "aboutDesc": "Versión 0.1.0",
+      "logout": "Cerrar sesión"
+    },
+    "footerNote": "Hecho con cariño en Chile",
+    "version": "v0.1.0"
   }
 }

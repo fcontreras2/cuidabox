@@ -1,0 +1,72 @@
+{
+  "es": {
+    "header": "Mi perfil",
+    "caregiverRole": "Cuidadora principal",
+    "edit": "Editar",
+    "stats": {
+      "family": "Familiares",
+      "registers": "Registros",
+      "years": "Años cuidando"
+    },
+    "familyTitle": "A tu cuidado",
+    "familyHint": "Toca para ver historia",
+    "manageFamily": "Gestionar familiares",
+    "settingsTitle": "Ajustes",
+    "preferencesTitle": "Preferencias",
+    "languageSheetDescription": "Elige el idioma en el que prefieres que CuidaBox te hable.",
+    "items": {
+      "notifications": "Notificaciones",
+      "notificationsDesc": "Recordatorios de medicamentos y citas",
+      "language": "Idioma",
+      "languageDesc": "Español",
+      "theme": "Apariencia",
+      "themeDesc": "Claro",
+      "privacy": "Privacidad y datos",
+      "privacyDesc": "Tu información está cifrada",
+      "export": "Exportar mi historia",
+      "exportDesc": "PDF descargable",
+      "help": "Ayuda y soporte",
+      "helpDesc": "Habla con nosotros",
+      "about": "Sobre CuidaBox",
+      "aboutDesc": "Versión 0.1.0",
+      "logout": "Cerrar sesión"
+    },
+    "footerNote": "Hecho con cariño en Chile",
+    "version": "v0.1.0"
+  },
+  "en": {
+    "header": "My profile",
+    "caregiverRole": "Primary caregiver",
+    "edit": "Edit",
+    "stats": {
+      "family": "Family",
+      "registers": "Records",
+      "years": "Years caring"
+    },
+    "familyTitle": "In your care",
+    "familyHint": "Tap to view history",
+    "manageFamily": "Manage family",
+    "settingsTitle": "Settings",
+    "preferencesTitle": "Preferences",
+    "languageSheetDescription": "Pick the language you'd like CuidaBox to speak.",
+    "items": {
+      "notifications": "Notifications",
+      "notificationsDesc": "Medication and appointment reminders",
+      "language": "Language",
+      "languageDesc": "English",
+      "theme": "Appearance",
+      "themeDesc": "Light",
+      "privacy": "Privacy & data",
+      "privacyDesc": "Your data is encrypted",
+      "export": "Export my history",
+      "exportDesc": "Downloadable PDF",
+      "help": "Help & support",
+      "helpDesc": "Talk to us",
+      "about": "About CuidaBox",
+      "aboutDesc": "Version 0.1.0",
+      "logout": "Sign out"
+    },
+    "footerNote": "Made with love in Chile",
+    "version": "v0.1.0"
+  }
+}
