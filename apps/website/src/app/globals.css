@@ -1,3 +1,4 @@
 @import "tailwindcss";
+@source "../../node_modules/fcontreras2-ui/dist/index.mjs";
 
 @custom-variant dark (&:where(.dark, .dark *));

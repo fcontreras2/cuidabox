@@ -1,0 +1,11 @@
+{
+  "emeraldwalk.runonsave": {
+    "commands": [
+      {
+        "match": ".*/messages\\.json$",
+        "isAsync": true,
+        "cmd": "cd ${workspaceFolder} && npm run messages"
+      }
+    ]
+  }
+}

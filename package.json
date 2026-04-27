@@ -17,9 +17,13 @@
     "build:app": "npm run build --workspace=apps/app",
     "build:doc": "npm run build --workspace=apps/doc",
     "lint": "npm run lint --workspaces --if-present",
-    "typecheck": "npm run typecheck --workspaces --if-present"
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "messages": "node packages/i18n/build-messages.mjs"
   },
   "devDependencies": {
     "typescript": "^5"
+  },
+  "dependencies": {
+    "fcontreras2-ui": "^0.4.0"
   }
 }

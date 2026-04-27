@@ -1,6 +1,20 @@
 {
-  "HomePage": {
-    "title": "CuidaBox",
-    "description": "La plataforma que conecta familias con profesionales de la salud"
+  "common": {
+    "submit": "Enviar",
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "close": "Cerrar",
+    "yes": "Sí",
+    "no": "No",
+    "loading": "Cargando...",
+    "error": "Algo salió mal",
+    "success": "Éxito",
+    "search": "Buscar",
+    "back": "Atrás",
+    "next": "Siguiente",
+    "previous": "Anterior",
+    "confirm": "Confirmar"
   }
 }
