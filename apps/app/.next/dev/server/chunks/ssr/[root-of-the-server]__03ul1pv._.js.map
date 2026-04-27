@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 10, "column": 0}, "map": {"version":3,"sources":["file:///Volumes/Apizeal%20SSD/personal/cuidabox/apps/app/src/app/%5Blocale%5D/page.tsx"],"sourcesContent":["import { useTranslations } from \"next-intl\";\n\nexport default function HomePage() {\n  const t = useTranslations(\"HomePage\");\n\n  return (\n    <main className=\"flex flex-col items-center justify-center flex-1 p-8\">\n      <h1 className=\"text-4xl font-bold\">{t(\"title\")}</h1>\n      <p className=\"mt-4 text-lg text-gray-600\">{t(\"description\")}</p>\n    </main>\n  );\n}\n"],"names":["HomePage","t","className"],"mappings":";;;;;AAAA;;;AAEe,SAASA;IACtB,MAAMC,IAAI,IAAA,iQAAe,EAAC;IAE1B,qBACE,8OAAC;QAAKC,WAAU;;0BACd,8OAAC;gBAAGA,WAAU;0BAAsBD,EAAE;;;;;;0BACtC,8OAAC;gBAAEC,WAAU;0BAA8BD,EAAE;;;;;;;;;;;;AAGnD"}}]
+}

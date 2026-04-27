@@ -1,0 +1,6 @@
+{
+  "buildCommand": "npm run build:website",
+  "outputDirectory": "apps/website/.next",
+  "installCommand": "npm install",
+  "framework": "nextjs"
+}
