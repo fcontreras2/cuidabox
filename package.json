@@ -18,7 +18,9 @@
     "build:doc": "npm run build --workspace=apps/doc",
     "lint": "npm run lint --workspaces --if-present",
     "typecheck": "npm run typecheck --workspaces --if-present",
-    "messages": "node packages/i18n/build-messages.mjs"
+    "messages": "node packages/i18n/build-messages.mjs",
+    "test:e2e": "npm run test:e2e --workspace=apps/app",
+    "test:e2e:ui": "npm run test:e2e:ui --workspace=apps/app"
   },
   "devDependencies": {
     "typescript": "^5"

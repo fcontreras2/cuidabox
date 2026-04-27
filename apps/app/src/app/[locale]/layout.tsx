@@ -6,7 +6,7 @@ import { Fraunces, DM_Sans } from "next/font/google";
 import { routing } from "@/i18n/routing";
 
 type Locale = (typeof routing.locales)[number];
-import { ServiceWorkerRegister } from "@/shared/components";
+import { ServiceWorkerRegister, PageTransition } from "@/shared/components";
 import "@/styles/globals.css";
 
 const fraunces = Fraunces({
@@ -65,7 +65,7 @@ export default async function LocaleLayout({
     <html lang={locale} className={`${fraunces.variable} ${dmSans.variable}`}>
       <body>
         <NextIntlClientProvider messages={messages} locale={locale}>
-          {children}
+          <PageTransition>{children}</PageTransition>
         </NextIntlClientProvider>
         <ServiceWorkerRegister />
       </body>
