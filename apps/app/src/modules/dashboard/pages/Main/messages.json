@@ -1,0 +1,32 @@
+{
+  "es": {
+    "viewing": "Cuidando a",
+    "morningGreeting": "Buenos días,",
+    "important": "Hoy hay una cosa importante",
+    "noUrgent": "Hoy todo va tranquilo",
+    "nowMoment": "Ahora mismo",
+    "upcoming": "Lo que viene",
+    "tabs": {
+      "home": "Inicio",
+      "history": "Historia",
+      "register": "Registrar",
+      "doctors": "Médicos",
+      "profile": "Perfil"
+    }
+  },
+  "en": {
+    "viewing": "Caring for",
+    "morningGreeting": "Good morning,",
+    "important": "One important thing today",
+    "noUrgent": "All quiet today",
+    "nowMoment": "Right now",
+    "upcoming": "What's coming",
+    "tabs": {
+      "home": "Home",
+      "history": "Story",
+      "register": "Log",
+      "doctors": "Doctors",
+      "profile": "Profile"
+    }
+  }
+}

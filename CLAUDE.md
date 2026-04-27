@@ -77,7 +77,7 @@ packages/
 ## Next.js 16
 
 - Usar `proxy.ts` — el archivo `middleware.ts` está deprecated en esta versión
-- El `proxy.ts` debe exportar la función con nombre `proxy`, no como `default`
+- El `proxy.ts` debe exportar la función como `export default`, no como `export const proxy`
 - Colores con escala `neutral`, nunca `gray`
 
 ## Dark mode

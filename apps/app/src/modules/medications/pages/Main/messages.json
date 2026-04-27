@@ -1,0 +1,26 @@
+{
+  "es": {
+    "treatmentsOf": "Tratamientos de",
+    "titleAccent": "Estos son los",
+    "title": "medicamentos",
+    "tabActive": "Activos",
+    "tabPast": "Pasados",
+    "sectionActive": "En curso ahora",
+    "sectionPast": "Tratamientos pasados",
+    "addMedication": "Agregar medicamento",
+    "treatmentProgress": "Progreso del tratamiento",
+    "markDose": "Marcar dosis dada"
+  },
+  "en": {
+    "treatmentsOf": "Treatments for",
+    "titleAccent": "These are the",
+    "title": "medications",
+    "tabActive": "Active",
+    "tabPast": "Past",
+    "sectionActive": "Currently ongoing",
+    "sectionPast": "Past treatments",
+    "addMedication": "Add medication",
+    "treatmentProgress": "Treatment progress",
+    "markDose": "Mark dose given"
+  }
+}

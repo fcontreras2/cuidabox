@@ -1,0 +1,16 @@
+{
+  "es": {
+    "greeting": "Hola María,",
+    "question": "¿a quién cuidamos hoy?",
+    "subtitle": "Toca un familiar para abrir su historia.",
+    "addFamily": "Agregar familiar",
+    "secureNote": "Tu información está cifrada y privada"
+  },
+  "en": {
+    "greeting": "Hi María,",
+    "question": "who are we caring for today?",
+    "subtitle": "Tap a family member to open their story.",
+    "addFamily": "Add family member",
+    "secureNote": "Your data is encrypted and private"
+  }
+}

@@ -2,5 +2,5 @@
   "version": 3,
   "sources": [],
   "sections": [
-    {"offset": {"line": 3, "column": 0}, "map": {"version":3,"sources":["file:///Volumes/Apizeal%20SSD/personal/cuidabox/apps/app/messages/en.json.%5Bjson%5D.cjs/turbopack%3A/apps/app/messages/en.json"],"sourcesContent":["{\"HomePage\":{\"title\":\"Welcome to CuidaBox\",\"description\":\"Manage your family's health in one place\"}}"],"names":[],"mappings":""}}]
+    {"offset": {"line": 3, "column": 0}, "map": {"version":3,"sources":["file:///Volumes/Apizeal%20SSD/personal/cuidabox/apps/app/messages/en.json.%5Bjson%5D.cjs/turbopack%3A/apps/app/messages/en.json"],"sourcesContent":["{\"common\":{\"submit\":\"Submit\",\"cancel\":\"Cancel\",\"save\":\"Save\",\"delete\":\"Delete\",\"edit\":\"Edit\",\"close\":\"Close\",\"yes\":\"Yes\",\"no\":\"No\",\"loading\":\"Loading...\",\"error\":\"Something went wrong\",\"success\":\"Success\",\"search\":\"Search\",\"back\":\"Back\",\"next\":\"Next\",\"previous\":\"Previous\",\"confirm\":\"Confirm\"}}"],"names":[],"mappings":""}}]
 }

@@ -1,0 +1,24 @@
+{
+  "es": {
+    "titleAccent": "Tu equipo de",
+    "title": "confianza",
+    "search": "Buscar médico",
+    "specialists": "Especialistas",
+    "addDoctor": "Agregar médico",
+    "primaryBadge": "Médico de cabecera",
+    "call": "Llamar",
+    "viewLocation": "Ver ubicación",
+    "nextAppointment": "Próxima cita"
+  },
+  "en": {
+    "titleAccent": "Your trusted",
+    "title": "team",
+    "search": "Search doctor",
+    "specialists": "Specialists",
+    "addDoctor": "Add doctor",
+    "primaryBadge": "Primary doctor",
+    "call": "Call",
+    "viewLocation": "View location",
+    "nextAppointment": "Next appointment"
+  }
+}

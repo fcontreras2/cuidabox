@@ -2,9 +2,23 @@ module.exports = [
 "[project]/apps/app/messages/en.json.[json].cjs [app-rsc] (ecmascript)", ((__turbopack_context__, module, exports) => {
 
 module.exports = {
-    "HomePage": {
-        "title": "Welcome to CuidaBox",
-        "description": "Manage your family's health in one place"
+    "common": {
+        "submit": "Submit",
+        "cancel": "Cancel",
+        "save": "Save",
+        "delete": "Delete",
+        "edit": "Edit",
+        "close": "Close",
+        "yes": "Yes",
+        "no": "No",
+        "loading": "Loading...",
+        "error": "Something went wrong",
+        "success": "Success",
+        "search": "Search",
+        "back": "Back",
+        "next": "Next",
+        "previous": "Previous",
+        "confirm": "Confirm"
     }
 };
 }),

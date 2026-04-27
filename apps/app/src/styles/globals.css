@@ -1,0 +1,97 @@
+@import "tailwindcss";
+@source "../../node_modules/fcontreras2-ui/dist/index.mjs";
+
+/* ---------- CuidaBox · Sunrise & Sage Tokens ---------- */
+@theme {
+  /* Surfaces */
+  --color-cream: #FBF7F2;
+  --color-cream-2: #F3ECE2;
+  --color-paper: #FFFFFF;
+
+  /* Sage (primary) — replaces fcontreras2-ui primary */
+  --color-primary-50:  #EEF3F0;
+  --color-primary-100: #D9E4DE;
+  --color-primary-300: #8FAA9D;
+  --color-primary-500: #4A6E5E;
+  --color-primary-600: #2D4A3E;
+  --color-primary-700: #1E3329;
+  --color-primary-900: #14241C;
+
+  /* Coral (accent) */
+  --color-coral-100: #FBE3D5;
+  --color-coral-200: #F5C6B2;
+  --color-coral-500: #E8896B;
+  --color-coral-600: #D06F4F;
+
+  /* Gold */
+  --color-gold-100: #F3E8C8;
+  --color-gold-200: #E8D7A8;
+  --color-gold-500: #C9A35A;
+
+  /* Sky */
+  --color-sky-100: #DCE8F1;
+  --color-sky-500: #7FA8C9;
+
+  /* Plum */
+  --color-plum-100: #E8DCE6;
+  --color-plum-500: #8E6F8E;
+
+  /* Ink (text) */
+  --color-ink-900: #1C2B24;
+  --color-ink-600: #5A6B62;
+  --color-ink-400: #8C9A93;
+  --color-ink-200: #C9D2CD;
+
+  /* Lines */
+  --color-line: #E8E1D5;
+  --color-line-soft: #F0EBDF;
+
+  /* Typography */
+  --font-display: "Fraunces", Georgia, serif;
+  --font-sans: "DM Sans", system-ui, -apple-system, sans-serif;
+
+  /* Radii */
+  --radius-sm: 12px;
+  --radius-md: 18px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+
+  /* Shadows */
+  --shadow-warm: 0 20px 40px -12px rgba(232, 137, 107, 0.35);
+  --shadow-sage: 0 12px 28px -10px rgba(45, 74, 62, 0.18);
+}
+
+/* ---------- Base ---------- */
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--color-cream);
+  color: var(--color-ink-900);
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: -0.005em;
+  min-height: 100vh;
+  position: relative;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(900px 600px at 8% 0%, rgba(232, 137, 107, 0.10), transparent 55%),
+    radial-gradient(800px 500px at 95% 8%, rgba(201, 163, 90, 0.10), transparent 55%),
+    radial-gradient(700px 500px at 50% 100%, rgba(143, 170, 157, 0.12), transparent 60%);
+}
+
+/* Display / serif helpers */
+.font-display { font-family: var(--font-display); font-optical-sizing: auto; }
+.font-display-italic { font-family: var(--font-display); font-style: italic; }
+
+/* Tabular numerics */
+.mono-num { font-variant-numeric: tabular-nums; }

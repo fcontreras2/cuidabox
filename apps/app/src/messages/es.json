@@ -1,0 +1,115 @@
+{
+  "common": {
+    "submit": "Enviar",
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "close": "Cerrar",
+    "yes": "Sí",
+    "no": "No",
+    "loading": "Cargando...",
+    "error": "Algo salió mal",
+    "success": "Éxito",
+    "search": "Buscar",
+    "back": "Atrás",
+    "next": "Siguiente",
+    "previous": "Anterior",
+    "confirm": "Confirmar",
+    "appName": "CuidaBox"
+  },
+  "selector": {
+    "greeting": "Hola María,",
+    "question": "¿a quién cuidamos hoy?",
+    "subtitle": "Toca un familiar para abrir su historia.",
+    "addFamily": "Agregar familiar",
+    "secureNote": "Tu información está cifrada y privada"
+  },
+  "dashboard": {
+    "viewing": "Cuidando a",
+    "morningGreeting": "Buenos días,",
+    "important": "Hoy hay una cosa importante",
+    "noUrgent": "Hoy todo va tranquilo",
+    "nowMoment": "Ahora mismo",
+    "upcoming": "Lo que viene",
+    "tabs": {
+      "home": "Inicio",
+      "history": "Historia",
+      "register": "Registrar",
+      "doctors": "Médicos",
+      "profile": "Perfil"
+    }
+  },
+  "register": {
+    "title": "Cuéntame,",
+    "titleAccent": "¿qué pasó?",
+    "subtitle": "Habla, escribe o toma una foto. Yo me encargo de organizarlo.",
+    "speakNow": "Toca para hablar",
+    "typeInstead": "O escribe en su lugar",
+    "examples": "Ejemplos",
+    "process": "Procesar",
+    "save": "Guardar registro"
+  },
+  "modules-dashboard-pages-Main": {
+    "viewing": "Cuidando a",
+    "morningGreeting": "Buenos días,",
+    "important": "Hoy hay una cosa importante",
+    "noUrgent": "Hoy todo va tranquilo",
+    "nowMoment": "Ahora mismo",
+    "upcoming": "Lo que viene",
+    "tabs": {
+      "home": "Inicio",
+      "history": "Historia",
+      "register": "Registrar",
+      "doctors": "Médicos",
+      "profile": "Perfil"
+    }
+  },
+  "modules-doctors-pages-Main": {
+    "titleAccent": "Tu equipo de",
+    "title": "confianza",
+    "search": "Buscar médico",
+    "specialists": "Especialistas",
+    "addDoctor": "Agregar médico",
+    "primaryBadge": "Médico de cabecera",
+    "call": "Llamar",
+    "viewLocation": "Ver ubicación",
+    "nextAppointment": "Próxima cita"
+  },
+  "modules-history-pages-Main": {
+    "viewing": "Cuidando a",
+    "historyOf": "La historia de",
+    "dayByDay": "día a día",
+    "filter": "Filtrar",
+    "mostRecent": "Más reciente"
+  },
+  "modules-medications-pages-Main": {
+    "treatmentsOf": "Tratamientos de",
+    "titleAccent": "Estos son los",
+    "title": "medicamentos",
+    "tabActive": "Activos",
+    "tabPast": "Pasados",
+    "sectionActive": "En curso ahora",
+    "sectionPast": "Tratamientos pasados",
+    "addMedication": "Agregar medicamento",
+    "treatmentProgress": "Progreso del tratamiento",
+    "markDose": "Marcar dosis dada"
+  },
+  "modules-register-pages-Main": {
+    "title": "Cuéntame,",
+    "titleAccent": "¿qué pasó?",
+    "subtitle": "Habla, escribe o toma una foto. Yo me encargo de organizarlo.",
+    "speakNow": "Toca para hablar",
+    "typeInstead": "O escribe en su lugar",
+    "examples": "Ejemplos",
+    "process": "Procesar",
+    "save": "Guardar registro"
+  },
+  "modules-selector-pages-Main": {
+    "greeting": "Hola María,",
+    "question": "¿a quién cuidamos hoy?",
+    "subtitle": "Toca un familiar para abrir su historia.",
+    "addFamily": "Agregar familiar",
+    "secureNote": "Tu información está cifrada y privada"
+  }
+}

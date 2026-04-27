@@ -1,0 +1,22 @@
+{
+  "es": {
+    "title": "Cuéntame,",
+    "titleAccent": "¿qué pasó?",
+    "subtitle": "Habla, escribe o toma una foto. Yo me encargo de organizarlo.",
+    "speakNow": "Toca para hablar",
+    "typeInstead": "O escribe en su lugar",
+    "examples": "Ejemplos",
+    "process": "Procesar",
+    "save": "Guardar registro"
+  },
+  "en": {
+    "title": "Tell me,",
+    "titleAccent": "what happened?",
+    "subtitle": "Talk, type or snap a photo. I'll organize it for you.",
+    "speakNow": "Tap to speak",
+    "typeInstead": "Or type instead",
+    "examples": "Examples",
+    "process": "Process",
+    "save": "Save entry"
+  }
+}

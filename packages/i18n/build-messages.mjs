@@ -32,15 +32,21 @@ function pathToNamespace(filePath, appSrc) {
 
 function buildForApp(appName) {
   const appSrc = join(ROOT, 'apps', appName, 'src');
-  const messagesOut = join(ROOT, 'apps', appName, 'messages');
+  const messagesOut = join(ROOT, 'apps', appName, 'src', 'messages');
 
   if (!existsSync(appSrc)) return;
   if (!existsSync(messagesOut)) mkdirSync(messagesOut, { recursive: true });
 
   const common = JSON.parse(readFileSync(COMMON_MESSAGES, 'utf-8'));
-  const result = Object.fromEntries(LOCALES.map(l => [l, { ...common[l] }]));
 
-  const localFiles = findLocalMessages(appSrc);
+  // Start from existing messages (preserve app-specific namespaces), then merge common on top
+  const result = Object.fromEntries(LOCALES.map(l => {
+    const outPath = join(messagesOut, `${l}.json`);
+    const existing = existsSync(outPath) ? JSON.parse(readFileSync(outPath, 'utf-8')) : {};
+    return [l, { ...existing, common: { ...existing.common, ...common[l].common } }];
+  }));
+
+  const localFiles = findLocalMessages(appSrc).filter(f => !f.includes('/messages/'));
 
   for (const file of localFiles) {
     const raw = JSON.parse(readFileSync(file, 'utf-8'));
@@ -56,7 +62,7 @@ function buildForApp(appName) {
   for (const locale of LOCALES) {
     const outPath = join(messagesOut, `${locale}.json`);
     writeFileSync(outPath, JSON.stringify(result[locale], null, 2));
-    console.log(`✓ ${appName}/messages/${locale}.json (${Object.keys(result[locale]).length} namespaces)`);
+    console.log(`✓ ${appName}/src/messages/${locale}.json (${Object.keys(result[locale]).length} namespaces)`);
   }
 }
 

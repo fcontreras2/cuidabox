@@ -1,0 +1,115 @@
+{
+  "common": {
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "close": "Close",
+    "yes": "Yes",
+    "no": "No",
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "success": "Success",
+    "search": "Search",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "confirm": "Confirm",
+    "appName": "CuidaBox"
+  },
+  "selector": {
+    "greeting": "Hi María,",
+    "question": "who are we caring for today?",
+    "subtitle": "Tap a family member to open their story.",
+    "addFamily": "Add family member",
+    "secureNote": "Your data is encrypted and private"
+  },
+  "dashboard": {
+    "viewing": "Caring for",
+    "morningGreeting": "Good morning,",
+    "important": "One important thing today",
+    "noUrgent": "All quiet today",
+    "nowMoment": "Right now",
+    "upcoming": "What's coming",
+    "tabs": {
+      "home": "Home",
+      "history": "Story",
+      "register": "Log",
+      "doctors": "Doctors",
+      "profile": "Profile"
+    }
+  },
+  "register": {
+    "title": "Tell me,",
+    "titleAccent": "what happened?",
+    "subtitle": "Talk, type or snap a photo. I'll organize it for you.",
+    "speakNow": "Tap to speak",
+    "typeInstead": "Or type instead",
+    "examples": "Examples",
+    "process": "Process",
+    "save": "Save entry"
+  },
+  "modules-dashboard-pages-Main": {
+    "viewing": "Caring for",
+    "morningGreeting": "Good morning,",
+    "important": "One important thing today",
+    "noUrgent": "All quiet today",
+    "nowMoment": "Right now",
+    "upcoming": "What's coming",
+    "tabs": {
+      "home": "Home",
+      "history": "Story",
+      "register": "Log",
+      "doctors": "Doctors",
+      "profile": "Profile"
+    }
+  },
+  "modules-doctors-pages-Main": {
+    "titleAccent": "Your trusted",
+    "title": "team",
+    "search": "Search doctor",
+    "specialists": "Specialists",
+    "addDoctor": "Add doctor",
+    "primaryBadge": "Primary doctor",
+    "call": "Call",
+    "viewLocation": "View location",
+    "nextAppointment": "Next appointment"
+  },
+  "modules-history-pages-Main": {
+    "viewing": "Caring for",
+    "historyOf": "The story of",
+    "dayByDay": "day by day",
+    "filter": "Filter",
+    "mostRecent": "Most recent"
+  },
+  "modules-medications-pages-Main": {
+    "treatmentsOf": "Treatments for",
+    "titleAccent": "These are the",
+    "title": "medications",
+    "tabActive": "Active",
+    "tabPast": "Past",
+    "sectionActive": "Currently ongoing",
+    "sectionPast": "Past treatments",
+    "addMedication": "Add medication",
+    "treatmentProgress": "Treatment progress",
+    "markDose": "Mark dose given"
+  },
+  "modules-register-pages-Main": {
+    "title": "Tell me,",
+    "titleAccent": "what happened?",
+    "subtitle": "Talk, type or snap a photo. I'll organize it for you.",
+    "speakNow": "Tap to speak",
+    "typeInstead": "Or type instead",
+    "examples": "Examples",
+    "process": "Process",
+    "save": "Save entry"
+  },
+  "modules-selector-pages-Main": {
+    "greeting": "Hi María,",
+    "question": "who are we caring for today?",
+    "subtitle": "Tap a family member to open their story.",
+    "addFamily": "Add family member",
+    "secureNote": "Your data is encrypted and private"
+  }
+}
