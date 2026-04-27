@@ -43,8 +43,8 @@ export default async function RootLayout({ children, params }: Props) {
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
       suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col">
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+      <body className="min-h-full flex flex-col bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100">
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
           <NextIntlClientProvider messages={messages}>
             {children}
           </NextIntlClientProvider>

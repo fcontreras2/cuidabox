@@ -49,6 +49,7 @@ type Order = {
 };
 
 import { IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import clsx from 'clsx';
 
 type NavItem = {
   label: string;
@@ -131,56 +132,51 @@ function Navbar({ onMenuToggle }: { onMenuToggle: () => void }) {
   const isDark = resolvedTheme === 'dark';
 
   return (
-    <header className="h-14 bg-white dark:bg-gray-950 border-b border-gray-200 dark:border-gray-800 flex items-center justify-between px-4 shrink-0">
+    <header className="h-14 bg-white dark:bg-neutral-900 border-b border-neutral-200 dark:border-neutral-800 flex items-center justify-between px-4 shrink-0">
       {/* Left */}
       <div className="flex items-center gap-3">
-        <button
-          onClick={onMenuToggle}
-          className="p-1.5 rounded-md text-gray-500 hover:bg-gray-100 transition-colors"
-          aria-label="Toggle sidebar"
-        >
+        <Button variant="ghost" size="sm" onClick={onMenuToggle} aria-label="Toggle sidebar">
           <FontAwesomeIcon icon={faBars} className="w-4 h-4" />
-        </button>
+        </Button>
         <div className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-lg bg-gray-900 flex items-center justify-center">
-            <span className="text-white text-xs font-bold">A</span>
+          <div className="w-7 h-7 rounded-lg bg-neutral-900 dark:bg-neutral-700 flex items-center justify-center">
+            <Text variant="caption" weight="bold" className="text-white!">A</Text>
           </div>
-          <Text variant="body" weight="semibold" className="dark:text-white">Acme Inc.</Text>
+          <Text variant="body" weight="semibold">Acme Inc.</Text>
         </div>
       </div>
 
       {/* Right */}
       <div className="flex items-center gap-2">
         <Tooltip content={isDark ? 'Light mode' : 'Dark mode'} placement="bottom">
-          <button
-            onClick={() => setTheme(isDark ? 'light' : 'dark')}
-            className="p-1.5 rounded-md text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-          >
+          <Button variant="ghost" size="sm" onClick={() => setTheme(isDark ? 'light' : 'dark')}>
             <FontAwesomeIcon icon={isDark ? faSun : faMoon} className="w-4 h-4" />
-          </button>
+          </Button>
         </Tooltip>
 
         <Tooltip content="Search" placement="bottom">
-          <button className="p-1.5 rounded-md text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+          <Button variant="ghost" size="sm">
             <FontAwesomeIcon icon={faMagnifyingGlass} className="w-4 h-4" />
-          </button>
+          </Button>
         </Tooltip>
 
         <Tooltip content="Notifications" placement="bottom">
-          <button className="relative p-1.5 rounded-md text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
-            <FontAwesomeIcon icon={faBell} className="w-4 h-4" />
-            <span className="absolute top-1 right-1 w-1.5 h-1.5 bg-red-500 rounded-full" />
-          </button>
+          <div className="relative">
+            <Button variant="ghost" size="sm">
+              <FontAwesomeIcon icon={faBell} className="w-4 h-4" />
+            </Button>
+            <span className="absolute top-1 right-1 w-1.5 h-1.5 bg-red-500 rounded-full pointer-events-none" />
+          </div>
         </Tooltip>
 
         <Divider orientation="vertical" className="h-6 mx-1" />
 
         <Dropdown
           trigger={
-            <button className="flex items-center gap-2 rounded-full pl-1 pr-2 py-0.5 hover:bg-gray-100 transition-colors">
+            <button className="flex items-center gap-2 rounded-full pl-1 pr-2 py-0.5 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors">
               <Avatar name="Freddy Contreras" size="xs" status="online" />
               <Text variant="body-sm" weight="medium">Freddy</Text>
-              <FontAwesomeIcon icon={faChevronDown} className="w-3 h-3 text-gray-400" />
+              <FontAwesomeIcon icon={faChevronDown} className="w-3 h-3 text-neutral-400 dark:text-neutral-500" />
             </button>
           }
           align="right"
@@ -198,7 +194,7 @@ function Navbar({ onMenuToggle }: { onMenuToggle: () => void }) {
 
 function SubNavbar({ active, onChange }: { active: string; onChange: (v: string) => void }) {
   return (
-    <div className="h-10 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 flex items-center px-6 gap-1 shrink-0">
+    <div className="h-10 bg-white dark:bg-neutral-900 border-b border-neutral-200 dark:border-neutral-800 flex items-center px-6 gap-1 shrink-0">
       <Breadcrumb
         items={[
           { label: 'Home', href: '/' },
@@ -208,17 +204,14 @@ function SubNavbar({ active, onChange }: { active: string; onChange: (v: string)
       />
       <Divider orientation="vertical" className="h-4 mr-4" />
       {SUBNAV_ITEMS.map((item) => (
-        <button
+        <Button
           key={item}
+          size="sm"
+          variant={active === item ? 'primary' : 'ghost'}
           onClick={() => onChange(item)}
-          className={`px-3 py-1 rounded-md text-sm font-medium transition-colors ${
-            active === item
-              ? 'bg-gray-900 dark:bg-white text-white dark:text-gray-900'
-              : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800'
-          }`}
         >
           {item}
-        </button>
+        </Button>
       ))}
     </div>
   );
@@ -233,36 +226,37 @@ function Sidebar({ open, activeNav, onChange }: {
 }) {
   return (
     <aside
-      className={`shrink-0 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 flex flex-col transition-all duration-200 overflow-hidden ${
+      className={`shrink-0 bg-white dark:bg-neutral-900 border-r border-neutral-200 dark:border-neutral-800 flex flex-col transition-all duration-200 overflow-hidden ${
         open ? 'w-56' : 'w-14'
       }`}
     >
       {/* Nav items */}
       <nav className="flex-1 py-3 space-y-0.5 px-2">
         {NAV_ITEMS.map((item) => (
-          <button
+          <Button
             key={item.id}
+            variant={activeNav === item.id ? 'primary' : 'ghost'}
+            size="sm"
+            fullWidth
             onClick={() => onChange(item.id)}
-            className={`w-full flex items-center gap-3 px-2 py-2 rounded-md transition-colors ${
-              activeNav === item.id
-                ? 'bg-gray-900 dark:bg-white text-white dark:text-gray-900'
-                : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white'
-            }`}
+            className="justify-start gap-3"
           >
             <FontAwesomeIcon icon={item.icon} className="w-4 h-4 shrink-0" />
             {open && (
-              <span className="flex-1 text-sm font-medium text-left truncate">{item.label}</span>
+              <Text variant="body-sm" weight="medium" className={clsx("flex-1 text-left truncate", activeNav === item.id ? "text-white" : "text-neutral-900 dark:text-neutral-100")}  >
+                {item.label}
+              </Text>
             )}
             {open && item.badge !== undefined && (
               <Badge variant="default" size="sm">{item.badge}</Badge>
             )}
-          </button>
+          </Button>
         ))}
       </nav>
 
       {/* Bottom user section */}
       {open && (
-        <div className="px-3 py-3 border-t border-gray-200 dark:border-gray-800">
+        <div className="px-3 py-3 border-t border-neutral-200 dark:border-neutral-800">
           <div className="flex items-center gap-2">
             <Avatar name="Freddy Contreras" size="xs" status="online" />
             <div className="min-w-0">
@@ -294,7 +288,7 @@ export default function DashboardPage() {
     <>
       <ToastProvider position="top-right" autoClose={3000} />
 
-      <div className="flex h-screen overflow-hidden bg-gray-50 dark:bg-gray-950">
+      <div className="flex h-screen overflow-hidden bg-neutral-50 dark:bg-neutral-900">
 
         {/* ── Sidebar (full height) ── */}
         <Sidebar open={sidebarOpen} activeNav={activeNav} onChange={setActiveNav} />
@@ -317,7 +311,8 @@ export default function DashboardPage() {
                 <div>
                   <Text variant="h4" weight="bold">Overview</Text>
                   <Text variant="body-sm" color="muted" className="mt-1">
-                    Welcome back, Freddy — here's what's happening today.
+
+                    {`Welcome back, Freddy — here's what's happening today.`}
                   </Text>
                 </div>
                 <div className="flex items-center gap-2">
@@ -410,7 +405,7 @@ export default function DashboardPage() {
                   </TabPanel>
 
                   <TabPanel value="activity">
-                    <div className="divide-y divide-gray-100">
+                    <div className="divide-y divide-neutral-100 dark:divide-neutral-800">
                       {[
                         { text: 'Alice completed onboarding',         time: '2 min ago',  v: 'success' as const },
                         { text: 'New order #4521 placed by Carol',    time: '18 min ago', v: 'info'    as const },
@@ -447,7 +442,7 @@ export default function DashboardPage() {
                     <Text variant="h6" weight="semibold">Team</Text>
                     <Button size="sm" variant="outline" onClick={() => setModal(true)}>Invite</Button>
                   </div>
-                  <div className="divide-y divide-gray-100">
+                  <div className="divide-y divide-neutral-100 dark:divide-neutral-800">
                     {TEAM.map((m) => (
                       <div key={m.name} className="flex items-center justify-between py-4 first:pt-0 last:pb-0">
                         <div className="flex items-center gap-3">
@@ -461,7 +456,7 @@ export default function DashboardPage() {
                           <Badge variant="default" size="sm">{m.tasks} tasks</Badge>
                           <Dropdown
                             trigger={
-                              <button className="p-1.5 rounded-md text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors">
+                              <button className="p-1.5 rounded-md text-neutral-400 hover:text-neutral-600 dark:hover:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors">
                                 <FontAwesomeIcon icon={faEllipsis} className="w-4 h-4" />
                               </button>
                             }
