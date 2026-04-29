@@ -26,7 +26,7 @@ export function TabBar({ active }: { active?: string }) {
               <Link
                 key={item.key}
                 href={item.href}
-                className="justify-self-center -translate-y-3 size-14 rounded-2xl bg-gradient-to-br from-coral-500 to-coral-600 text-paper grid place-items-center shadow-warm hover:scale-105 transition-transform"
+                className="justify-self-center  size-14 rounded-2xl bg-gradient-to-br from-coral-500 to-coral-600 text-paper grid place-items-center shadow-warm hover:scale-105 transition-transform"
                 aria-label={t(item.key)}
               >
                 <item.icon className="size-6" />
@@ -39,7 +39,7 @@ export function TabBar({ active }: { active?: string }) {
               href={item.href}
               className={cn(
                 "flex flex-col items-center gap-1 py-1.5 text-[11px] font-medium",
-                isActive ? "text-primary-700" : "text-ink-400",
+                isActive ? "text-coral-500" : "text-ink-400",
               )}
             >
               <item.icon className="size-5" />

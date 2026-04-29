@@ -31,10 +31,7 @@ export function PatientAvatar({
       src={src}
       name={name}
       size={size}
-      className={className}
-      classNames={{
-        fallback: cn("!font-display !font-medium", COLORS[color]),
-      }}
+      className={cn('size-10 flex justify-center items-center self-start rounded-full',COLORS[color], className, )}
     />
   );
 }

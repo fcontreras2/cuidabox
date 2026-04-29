@@ -14,19 +14,35 @@ import {
   Users,
 } from "lucide-react";
 import { Button } from "fcontreras2-ui";
-import { PhoneFrame, PatientAvatar, SectionTitle, TabBar } from "@/shared/components";
+import {
+  PhoneFrame,
+  PatientAvatar,
+  SectionTitle,
+  TabBar,
+} from "@/shared/components";
 import { useLocale } from "next-intl";
 import { useMain } from "./useMain";
 import { SettingsItem, SettingsGroup } from "./components/SettingsItem";
 import { FamilyRow } from "./components/FamilyRow";
 import { LanguageSheet } from "./components/LanguageSheet";
-import { LOCALE_LABELS, type AppLocale } from "@/shared/hooks/useLocaleSwitcher";
+import {
+  LOCALE_LABELS,
+  type AppLocale,
+} from "@/shared/hooks/useLocaleSwitcher";
 
 export default function ProfileMain() {
   const t = useTranslations("modules-profile-pages-Main");
-  const { caregiver, patients, stats, openSheet, openLanguageSheet, closeSheet } = useMain();
+  const {
+    caregiver,
+    patients,
+    stats,
+    openSheet,
+    openLanguageSheet,
+    closeSheet,
+  } = useMain();
   const locale = useLocale() as AppLocale;
-  const currentLanguage = LOCALE_LABELS[locale]?.native ?? t("items.languageDesc");
+  const currentLanguage =
+    LOCALE_LABELS[locale]?.native ?? t("items.languageDesc");
 
   return (
     <PhoneFrame>
@@ -57,8 +73,7 @@ export default function ProfileMain() {
           <PatientAvatar
             name={caregiver.shortName}
             color={caregiver.avatarColor}
-            size="xl"
-            className="ring-4 ring-paper/20"
+            className="h-10 w-10 ring-4 ring-paper/20"
           />
           <div className="flex-1 min-w-0">
             <h1 className="font-display text-[26px] leading-tight">

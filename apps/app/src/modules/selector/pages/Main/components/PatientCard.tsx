@@ -28,6 +28,7 @@ export function PatientCard({
             name={patient.shortName}
             color={patient.avatarColor}
             size="lg"
+            className="h-10 w-10"
           />
           <div className="flex-1 min-w-0">
             <div className="font-display text-[20px] leading-none text-primary-700">
