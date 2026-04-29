@@ -6,6 +6,7 @@ import { Fraunces, DM_Sans } from "next/font/google";
 import { routing } from "@/i18n/routing";
 
 type Locale = (typeof routing.locales)[number];
+import { ThemeProvider } from "next-themes";
 import { ServiceWorkerRegister, PageTransition } from "@/shared/components";
 import "@/styles/globals.css";
 
@@ -62,11 +63,13 @@ export default async function LocaleLayout({
   const messages = await getMessages();
 
   return (
-    <html lang={locale} className={`${fraunces.variable} ${dmSans.variable}`}>
+    <html lang={locale} className={`${fraunces.variable} ${dmSans.variable}`} suppressHydrationWarning>
       <body>
-        <NextIntlClientProvider messages={messages} locale={locale}>
-          <PageTransition>{children}</PageTransition>
-        </NextIntlClientProvider>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <NextIntlClientProvider messages={messages} locale={locale}>
+            <PageTransition>{children}</PageTransition>
+          </NextIntlClientProvider>
+        </ThemeProvider>
         <ServiceWorkerRegister />
       </body>
     </html>

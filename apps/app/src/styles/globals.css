@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @source "../../node_modules/fcontreras2-ui/dist/index.mjs";
+@custom-variant dark (&:where(.dark, .dark *));
 
 /* ---------- CuidaBox · Sunrise & Sage Tokens ---------- */
 @theme {
@@ -59,6 +60,21 @@
   /* Shadows */
   --shadow-warm: 0 20px 40px -12px rgba(232, 137, 107, 0.35);
   --shadow-sage: 0 12px 28px -10px rgba(45, 74, 62, 0.18);
+}
+
+/* ---------- Dark mode overrides ---------- */
+@layer base {
+  .dark body {
+    background: #111816;
+    color: #E8EDE9;
+  }
+
+  .dark body::before {
+    background:
+      radial-gradient(900px 600px at 8% 0%, rgba(232, 137, 107, 0.06), transparent 55%),
+      radial-gradient(800px 500px at 95% 8%, rgba(201, 163, 90, 0.06), transparent 55%),
+      radial-gradient(700px 500px at 50% 100%, rgba(143, 170, 157, 0.08), transparent 60%);
+  }
 }
 
 /* ---------- Base ---------- */

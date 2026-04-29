@@ -29,6 +29,7 @@ import {
   LOCALE_LABELS,
   type AppLocale,
 } from "@/shared/hooks/useLocaleSwitcher";
+import { useTheme } from "next-themes";
 
 export default function ProfileMain() {
   const t = useTranslations("modules-profile-pages-Main");
@@ -40,6 +41,7 @@ export default function ProfileMain() {
     openLanguageSheet,
     closeSheet,
   } = useMain();
+  const { setTheme, theme, } = useTheme();
   const locale = useLocale() as AppLocale;
   const currentLanguage =
     LOCALE_LABELS[locale]?.native ?? t("items.languageDesc");
@@ -153,6 +155,7 @@ export default function ProfileMain() {
               iconColor="text-plum-500"
               label={t("items.theme")}
               description={t("items.themeDesc")}
+              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
             />
           </SettingsGroup>
         </section>

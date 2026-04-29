@@ -12,6 +12,7 @@
     "dev:website": "npm run dev --workspace=apps/website",
     "dev:app": "npm run dev --workspace=apps/app",
     "dev:doc": "npm run dev --workspace=apps/doc",
+    "dev:backend": "npm run start:dev --workspace=apps/backend",
     "build": "npm run build --workspaces --if-present",
     "build:website": "npm run build --workspace=apps/website",
     "build:app": "npm run build --workspace=apps/app",
