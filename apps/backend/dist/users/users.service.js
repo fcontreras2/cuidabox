@@ -86,6 +86,31 @@ let UsersService = class UsersService {
             throw new Error(error.message);
         return this.mapRow(data);
     }
+    async updateMe(id, dto) {
+        const fields = {};
+        if (dto.name !== undefined)
+            fields.name = dto.name;
+        if (dto.specialty_key !== undefined)
+            fields.specialty_key = dto.specialty_key;
+        const { data, error } = (await this.supabase
+            .from('users')
+            .update(fields)
+            .eq('id', id)
+            .select('id, name, email, role, specialty_key')
+            .single());
+        if (error || !data)
+            throw new common_1.NotFoundException('Usuario no encontrado');
+        return data;
+    }
+    toPublic(user) {
+        return {
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            role: user.role,
+            specialty_key: user.specialty_key,
+        };
+    }
     mapRow(row) {
         return {
             id: row.id,
@@ -93,6 +118,7 @@ let UsersService = class UsersService {
             email: row.email,
             passwordHash: row.password_hash,
             role: row.role,
+            specialty_key: row.specialty_key ?? null,
         };
     }
 };

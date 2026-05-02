@@ -75,6 +75,86 @@ let PatientsService = class PatientsService {
             throw new common_1.NotFoundException('Patient not found');
         return data.patients;
     }
+    async update(id, dto, userId) {
+        const { data: access } = await this.supabase
+            .from('patient_holders')
+            .select('patient_id')
+            .eq('patient_id', id)
+            .eq('user_id', userId)
+            .single();
+        if (!access)
+            throw new common_1.ForbiddenException('No tienes acceso a este paciente');
+        const fields = {};
+        if (dto.name !== undefined)
+            fields.name = dto.name;
+        if (dto.birthdate !== undefined)
+            fields.birthdate = dto.birthdate;
+        if (dto.gender !== undefined)
+            fields.gender = dto.gender;
+        if (dto.blood_type !== undefined)
+            fields.blood_type = dto.blood_type;
+        if (dto.notes !== undefined)
+            fields.notes = dto.notes;
+        if (dto.insurance_provider !== undefined)
+            fields.insurance_provider = dto.insurance_provider;
+        if (dto.insurance_policy_number !== undefined)
+            fields.insurance_policy_number = dto.insurance_policy_number;
+        const { data: patient, error } = (await this.supabase
+            .from('patients')
+            .update(fields)
+            .eq('id', id)
+            .select()
+            .single());
+        if (error || !patient)
+            throw new Error('Error al actualizar el paciente');
+        return patient;
+    }
+    async getSummary(id, userId) {
+        const patient = await this.findOne(id, userId);
+        const now = new Date().toISOString();
+        const [{ data: lastAppointment }, { data: nextAppointment }, { data: lastVital }, { count: allergiesCount }, { count: treatmentsCount },] = await Promise.all([
+            this.supabase
+                .from('appointments')
+                .select('id, title, scheduled_at, doctor_name')
+                .eq('patient_id', id)
+                .lt('scheduled_at', now)
+                .order('scheduled_at', { ascending: false })
+                .limit(1)
+                .single(),
+            this.supabase
+                .from('appointments')
+                .select('id, title, scheduled_at, doctor_name')
+                .eq('patient_id', id)
+                .gte('scheduled_at', now)
+                .order('scheduled_at', { ascending: true })
+                .limit(1)
+                .single(),
+            this.supabase
+                .from('vitals')
+                .select('id, type, value, recorded_at')
+                .eq('patient_id', id)
+                .order('recorded_at', { ascending: false })
+                .limit(1)
+                .single(),
+            this.supabase
+                .from('allergies')
+                .select('*', { count: 'exact', head: true })
+                .eq('patient_id', id),
+            this.supabase
+                .from('treatments')
+                .select('*', { count: 'exact', head: true })
+                .eq('patient_id', id)
+                .eq('status', 'active'),
+        ]);
+        return {
+            patient,
+            last_appointment: lastAppointment ?? null,
+            next_appointment: nextAppointment ?? null,
+            last_vital: lastVital ?? null,
+            active_allergies_count: allergiesCount ?? 0,
+            active_treatments_count: treatmentsCount ?? 0,
+        };
+    }
 };
 exports.PatientsService = PatientsService;
 exports.PatientsService = PatientsService = __decorate([

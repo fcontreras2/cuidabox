@@ -21,6 +21,7 @@ const roles_decorator_1 = require("./roles.decorator");
 const roles_guard_1 = require("./guards/roles.guard");
 const register_dto_1 = require("./dto/register.dto");
 const login_dto_1 = require("./dto/login.dto");
+const auth_response_dto_1 = require("./dto/auth-response.dto");
 let AuthController = class AuthController {
     authService;
     constructor(authService) {
@@ -42,6 +43,9 @@ let AuthController = class AuthController {
 exports.AuthController = AuthController;
 __decorate([
     (0, common_1.Post)('register'),
+    (0, swagger_1.ApiOperation)({ summary: 'Registrar nuevo usuario' }),
+    (0, swagger_1.ApiResponse)({ status: 201, type: auth_response_dto_1.AuthResponseDto }),
+    (0, swagger_1.ApiResponse)({ status: 409, description: 'Email ya registrado' }),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [register_dto_1.RegisterDto]),
@@ -49,6 +53,9 @@ __decorate([
 ], AuthController.prototype, "register", null);
 __decorate([
     (0, common_1.Post)('login'),
+    (0, swagger_1.ApiOperation)({ summary: 'Iniciar sesión' }),
+    (0, swagger_1.ApiResponse)({ status: 200, type: auth_response_dto_1.AuthResponseDto }),
+    (0, swagger_1.ApiResponse)({ status: 401, description: 'Credenciales inválidas' }),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [login_dto_1.LoginDto]),
@@ -58,6 +65,9 @@ __decorate([
     (0, swagger_1.ApiBearerAuth)(),
     (0, common_1.UseGuards)(jwt_guard_1.JwtGuard),
     (0, common_1.Get)('me'),
+    (0, swagger_1.ApiOperation)({ summary: 'Obtener usuario autenticado' }),
+    (0, swagger_1.ApiResponse)({ status: 200, type: auth_response_dto_1.MeResponseDto }),
+    (0, swagger_1.ApiResponse)({ status: 401, description: 'No autenticado' }),
     __param(0, (0, common_1.Request)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
@@ -68,6 +78,9 @@ __decorate([
     (0, common_1.UseGuards)(jwt_guard_1.JwtGuard, roles_guard_1.RolesGuard),
     (0, roles_decorator_1.Roles)('admin'),
     (0, common_1.Get)('admin-only'),
+    (0, swagger_1.ApiOperation)({ summary: 'Ruta de prueba solo para admins' }),
+    (0, swagger_1.ApiResponse)({ status: 200, description: '{ message: string }' }),
+    (0, swagger_1.ApiResponse)({ status: 403, description: 'Acceso denegado' }),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)

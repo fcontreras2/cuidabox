@@ -18,6 +18,7 @@ const swagger_1 = require("@nestjs/swagger");
 const jwt_guard_1 = require("../auth/guards/jwt.guard");
 const allergies_service_1 = require("./allergies.service");
 const create_allergy_dto_1 = require("./dto/create-allergy.dto");
+const allergy_response_dto_1 = require("./dto/allergy-response.dto");
 let AllergiesController = class AllergiesController {
     allergiesService;
     constructor(allergiesService) {
@@ -36,6 +37,9 @@ let AllergiesController = class AllergiesController {
 exports.AllergiesController = AllergiesController;
 __decorate([
     (0, common_1.Post)(),
+    (0, swagger_1.ApiOperation)({ summary: 'Registrar alergia del paciente' }),
+    (0, swagger_1.ApiResponse)({ status: 201, type: allergy_response_dto_1.AllergyResponseDto }),
+    (0, swagger_1.ApiResponse)({ status: 403, description: 'Sin acceso a este paciente' }),
     __param(0, (0, common_1.Param)('patientId')),
     __param(1, (0, common_1.Body)()),
     __param(2, (0, common_1.Request)()),
@@ -45,6 +49,9 @@ __decorate([
 ], AllergiesController.prototype, "create", null);
 __decorate([
     (0, common_1.Get)(),
+    (0, swagger_1.ApiOperation)({ summary: 'Listar alergias del paciente' }),
+    (0, swagger_1.ApiResponse)({ status: 200, type: [allergy_response_dto_1.AllergyResponseDto] }),
+    (0, swagger_1.ApiResponse)({ status: 403, description: 'Sin acceso a este paciente' }),
     __param(0, (0, common_1.Param)('patientId')),
     __param(1, (0, common_1.Request)()),
     __metadata("design:type", Function),
@@ -53,6 +60,10 @@ __decorate([
 ], AllergiesController.prototype, "findAll", null);
 __decorate([
     (0, common_1.Delete)(':allergyId'),
+    (0, swagger_1.ApiOperation)({ summary: 'Eliminar alergia del paciente' }),
+    (0, swagger_1.ApiResponse)({ status: 200, description: 'Alergia eliminada' }),
+    (0, swagger_1.ApiResponse)({ status: 403, description: 'Sin acceso a este paciente' }),
+    (0, swagger_1.ApiResponse)({ status: 404, description: 'Alergia no encontrada' }),
     __param(0, (0, common_1.Param)('patientId')),
     __param(1, (0, common_1.Param)('allergyId')),
     __param(2, (0, common_1.Request)()),

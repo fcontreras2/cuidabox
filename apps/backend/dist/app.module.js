@@ -17,6 +17,13 @@ const users_module_1 = require("./users/users.module");
 const patients_module_1 = require("./patients/patients.module");
 const allergies_module_1 = require("./allergies/allergies.module");
 const vaccines_module_1 = require("./vaccines/vaccines.module");
+const vitals_module_1 = require("./vitals/vitals.module");
+const events_module_1 = require("./events/events.module");
+const treatments_module_1 = require("./treatments/treatments.module");
+const appointments_module_1 = require("./appointments/appointments.module");
+const documents_module_1 = require("./documents/documents.module");
+const patient_doctors_module_1 = require("./patient-doctors/patient-doctors.module");
+const doctors_module_1 = require("./doctors/doctors.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -30,6 +37,13 @@ exports.AppModule = AppModule = __decorate([
             patients_module_1.PatientsModule,
             allergies_module_1.AllergiesModule,
             vaccines_module_1.VaccinesModule,
+            vitals_module_1.VitalsModule,
+            events_module_1.EventsModule,
+            treatments_module_1.TreatmentsModule,
+            appointments_module_1.AppointmentsModule,
+            documents_module_1.DocumentsModule,
+            patient_doctors_module_1.PatientDoctorsModule,
+            doctors_module_1.DoctorsModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

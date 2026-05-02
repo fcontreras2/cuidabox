@@ -11,7 +11,10 @@ async function bootstrap() {
     app.enableCors({ origin: 'http://localhost:3001' });
   }
 
-  if (process.env.NODE_ENV !== 'production' || process.env.SWAGGER_ENABLED === 'true') {
+  if (
+    process.env.NODE_ENV !== 'production' ||
+    process.env.SWAGGER_ENABLED === 'true'
+  ) {
     const config = new DocumentBuilder()
       .setTitle('Cuidabox API')
       .setDescription('API del historial médico de Cuidabox')

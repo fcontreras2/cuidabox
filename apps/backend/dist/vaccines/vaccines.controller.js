@@ -18,6 +18,7 @@ const swagger_1 = require("@nestjs/swagger");
 const jwt_guard_1 = require("../auth/guards/jwt.guard");
 const vaccines_service_1 = require("./vaccines.service");
 const create_vaccine_dto_1 = require("./dto/create-vaccine.dto");
+const vaccine_response_dto_1 = require("./dto/vaccine-response.dto");
 let VaccinesController = class VaccinesController {
     vaccinesService;
     constructor(vaccinesService) {
@@ -36,6 +37,9 @@ let VaccinesController = class VaccinesController {
 exports.VaccinesController = VaccinesController;
 __decorate([
     (0, common_1.Post)(),
+    (0, swagger_1.ApiOperation)({ summary: 'Registrar vacuna del paciente' }),
+    (0, swagger_1.ApiResponse)({ status: 201, type: vaccine_response_dto_1.VaccineResponseDto }),
+    (0, swagger_1.ApiResponse)({ status: 403, description: 'Sin acceso a este paciente' }),
     __param(0, (0, common_1.Param)('patientId')),
     __param(1, (0, common_1.Body)()),
     __param(2, (0, common_1.Request)()),
@@ -45,6 +49,9 @@ __decorate([
 ], VaccinesController.prototype, "create", null);
 __decorate([
     (0, common_1.Get)(),
+    (0, swagger_1.ApiOperation)({ summary: 'Listar vacunas del paciente ordenadas por fecha' }),
+    (0, swagger_1.ApiResponse)({ status: 200, type: [vaccine_response_dto_1.VaccineResponseDto] }),
+    (0, swagger_1.ApiResponse)({ status: 403, description: 'Sin acceso a este paciente' }),
     __param(0, (0, common_1.Param)('patientId')),
     __param(1, (0, common_1.Request)()),
     __metadata("design:type", Function),
@@ -53,6 +60,10 @@ __decorate([
 ], VaccinesController.prototype, "findAll", null);
 __decorate([
     (0, common_1.Delete)(':vaccineId'),
+    (0, swagger_1.ApiOperation)({ summary: 'Eliminar vacuna del paciente' }),
+    (0, swagger_1.ApiResponse)({ status: 200, description: 'Vacuna eliminada' }),
+    (0, swagger_1.ApiResponse)({ status: 403, description: 'Sin acceso a este paciente' }),
+    (0, swagger_1.ApiResponse)({ status: 404, description: 'Vacuna no encontrada' }),
     __param(0, (0, common_1.Param)('patientId')),
     __param(1, (0, common_1.Param)('vaccineId')),
     __param(2, (0, common_1.Request)()),

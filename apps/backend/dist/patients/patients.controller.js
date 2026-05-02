@@ -18,6 +18,9 @@ const swagger_1 = require("@nestjs/swagger");
 const jwt_guard_1 = require("../auth/guards/jwt.guard");
 const patients_service_1 = require("./patients.service");
 const create_patient_dto_1 = require("./dto/create-patient.dto");
+const update_patient_dto_1 = require("./dto/update-patient.dto");
+const patient_response_dto_1 = require("./dto/patient-response.dto");
+const patient_summary_response_dto_1 = require("./dto/patient-summary-response.dto");
 let PatientsController = class PatientsController {
     patientsService;
     constructor(patientsService) {
@@ -32,10 +35,19 @@ let PatientsController = class PatientsController {
     findOne(id, req) {
         return this.patientsService.findOne(id, req.user.id);
     }
+    update(id, dto, req) {
+        return this.patientsService.update(id, dto, req.user.id);
+    }
+    getSummary(id, req) {
+        return this.patientsService.getSummary(id, req.user.id);
+    }
 };
 exports.PatientsController = PatientsController;
 __decorate([
     (0, common_1.Post)(),
+    (0, swagger_1.ApiOperation)({ summary: 'Registrar nuevo paciente' }),
+    (0, swagger_1.ApiResponse)({ status: 201, type: patient_response_dto_1.PatientResponseDto }),
+    (0, swagger_1.ApiResponse)({ status: 401, description: 'No autenticado' }),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Request)()),
     __metadata("design:type", Function),
@@ -44,6 +56,9 @@ __decorate([
 ], PatientsController.prototype, "create", null);
 __decorate([
     (0, common_1.Get)(),
+    (0, swagger_1.ApiOperation)({ summary: 'Listar pacientes del holder autenticado' }),
+    (0, swagger_1.ApiResponse)({ status: 200, type: [patient_response_dto_1.PatientResponseDto] }),
+    (0, swagger_1.ApiResponse)({ status: 401, description: 'No autenticado' }),
     __param(0, (0, common_1.Request)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
@@ -51,12 +66,47 @@ __decorate([
 ], PatientsController.prototype, "findAll", null);
 __decorate([
     (0, common_1.Get)(':id'),
+    (0, swagger_1.ApiOperation)({ summary: 'Obtener detalle de un paciente' }),
+    (0, swagger_1.ApiResponse)({ status: 200, type: patient_response_dto_1.PatientResponseDto }),
+    (0, swagger_1.ApiResponse)({ status: 403, description: 'Sin acceso a este paciente' }),
+    (0, swagger_1.ApiResponse)({ status: 404, description: 'Paciente no encontrado' }),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Request)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", void 0)
 ], PatientsController.prototype, "findOne", null);
+__decorate([
+    (0, common_1.Patch)(':id'),
+    (0, swagger_1.ApiOperation)({
+        summary: 'Actualizar datos del paciente',
+        description: 'Solo el holder puede actualizar. Todos los campos son opcionales.',
+    }),
+    (0, swagger_1.ApiResponse)({ status: 200, type: patient_response_dto_1.PatientResponseDto }),
+    (0, swagger_1.ApiResponse)({ status: 403, description: 'Sin acceso a este paciente' }),
+    (0, swagger_1.ApiResponse)({ status: 404, description: 'Paciente no encontrado' }),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Body)()),
+    __param(2, (0, common_1.Request)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, update_patient_dto_1.UpdatePatientDto, Object]),
+    __metadata("design:returntype", void 0)
+], PatientsController.prototype, "update", null);
+__decorate([
+    (0, common_1.Get)(':id/summary'),
+    (0, swagger_1.ApiOperation)({
+        summary: 'Resumen del paciente para el dashboard',
+        description: 'Retorna el paciente + última cita, próxima cita, último vital, conteo de alergias y tratamientos activos.',
+    }),
+    (0, swagger_1.ApiResponse)({ status: 200, type: patient_summary_response_dto_1.PatientSummaryResponseDto }),
+    (0, swagger_1.ApiResponse)({ status: 403, description: 'Sin acceso a este paciente' }),
+    (0, swagger_1.ApiResponse)({ status: 404, description: 'Paciente no encontrado' }),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Request)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:returntype", void 0)
+], PatientsController.prototype, "getSummary", null);
 exports.PatientsController = PatientsController = __decorate([
     (0, swagger_1.ApiBearerAuth)(),
     (0, swagger_1.ApiTags)('patients'),

@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import * as bcrypt from 'bcryptjs';
 import { SupabaseClient } from '@supabase/supabase-js';
 import { SUPABASE_CLIENT } from '../supabase/supabase.module';
@@ -11,6 +11,20 @@ export interface User {
   email: string;
   passwordHash: string;
   role: Role;
+  specialty_key: string | null;
+}
+
+export interface PublicUser {
+  id: string;
+  name: string;
+  email: string;
+  role: Role;
+  specialty_key: string | null;
+}
+
+export interface UpdateUserDto {
+  name?: string;
+  specialty_key?: string;
 }
 
 interface UserRow {
@@ -19,6 +33,7 @@ interface UserRow {
   email: string;
   password_hash: string;
   role: Role;
+  specialty_key: string | null;
 }
 
 @Injectable()
@@ -66,6 +81,36 @@ export class UsersService {
     return this.mapRow(data!);
   }
 
+  async updateMe(id: string, dto: UpdateUserDto): Promise<PublicUser> {
+    const fields: Partial<UpdateUserDto> = {};
+    if (dto.name !== undefined) fields.name = dto.name;
+    if (dto.specialty_key !== undefined)
+      fields.specialty_key = dto.specialty_key;
+
+    const { data, error } = (await this.supabase
+      .from('users')
+      .update(fields)
+      .eq('id', id)
+      .select('id, name, email, role, specialty_key')
+      .single()) as {
+      data: PublicUser | null;
+      error: { message: string } | null;
+    };
+
+    if (error || !data) throw new NotFoundException('Usuario no encontrado');
+    return data;
+  }
+
+  toPublic(user: User): PublicUser {
+    return {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      specialty_key: user.specialty_key,
+    };
+  }
+
   private mapRow(row: UserRow): User {
     return {
       id: row.id,
@@ -73,6 +118,7 @@ export class UsersService {
       email: row.email,
       passwordHash: row.password_hash,
       role: row.role,
+      specialty_key: row.specialty_key ?? null,
     };
   }
 }
