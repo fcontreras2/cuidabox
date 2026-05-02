@@ -203,5 +203,39 @@
     },
     "footerNote": "Hecho con cariño en Chile",
     "version": "v0.1.0"
+  },
+  "modules-auth-pages-ResetPassword": {
+    "title": "Recuperar contraseña",
+    "subtitle": "Te enviaremos un enlace a tu correo",
+    "email": "Correo electrónico",
+    "submit": "Enviar enlace",
+    "back": "Volver al inicio de sesión",
+    "success": "Revisa tu correo, te enviamos el enlace"
+  },
+  "modules-auth-pages-SignIn": {
+    "title": "Bienvenido",
+    "subtitle": "Inicia sesión para continuar",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "submit": "Iniciar sesión",
+    "noAccount": "¿No tienes cuenta?",
+    "signUp": "Regístrate",
+    "forgotPassword": "¿Olvidaste tu contraseña?",
+    "errors": {
+      "invalid": "Correo o contraseña incorrectos"
+    }
+  },
+  "modules-auth-pages-SignUp": {
+    "title": "Crear cuenta",
+    "subtitle": "Empieza a cuidar a tu familia",
+    "name": "Nombre completo",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "submit": "Crear cuenta",
+    "hasAccount": "¿Ya tienes cuenta?",
+    "signIn": "Inicia sesión",
+    "errors": {
+      "emailTaken": "Este correo ya está en uso"
+    }
   }
 }

@@ -1,0 +1,28 @@
+{
+  "es": {
+    "title": "Crear cuenta",
+    "subtitle": "Empieza a cuidar a tu familia",
+    "name": "Nombre completo",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "submit": "Crear cuenta",
+    "hasAccount": "¿Ya tienes cuenta?",
+    "signIn": "Inicia sesión",
+    "errors": {
+      "emailTaken": "Este correo ya está en uso"
+    }
+  },
+  "en": {
+    "title": "Create account",
+    "subtitle": "Start caring for your family",
+    "name": "Full name",
+    "email": "Email",
+    "password": "Password",
+    "submit": "Create account",
+    "hasAccount": "Already have an account?",
+    "signIn": "Sign in",
+    "errors": {
+      "emailTaken": "This email is already in use"
+    }
+  }
+}

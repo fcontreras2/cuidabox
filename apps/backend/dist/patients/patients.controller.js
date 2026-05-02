@@ -14,34 +14,53 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PatientsController = void 0;
 const common_1 = require("@nestjs/common");
+const swagger_1 = require("@nestjs/swagger");
+const jwt_guard_1 = require("../auth/guards/jwt.guard");
 const patients_service_1 = require("./patients.service");
+const create_patient_dto_1 = require("./dto/create-patient.dto");
 let PatientsController = class PatientsController {
     patientsService;
     constructor(patientsService) {
         this.patientsService = patientsService;
     }
-    findAll() {
-        return this.patientsService.findAll();
+    create(dto, req) {
+        return this.patientsService.create(dto, req.user.id);
     }
-    findOne(id) {
-        return this.patientsService.findOne(id);
+    findAll(req) {
+        return this.patientsService.findAllByHolder(req.user.id);
+    }
+    findOne(id, req) {
+        return this.patientsService.findOne(id, req.user.id);
     }
 };
 exports.PatientsController = PatientsController;
 __decorate([
-    (0, common_1.Get)(),
+    (0, common_1.Post)(),
+    __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Request)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [create_patient_dto_1.CreatePatientDto, Object]),
+    __metadata("design:returntype", void 0)
+], PatientsController.prototype, "create", null);
+__decorate([
+    (0, common_1.Get)(),
+    __param(0, (0, common_1.Request)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], PatientsController.prototype, "findAll", null);
 __decorate([
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Request)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", void 0)
 ], PatientsController.prototype, "findOne", null);
 exports.PatientsController = PatientsController = __decorate([
+    (0, swagger_1.ApiBearerAuth)(),
+    (0, swagger_1.ApiTags)('patients'),
+    (0, common_1.UseGuards)(jwt_guard_1.JwtGuard),
     (0, common_1.Controller)('patients'),
     __metadata("design:paramtypes", [patients_service_1.PatientsService])
 ], PatientsController);

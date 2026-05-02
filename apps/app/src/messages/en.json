@@ -203,5 +203,39 @@
     },
     "footerNote": "Made with love in Chile",
     "version": "v0.1.0"
+  },
+  "modules-auth-pages-ResetPassword": {
+    "title": "Reset password",
+    "subtitle": "We'll send a link to your email",
+    "email": "Email",
+    "submit": "Send link",
+    "back": "Back to sign in",
+    "success": "Check your email, we sent you the link"
+  },
+  "modules-auth-pages-SignIn": {
+    "title": "Welcome back",
+    "subtitle": "Sign in to continue",
+    "email": "Email",
+    "password": "Password",
+    "submit": "Sign in",
+    "noAccount": "Don't have an account?",
+    "signUp": "Sign up",
+    "forgotPassword": "Forgot your password?",
+    "errors": {
+      "invalid": "Invalid email or password"
+    }
+  },
+  "modules-auth-pages-SignUp": {
+    "title": "Create account",
+    "subtitle": "Start caring for your family",
+    "name": "Full name",
+    "email": "Email",
+    "password": "Password",
+    "submit": "Create account",
+    "hasAccount": "Already have an account?",
+    "signIn": "Sign in",
+    "errors": {
+      "emailTaken": "This email is already in use"
+    }
   }
 }

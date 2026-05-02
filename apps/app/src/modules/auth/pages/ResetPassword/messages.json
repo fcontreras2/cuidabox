@@ -1,0 +1,18 @@
+{
+  "es": {
+    "title": "Recuperar contraseña",
+    "subtitle": "Te enviaremos un enlace a tu correo",
+    "email": "Correo electrónico",
+    "submit": "Enviar enlace",
+    "back": "Volver al inicio de sesión",
+    "success": "Revisa tu correo, te enviamos el enlace"
+  },
+  "en": {
+    "title": "Reset password",
+    "subtitle": "We'll send a link to your email",
+    "email": "Email",
+    "submit": "Send link",
+    "back": "Back to sign in",
+    "success": "Check your email, we sent you the link"
+  }
+}
