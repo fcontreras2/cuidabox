@@ -3,15 +3,16 @@
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useLocale } from "next-intl";
-import { Input, Button } from "fcontreras2-ui";
+import { Button, FieldInput, FieldsProvider } from "fcontreras2-ui";
+import { FormProvider } from "react-hook-form";
 import { PhoneFrame } from "@/shared/components";
 import { useMain } from "./useMain";
 
 export default function SignIn() {
   const t = useTranslations("modules-auth-pages-SignIn");
   const locale = useLocale();
-  const { form, onSubmit, serverError } = useMain();
-  const { register, formState: { errors, isSubmitting } } = form;
+  const { methods, onSubmit, serverError } = useMain();
+  const { formState: { isSubmitting } } = methods;
 
   return (
     <PhoneFrame>
@@ -26,45 +27,47 @@ export default function SignIn() {
           </p>
         </div>
 
-        <form onSubmit={onSubmit} className="flex flex-col gap-4">
-          <Input
-            {...register("email")}
-            type="email"
-            label={t("email")}
-            placeholder="hola@ejemplo.com"
-            error={errors.email?.message}
-          />
-          <Input
-            {...register("password")}
-            type="password"
-            label={t("password")}
-            placeholder="••••••••"
-            error={errors.password?.message}
-          />
+        <FormProvider {...methods}>
+          <FieldsProvider>
+            <form onSubmit={onSubmit} className="flex flex-col gap-4">
+              <FieldInput
+                name="email"
+                type="email"
+                label={t("email")}
+                placeholder="hola@ejemplo.com"
+              />
+              <FieldInput
+                name="password"
+                type="password"
+                label={t("password")}
+                placeholder="••••••••"
+              />
 
-          {serverError && (
-            <p className="text-[13px] text-coral-600 text-center">
-              {t(`errors.${serverError}`)}
-            </p>
-          )}
+              {serverError && (
+                <p className="text-[13px] text-coral-600 text-center">
+                  {t(`errors.${serverError}`)}
+                </p>
+              )}
 
-          <Link
-            href={`/${locale}/reset-password`}
-            className="text-[13px] text-ink-400 hover:text-primary-700 text-right -mt-1"
-          >
-            {t("forgotPassword")}
-          </Link>
+              <Link
+                href={`/${locale}/reset-password`}
+                className="text-[13px] text-ink-400 hover:text-primary-700 text-right -mt-1"
+              >
+                {t("forgotPassword")}
+              </Link>
 
-          <Button
-            type="submit"
-            size="lg"
-            fullWidth
-            loading={isSubmitting}
-            className="!bg-primary-700 !text-cream !rounded-[16px] hover:!bg-primary-900 mt-2"
-          >
-            {t("submit")}
-          </Button>
-        </form>
+              <Button
+                type="submit"
+                size="lg"
+                fullWidth
+                loading={isSubmitting}
+                className="!bg-primary-700 !text-cream !rounded-[16px] hover:!bg-primary-900 mt-2"
+              >
+                {t("submit")}
+              </Button>
+            </form>
+          </FieldsProvider>
+        </FormProvider>
 
         <p className="text-center text-[13px] text-ink-400 mt-8">
           {t("noAccount")}{" "}

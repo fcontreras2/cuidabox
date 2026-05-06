@@ -1,8 +1,8 @@
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from "next/navigation";
 import { useLocale } from "next-intl";
+import { useMutation } from "@tanstack/react-query";
 import * as yup from "yup";
 import { authClient } from "@cuidabox/api";
 
@@ -16,19 +16,18 @@ type FormValues = yup.InferType<typeof schema>;
 export function useMain() {
   const router = useRouter();
   const locale = useLocale();
-  const [serverError, setServerError] = useState<string | null>(null);
 
-  const form = useForm<FormValues>({ resolver: yupResolver(schema) });
+  const methods = useForm<FormValues>({ resolver: yupResolver(schema) });
 
-  const onSubmit = form.handleSubmit(async ({ email, password }) => {
-    setServerError(null);
-    try {
-      await authClient.login(email, password);
-      router.push(`/${locale}/dashboard`);
-    } catch {
-      setServerError("invalid");
-    }
+  const { mutate: login, error } = useMutation({
+    mutationFn: ({ email, password }: FormValues) =>
+      authClient.login(email, password),
+    onSuccess: () => router.push(`/${locale}/selector`),
   });
 
-  return { form, onSubmit, serverError };
+  const onSubmit = methods.handleSubmit((values) => login(values));
+
+  const serverError = error ? "invalid" : null;
+
+  return { methods, onSubmit, serverError };
 }

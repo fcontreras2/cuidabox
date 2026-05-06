@@ -1,17 +1,17 @@
 import { apiClient } from '../client';
 
-export interface Patient {
+export interface PatientDTO {
   id: string;
   name: string;
   age: number;
 }
 
 export const patientsClient = {
-  findAll(): Promise<Patient[]> {
-    return apiClient<Patient[]>('/patients');
+  findAll(): Promise<PatientDTO[]> {
+    return apiClient<PatientDTO[]>('/patients');
   },
 
-  findOne(id: string): Promise<Patient> {
-    return apiClient<Patient>(`/patients/${id}`);
+  findOne(id: string): Promise<PatientDTO> {
+    return apiClient<PatientDTO>(`/patients/${id}`);
   },
 };

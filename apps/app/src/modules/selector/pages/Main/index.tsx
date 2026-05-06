@@ -2,14 +2,14 @@
 
 import { useTranslations } from "next-intl";
 import { Plus, Lock, HeartPulse } from "lucide-react";
-import { Button } from "fcontreras2-ui";
+import { Button, Skeleton } from "fcontreras2-ui";
 import { PhoneFrame } from "@/shared/components";
 import { useMain } from "./useMain";
 import { PatientCard } from "./components/PatientCard";
 
 export default function SelectorMain() {
   const t = useTranslations("modules-selector-pages-Main");
-  const { patients, handleSelect } = useMain();
+  const { patients, isLoading, handleSelect } = useMain();
 
   return (
     <PhoneFrame>
@@ -35,9 +35,13 @@ export default function SelectorMain() {
       </section>
 
       <section className="px-6 flex flex-col gap-3 flex-1">
-        {patients.map((p) => (
-          <PatientCard key={p.id} patient={p} onSelect={handleSelect} />
-        ))}
+        {isLoading
+          ? Array.from({ length: 3 }).map((_, i) => (
+              <Skeleton key={i} variant="rectangular" height={78} className="rounded-md!" />
+            ))
+          : patients.map((p) => (
+              <PatientCard key={p.id} patient={p} onSelect={handleSelect} />
+            ))}
         <Button
           variant="outline"
           size="lg"

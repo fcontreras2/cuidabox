@@ -9,6 +9,9 @@ type Locale = (typeof routing.locales)[number];
 import { ThemeProvider } from "next-themes";
 import { ServiceWorkerRegister, PageTransition } from "@/shared/components";
 import "@/styles/globals.css";
+import "fcontreras2-ui/styles.css";
+
+import { GlobalProvider } from "@/shared/components/GlobalProvider";
 
 const fraunces = Fraunces({
   subsets: ["latin"],
@@ -63,12 +66,18 @@ export default async function LocaleLayout({
   const messages = await getMessages();
 
   return (
-    <html lang={locale} className={`${fraunces.variable} ${dmSans.variable}`} suppressHydrationWarning>
+    <html
+      lang={locale}
+      className={`${fraunces.variable} ${dmSans.variable}`}
+      suppressHydrationWarning
+    >
       <body>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <NextIntlClientProvider messages={messages} locale={locale}>
-            <PageTransition>{children}</PageTransition>
-          </NextIntlClientProvider>
+          <GlobalProvider>
+            <NextIntlClientProvider messages={messages} locale={locale}>
+              <PageTransition>{children}</PageTransition>
+            </NextIntlClientProvider>
+          </GlobalProvider>
         </ThemeProvider>
         <ServiceWorkerRegister />
       </body>
