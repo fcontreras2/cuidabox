@@ -3,15 +3,16 @@
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useLocale } from "next-intl";
-import { Input, Button } from "fcontreras2-ui";
+import { Button, FieldInput, FieldsProvider } from "fcontreras2-ui";
+import { FormProvider } from "react-hook-form";
 import { PhoneFrame } from "@/shared/components";
-import { useMain } from "./useMain";
+import { useSignUp } from "./useSignUp";
 
 export default function SignUp() {
   const t = useTranslations("modules-auth-pages-SignUp");
   const locale = useLocale();
-  const { form, onSubmit, serverError } = useMain();
-  const { register, formState: { errors, isSubmitting } } = form;
+  const { methods, onSubmit, serverError } = useSignUp();
+  const { formState: { isSubmitting } } = methods;
 
   return (
     <PhoneFrame>
@@ -26,44 +27,31 @@ export default function SignUp() {
           </p>
         </div>
 
-        <form onSubmit={onSubmit} className="flex flex-col gap-4">
-          <Input
-            {...register("name")}
-            label={t("name")}
-            placeholder="María García"
-            error={errors.name?.message}
-          />
-          <Input
-            {...register("email")}
-            type="email"
-            label={t("email")}
-            placeholder="hola@ejemplo.com"
-            error={errors.email?.message}
-          />
-          <Input
-            {...register("password")}
-            type="password"
-            label={t("password")}
-            placeholder="••••••••"
-            error={errors.password?.message}
-          />
+        <FormProvider {...methods}>
+          <FieldsProvider t={t}>
+            <form onSubmit={onSubmit} className="flex flex-col gap-4">
+              <FieldInput name="name" />
+              <FieldInput name="email" type="email" />
+              <FieldInput name="password" type="password" />
 
-          {serverError && (
-            <p className="text-[13px] text-coral-600 text-center">
-              {t(`errors.${serverError}`)}
-            </p>
-          )}
+              {serverError && (
+                <p className="text-[13px] text-coral-600 text-center">
+                  {t(`errors.${serverError}`)}
+                </p>
+              )}
 
-          <Button
-            type="submit"
-            size="lg"
-            fullWidth
-            loading={isSubmitting}
-            className="!bg-primary-700 !text-cream !rounded-[16px] hover:!bg-primary-900 mt-2"
-          >
-            {t("submit")}
-          </Button>
-        </form>
+              <Button
+                type="submit"
+                size="lg"
+                fullWidth
+                loading={isSubmitting}
+                className="bg-primary-700! text-cream! rounded-2xl! hover:bg-primary-900! mt-2"
+              >
+                {t("submit")}
+              </Button>
+            </form>
+          </FieldsProvider>
+        </FormProvider>
 
         <p className="text-center text-[13px] text-ink-400 mt-8">
           {t("hasAccount")}{" "}

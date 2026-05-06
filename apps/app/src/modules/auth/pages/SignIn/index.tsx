@@ -6,12 +6,12 @@ import { useLocale } from "next-intl";
 import { Button, FieldInput, FieldsProvider } from "fcontreras2-ui";
 import { FormProvider } from "react-hook-form";
 import { PhoneFrame } from "@/shared/components";
-import { useMain } from "./useMain";
+import { useSignIn } from "./useSignIn";
 
 export default function SignIn() {
   const t = useTranslations("modules-auth-pages-SignIn");
   const locale = useLocale();
-  const { methods, onSubmit, serverError } = useMain();
+  const { methods, onSubmit, serverError } = useSignIn();
   const { formState: { isSubmitting } } = methods;
 
   return (
@@ -28,20 +28,10 @@ export default function SignIn() {
         </div>
 
         <FormProvider {...methods}>
-          <FieldsProvider>
+          <FieldsProvider t={t}>
             <form onSubmit={onSubmit} className="flex flex-col gap-4">
-              <FieldInput
-                name="email"
-                type="email"
-                label={t("email")}
-                placeholder="hola@ejemplo.com"
-              />
-              <FieldInput
-                name="password"
-                type="password"
-                label={t("password")}
-                placeholder="••••••••"
-              />
+              <FieldInput name="email" type="email" />
+              <FieldInput name="password" type="password" />
 
               {serverError && (
                 <p className="text-[13px] text-coral-600 text-center">

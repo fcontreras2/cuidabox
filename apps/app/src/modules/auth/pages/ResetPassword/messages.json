@@ -2,7 +2,14 @@
   "es": {
     "title": "Recuperar contraseña",
     "subtitle": "Te enviaremos un enlace a tu correo",
-    "email": "Correo electrónico",
+    "form": {
+      "fields": {
+        "email": "Correo electrónico"
+      },
+      "placeholders": {
+        "email": "hola@ejemplo.com"
+      }
+    },
     "submit": "Enviar enlace",
     "back": "Volver al inicio de sesión",
     "success": "Revisa tu correo, te enviamos el enlace"
@@ -10,7 +17,14 @@
   "en": {
     "title": "Reset password",
     "subtitle": "We'll send a link to your email",
-    "email": "Email",
+    "form": {
+      "fields": {
+        "email": "Email"
+      },
+      "placeholders": {
+        "email": "hello@example.com"
+      }
+    },
     "submit": "Send link",
     "back": "Back to sign in",
     "success": "Check your email, we sent you the link"

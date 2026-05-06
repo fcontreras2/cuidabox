@@ -3,16 +3,17 @@
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useLocale } from "next-intl";
-import { Input, Button } from "fcontreras2-ui";
+import { Button, FieldInput, FieldsProvider } from "fcontreras2-ui";
+import { FormProvider } from "react-hook-form";
 import { PhoneFrame } from "@/shared/components";
 import { CheckCircle } from "lucide-react";
-import { useMain } from "./useMain";
+import { useResetPassword } from "./useResetPassword";
 
 export default function ResetPassword() {
   const t = useTranslations("modules-auth-pages-ResetPassword");
   const locale = useLocale();
-  const { form, onSubmit, sent } = useMain();
-  const { register, formState: { errors, isSubmitting } } = form;
+  const { methods, onSubmit, sent } = useResetPassword();
+  const { formState: { isSubmitting } } = methods;
 
   return (
     <PhoneFrame>
@@ -35,24 +36,22 @@ export default function ResetPassword() {
             </p>
           </div>
         ) : (
-          <form onSubmit={onSubmit} className="flex flex-col gap-4">
-            <Input
-              {...register("email")}
-              type="email"
-              label={t("email")}
-              placeholder="hola@ejemplo.com"
-              error={errors.email?.message}
-            />
-            <Button
-              type="submit"
-              size="lg"
-              fullWidth
-              loading={isSubmitting}
-              className="!bg-primary-700 !text-cream !rounded-[16px] hover:!bg-primary-900 mt-2"
-            >
-              {t("submit")}
-            </Button>
-          </form>
+          <FormProvider {...methods}>
+            <FieldsProvider t={t}>
+              <form onSubmit={onSubmit} className="flex flex-col gap-4">
+                <FieldInput name="email" type="email" />
+                <Button
+                  type="submit"
+                  size="lg"
+                  fullWidth
+                  loading={isSubmitting}
+                  className="bg-primary-700! text-cream! rounded-2xl! hover:bg-primary-900! mt-2"
+                >
+                  {t("submit")}
+                </Button>
+              </form>
+            </FieldsProvider>
+          </FormProvider>
         )}
 
         <Link

@@ -2,8 +2,16 @@
   "es": {
     "title": "Bienvenido",
     "subtitle": "Inicia sesión para continuar",
-    "email": "Correo electrónico",
-    "password": "Contraseña",
+    "form": {
+      "fields": {
+        "email": "Correo electrónico",
+        "password": "Contraseña"
+      },
+      "placeholders": {
+        "email": "hola@ejemplo.com",
+        "password": "••••••••"
+      }
+    },
     "submit": "Iniciar sesión",
     "noAccount": "¿No tienes cuenta?",
     "signUp": "Regístrate",
@@ -15,8 +23,16 @@
   "en": {
     "title": "Welcome back",
     "subtitle": "Sign in to continue",
-    "email": "Email",
-    "password": "Password",
+    "form": {
+      "fields": {
+        "email": "Email",
+        "password": "Password"
+      },
+      "placeholders": {
+        "email": "hello@example.com",
+        "password": "••••••••"
+      }
+    },
     "submit": "Sign in",
     "noAccount": "Don't have an account?",
     "signUp": "Sign up",

@@ -78,12 +78,9 @@ export default function RegisterMain() {
               value={text}
               placeholder={t("typeInstead")}
               rows={2}
-              error={errors.text?.message}
               classNames={{
-                wrapper: "!gap-1",
                 textarea:
                   "!border-0 !p-0 !shadow-none !text-[15px] focus:!ring-0 focus:!ring-offset-0 focus:!border-0 placeholder:!text-ink-400 !bg-transparent !min-h-0 resize-none",
-                errorText: "!text-coral-600 mt-1",
               }}
             />
             <div className="flex items-center justify-between mt-2 pt-2 border-t border-line-soft">
