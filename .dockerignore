@@ -1,6 +1,4 @@
 .git
-.env
-.env.local
 node_modules
 apps/app
 apps/website
