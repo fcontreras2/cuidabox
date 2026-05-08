@@ -6,11 +6,7 @@ import {
 } from '@nestjs/common';
 import { SupabaseClient } from '@supabase/supabase-js';
 import { SUPABASE_CLIENT } from '../supabase/supabase.module';
-import type {
-  Patient,
-  PatientSummary,
-  UpdatePatientInput,
-} from '@cuidabox/api';
+import type { Patient, PatientSummary, UpdatePatientInput } from './types';
 import { CreatePatientDto } from './dto/create-patient.dto';
 import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
 import { Paginated } from '../common/types/paginated';
