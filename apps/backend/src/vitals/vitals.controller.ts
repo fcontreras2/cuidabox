@@ -4,6 +4,7 @@ import {
   Post,
   Body,
   Param,
+  Query,
   UseGuards,
   Request,
 } from '@nestjs/common';
@@ -17,6 +18,7 @@ import { JwtGuard } from '../auth/guards/jwt.guard';
 import { VitalsService } from './vitals.service';
 import { CreateVitalDto } from './dto/create-vital.dto';
 import { VitalResponseDto } from './dto/vital-response.dto';
+import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
 
 interface AuthRequest {
   user: { id: string; email: string; role: string };
@@ -43,11 +45,16 @@ export class VitalsController {
 
   @Get()
   @ApiOperation({
-    summary: 'Historial de vitales del paciente ordenado por fecha',
+    summary: 'Historial de vitales del paciente ordenado por fecha (paginado)',
+    description: 'Usa `cursor` (ISO date) para obtener la siguiente página.',
   })
-  @ApiResponse({ status: 200, type: [VitalResponseDto] })
+  @ApiResponse({ status: 200 })
   @ApiResponse({ status: 403, description: 'Sin acceso a este paciente' })
-  findAll(@Param('patientId') patientId: string, @Request() req: AuthRequest) {
-    return this.vitalsService.findAll(patientId, req.user.id);
+  findAll(
+    @Param('patientId') patientId: string,
+    @Request() req: AuthRequest,
+    @Query() query: PaginationQueryDto,
+  ) {
+    return this.vitalsService.findAll(patientId, req.user.id, query);
   }
 }

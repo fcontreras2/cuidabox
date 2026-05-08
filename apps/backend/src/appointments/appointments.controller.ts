@@ -21,6 +21,7 @@ import { AppointmentsService } from './appointments.service';
 import { CreateAppointmentDto } from './dto/create-appointment.dto';
 import { UpdateAppointmentStatusDto } from './dto/update-appointment-status.dto';
 import { AppointmentResponseDto } from './dto/appointment-response.dto';
+import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
 
 interface AuthRequest {
   user: { id: string; email: string; role: string };
@@ -81,12 +82,16 @@ export class AppointmentsController {
   @ApiOperation({
     summary: 'Listar citas del paciente ordenadas por fecha',
     description:
-      'Retorna todas las citas (scheduled, completed y cancelled) en orden descendente.',
+      'Retorna citas paginadas (scheduled, completed y cancelled) en orden descendente. Usa `cursor` (ISO date) para obtener la siguiente página.',
   })
-  @ApiResponse({ status: 200, type: [AppointmentResponseDto] })
+  @ApiResponse({ status: 200 })
   @ApiResponse({ status: 403, description: 'Sin acceso a este paciente' })
-  findAll(@Param('patientId') patientId: string, @Request() req: AuthRequest) {
-    return this.appointmentsService.findAll(patientId, req.user.id);
+  findAll(
+    @Param('patientId') patientId: string,
+    @Request() req: AuthRequest,
+    @Query() query: PaginationQueryDto,
+  ) {
+    return this.appointmentsService.findAll(patientId, req.user.id, query);
   }
 
   @Get(':appointmentId')

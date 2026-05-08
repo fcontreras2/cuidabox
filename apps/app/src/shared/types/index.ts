@@ -1,13 +1,14 @@
-export interface Patient {
-  id: string;
-  name: string;
+export type { Patient } from '@cuidabox/api';
+import type { Patient } from '@cuidabox/api';
+
+export interface PatientUI {
   shortName: string;
   age: string;
-  gender: "F" | "M";
   avatarColor: "coral" | "sky" | "plum" | "gold" | "sage";
-  status: string;
   highlight?: string;
 }
+
+export type PatientWithUI = Patient & PatientUI;
 
 export interface Medication {
   id: string;

@@ -5,6 +5,7 @@ import {
   Patch,
   Body,
   Param,
+  Query,
   UseGuards,
   Request,
 } from '@nestjs/common';
@@ -19,6 +20,7 @@ import { TreatmentsService } from './treatments.service';
 import { CreateTreatmentDto } from './dto/create-treatment.dto';
 import { UpdateTreatmentStatusDto } from './dto/update-treatment-status.dto';
 import { TreatmentResponseDto } from './dto/treatment-response.dto';
+import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
 
 interface AuthRequest {
   user: { id: string; email: string; role: string };
@@ -48,11 +50,18 @@ export class TreatmentsController {
   }
 
   @Get()
-  @ApiOperation({ summary: 'Listar tratamientos del paciente con sus pasos' })
-  @ApiResponse({ status: 200, type: [TreatmentResponseDto] })
+  @ApiOperation({
+    summary: 'Listar tratamientos del paciente con sus pasos (paginado)',
+    description: 'Usa `cursor` (ISO date) para obtener la siguiente página.',
+  })
+  @ApiResponse({ status: 200 })
   @ApiResponse({ status: 403, description: 'Sin acceso a este paciente' })
-  findAll(@Param('patientId') patientId: string, @Request() req: AuthRequest) {
-    return this.treatmentsService.findAll(patientId, req.user.id);
+  findAll(
+    @Param('patientId') patientId: string,
+    @Request() req: AuthRequest,
+    @Query() query: PaginationQueryDto,
+  ) {
+    return this.treatmentsService.findAll(patientId, req.user.id, query);
   }
 
   @Get(':treatmentId')

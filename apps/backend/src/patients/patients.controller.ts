@@ -5,6 +5,7 @@ import {
   Patch,
   Body,
   Param,
+  Query,
   UseGuards,
   Request,
 } from '@nestjs/common';
@@ -20,6 +21,7 @@ import { CreatePatientDto } from './dto/create-patient.dto';
 import { UpdatePatientDto } from './dto/update-patient.dto';
 import { PatientResponseDto } from './dto/patient-response.dto';
 import { PatientSummaryResponseDto } from './dto/patient-summary-response.dto';
+import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
 
 interface AuthRequest {
   user: { id: string; email: string; role: string };
@@ -41,11 +43,14 @@ export class PatientsController {
   }
 
   @Get()
-  @ApiOperation({ summary: 'Listar pacientes del holder autenticado' })
-  @ApiResponse({ status: 200, type: [PatientResponseDto] })
+  @ApiOperation({
+    summary: 'Listar pacientes del holder autenticado (paginado)',
+    description: 'Usa `limit` y `offset` para paginar.',
+  })
+  @ApiResponse({ status: 200 })
   @ApiResponse({ status: 401, description: 'No autenticado' })
-  findAll(@Request() req: AuthRequest) {
-    return this.patientsService.findAllByHolder(req.user.id);
+  findAll(@Request() req: AuthRequest, @Query() query: PaginationQueryDto) {
+    return this.patientsService.findAllByHolder(req.user.id, query);
   }
 
   @Get(':id')

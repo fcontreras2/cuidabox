@@ -100,7 +100,7 @@ export default function PatientDetail({ id }: Props) {
 
         <div className="relative mt-5 flex items-center gap-4">
           <PatientAvatar
-            name={patient.shortName}
+            name={patient?.shortName || '-'}
             color={patient.avatarColor}
             size="xl"
             className="ring-4 ring-paper/25"
@@ -113,7 +113,7 @@ export default function PatientDetail({ id }: Props) {
               {patient.name}
             </h1>
             <p className="font-display-italic text-[14px] text-cream mt-1 opacity-95">
-              {patient.age} · {patient.status}
+              {patient.age} · {patient.notes}
             </p>
           </div>
         </div>

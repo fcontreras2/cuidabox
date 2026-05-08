@@ -3,10 +3,16 @@
 import { useRouter } from "next/navigation";
 import { useLocale } from "next-intl";
 import { useQuery } from "@tanstack/react-query";
-import { patientsClient } from "@cuidabox/api";
-import type { Patient } from "@/shared/types";
+import { patientsClient, authClient } from "@cuidabox/api";
+import type { PatientWithUI } from "@/shared/types";
 
-const AVATAR_COLORS: Patient["avatarColor"][] = ["coral", "sky", "plum", "gold", "sage"];
+const AVATAR_COLORS: PatientWithUI["avatarColor"][] = [
+  "coral",
+  "sky",
+  "plum",
+  "gold",
+  "sage",
+];
 
 export function useMain() {
   const router = useRouter();
@@ -14,16 +20,16 @@ export function useMain() {
 
   const { data: patients = [], isLoading } = useQuery({
     queryKey: ["patients"],
+    staleTime: 5 * 60 * 1000, // 5 min — evita refetch en cada foco de ventana
     queryFn: async () => {
-      const dtos = await patientsClient.findAll();
-      return dtos.map((dto, i): Patient => ({
-        id: dto.id,
-        name: dto.name,
-        shortName: dto.name.split(" ")[0],
-        age: `${dto.age} años`,
-        gender: "M",
+      const { data: raw } = await patientsClient.findAll();
+      return raw.map((p, i) => ({
+        ...p,
+        shortName: p.name.split(" ")[0],
+        age: p.birthdate
+          ? `${new Date().getFullYear() - new Date(p.birthdate).getFullYear()} años`
+          : "",
         avatarColor: AVATAR_COLORS[i % AVATAR_COLORS.length],
-        status: "",
       }));
     },
   });
@@ -32,5 +38,7 @@ export function useMain() {
     router.push(`/${locale}/dashboard`);
   };
 
-  return { patients, isLoading, handleSelect };
+  const handleLogout = () => authClient.logout();
+
+  return { patients, isLoading, handleSelect, handleLogout };
 }

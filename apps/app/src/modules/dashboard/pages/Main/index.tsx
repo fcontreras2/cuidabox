@@ -20,7 +20,7 @@ export default function DashboardMain() {
           aria-label="Cambiar de paciente"
         >
           <PatientAvatar
-            name={activePatient.shortName}
+            name={activePatient.shortName || ''}
             color={activePatient.avatarColor}
             size="md"
           />

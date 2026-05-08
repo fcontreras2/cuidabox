@@ -7,11 +7,15 @@ import {
 import { SupabaseClient } from '@supabase/supabase-js';
 import { SUPABASE_CLIENT } from '../supabase/supabase.module';
 import { CreateAppointmentDto } from './dto/create-appointment.dto';
+import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
+import { Paginated } from '../common/types/paginated';
 
 export interface Appointment {
   id: string;
   patient_id: string;
   doctor_id: string | null;
+  doctor_name: string | null;
+  title: string;
   scheduled_at: string;
   status: string;
   notes: string | null;
@@ -48,6 +52,8 @@ export class AppointmentsService {
       .insert({
         patient_id: patientId,
         doctor_id: dto.doctor_id ?? null,
+        doctor_name: dto.doctor_name ?? null,
+        title: dto.title,
         scheduled_at: dto.scheduled_at,
         notes: dto.notes ?? null,
         created_by: userId,
@@ -62,18 +68,36 @@ export class AppointmentsService {
     return data!;
   }
 
-  async findAll(patientId: string, userId: string): Promise<Appointment[]> {
+  async findAll(
+    patientId: string,
+    userId: string,
+    query: PaginationQueryDto = {},
+  ): Promise<Paginated<Appointment>> {
     await this.assertAccess(patientId, userId);
 
-    const { data } = (await this.supabase
+    const limit = query.limit ?? 20;
+
+    let q = this.supabase
       .from('appointments')
       .select('*')
       .eq('patient_id', patientId)
-      .order('scheduled_at', { ascending: false })) as {
-      data: Appointment[] | null;
-    };
+      .order('scheduled_at', { ascending: false });
 
-    return data ?? [];
+    if (query.cursor) {
+      q = q.lt('scheduled_at', query.cursor);
+    }
+
+    q = q.limit(limit + 1);
+
+    const { data } = (await q) as { data: Appointment[] | null };
+    const rows = data ?? [];
+    const hasMore = rows.length > limit;
+    const items = hasMore ? rows.slice(0, limit) : rows;
+    const nextCursor = hasMore
+      ? items[items.length - 1].scheduled_at
+      : undefined;
+
+    return { data: items, meta: { limit, hasMore, nextCursor } };
   }
 
   async findOne(

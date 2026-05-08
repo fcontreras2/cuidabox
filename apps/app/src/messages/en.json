@@ -15,40 +15,65 @@
     "back": "Back",
     "next": "Next",
     "previous": "Previous",
-    "confirm": "Confirm",
-    "appName": "CuidaBox"
+    "confirm": "Confirm"
   },
-  "selector": {
-    "greeting": "Hi María,",
-    "question": "who are we caring for today?",
-    "subtitle": "Tap a family member to open their story.",
-    "addFamily": "Add family member",
-    "secureNote": "Your data is encrypted and private"
+  "modules-auth-pages-ResetPassword": {
+    "title": "Reset password",
+    "subtitle": "We'll send a link to your email",
+    "form": {
+      "fields": {
+        "email": "Email"
+      },
+      "placeholders": {
+        "email": "hello@example.com"
+      }
+    },
+    "submit": "Send link",
+    "back": "Back to sign in",
+    "success": "Check your email, we sent you the link"
   },
-  "dashboard": {
-    "viewing": "Caring for",
-    "morningGreeting": "Good morning,",
-    "important": "One important thing today",
-    "noUrgent": "All quiet today",
-    "nowMoment": "Right now",
-    "upcoming": "What's coming",
-    "tabs": {
-      "home": "Home",
-      "history": "Story",
-      "register": "Log",
-      "doctors": "Doctors",
-      "profile": "Profile"
+  "modules-auth-pages-SignIn": {
+    "title": "Welcome back",
+    "subtitle": "Sign in to continue",
+    "form": {
+      "fields": {
+        "email": "Email",
+        "password": "Password"
+      },
+      "placeholders": {
+        "email": "hello@example.com",
+        "password": "••••••••"
+      }
+    },
+    "submit": "Sign in",
+    "noAccount": "Don't have an account?",
+    "signUp": "Sign up",
+    "forgotPassword": "Forgot your password?",
+    "errors": {
+      "invalid": "Invalid email or password"
     }
   },
-  "register": {
-    "title": "Tell me,",
-    "titleAccent": "what happened?",
-    "subtitle": "Talk, type or snap a photo. I'll organize it for you.",
-    "speakNow": "Tap to speak",
-    "typeInstead": "Or type instead",
-    "examples": "Examples",
-    "process": "Process",
-    "save": "Save entry"
+  "modules-auth-pages-SignUp": {
+    "title": "Create account",
+    "subtitle": "Start caring for your family",
+    "form": {
+      "fields": {
+        "name": "Full name",
+        "email": "Email",
+        "password": "Password"
+      },
+      "placeholders": {
+        "name": "Maria Garcia",
+        "email": "hello@example.com",
+        "password": "••••••••"
+      }
+    },
+    "submit": "Create account",
+    "hasAccount": "Already have an account?",
+    "signIn": "Sign in",
+    "errors": {
+      "emailTaken": "This email is already in use"
+    }
   },
   "modules-dashboard-pages-Main": {
     "viewing": "Caring for",
@@ -76,42 +101,6 @@
     "viewLocation": "View location",
     "nextAppointment": "Next appointment"
   },
-  "modules-history-pages-Main": {
-    "viewing": "Caring for",
-    "historyOf": "The story of",
-    "dayByDay": "day by day",
-    "filter": "Filter",
-    "mostRecent": "Most recent"
-  },
-  "modules-medications-pages-Main": {
-    "treatmentsOf": "Treatments for",
-    "titleAccent": "These are the",
-    "title": "medications",
-    "tabActive": "Active",
-    "tabPast": "Past",
-    "sectionActive": "Currently ongoing",
-    "sectionPast": "Past treatments",
-    "addMedication": "Add medication",
-    "treatmentProgress": "Treatment progress",
-    "markDose": "Mark dose given"
-  },
-  "modules-register-pages-Main": {
-    "title": "Tell me,",
-    "titleAccent": "what happened?",
-    "subtitle": "Talk, type or snap a photo. I'll organize it for you.",
-    "speakNow": "Tap to speak",
-    "typeInstead": "Or type instead",
-    "examples": "Examples",
-    "process": "Process",
-    "save": "Save entry"
-  },
-  "modules-selector-pages-Main": {
-    "greeting": "Hi María,",
-    "question": "who are we caring for today?",
-    "subtitle": "Tap a family member to open their story.",
-    "addFamily": "Add family member",
-    "secureNote": "Your data is encrypted and private"
-  },
   "modules-history-pages-Detail": {
     "notFoundTitle": "We couldn't find this entry",
     "notFoundSubtitle": "It may have been moved or removed.",
@@ -124,6 +113,13 @@
     "edit": "Edit",
     "delete": "Delete",
     "shareWithDoctor": "Share with doctor"
+  },
+  "modules-history-pages-Main": {
+    "viewing": "Caring for",
+    "historyOf": "The story of",
+    "dayByDay": "day by day",
+    "filter": "Filter",
+    "mostRecent": "Most recent"
   },
   "modules-medications-pages-Detail": {
     "notFoundTitle": "We couldn't find this medication",
@@ -146,6 +142,18 @@
     "statusScheduled": "Upcoming",
     "startDate": "Start",
     "endDate": "End"
+  },
+  "modules-medications-pages-Main": {
+    "treatmentsOf": "Treatments for",
+    "titleAccent": "These are the",
+    "title": "medications",
+    "tabActive": "Active",
+    "tabPast": "Past",
+    "sectionActive": "Currently ongoing",
+    "sectionPast": "Past treatments",
+    "addMedication": "Add medication",
+    "treatmentProgress": "Treatment progress",
+    "markDose": "Mark dose given"
   },
   "modules-patient-pages-Detail": {
     "notFoundTitle": "We couldn't find this family member",
@@ -204,38 +212,23 @@
     "footerNote": "Made with love in Chile",
     "version": "v0.1.0"
   },
-  "modules-auth-pages-ResetPassword": {
-    "title": "Reset password",
-    "subtitle": "We'll send a link to your email",
-    "email": "Email",
-    "submit": "Send link",
-    "back": "Back to sign in",
-    "success": "Check your email, we sent you the link"
+  "modules-register-pages-Main": {
+    "title": "Tell me,",
+    "titleAccent": "what happened?",
+    "subtitle": "Talk, type or snap a photo. I'll organize it for you.",
+    "speakNow": "Tap to speak",
+    "typeInstead": "Or type instead",
+    "examples": "Examples",
+    "process": "Process",
+    "save": "Save entry"
   },
-  "modules-auth-pages-SignIn": {
-    "title": "Welcome back",
-    "subtitle": "Sign in to continue",
-    "email": "Email",
-    "password": "Password",
-    "submit": "Sign in",
-    "noAccount": "Don't have an account?",
-    "signUp": "Sign up",
-    "forgotPassword": "Forgot your password?",
-    "errors": {
-      "invalid": "Invalid email or password"
-    }
-  },
-  "modules-auth-pages-SignUp": {
-    "title": "Create account",
-    "subtitle": "Start caring for your family",
-    "name": "Full name",
-    "email": "Email",
-    "password": "Password",
-    "submit": "Create account",
-    "hasAccount": "Already have an account?",
-    "signIn": "Sign in",
-    "errors": {
-      "emailTaken": "This email is already in use"
-    }
+  "modules-selector-pages-Main": {
+    "greeting": "Hi María,",
+    "question": "who are we caring for today?",
+    "subtitle": "Tap a family member to open their story.",
+    "addFamily": "Add family member",
+    "secureNote": "Your data is encrypted and private",
+    "emptyTitle": "No family members yet",
+    "emptySubtitle": "Add the person you care for to get started."
   }
 }

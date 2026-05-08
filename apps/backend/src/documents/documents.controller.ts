@@ -20,6 +20,7 @@ import { JwtGuard } from '../auth/guards/jwt.guard';
 import { DocumentsService } from './documents.service';
 import { CreateDocumentDto } from './dto/create-document.dto';
 import { DocumentResponseDto } from './dto/document-response.dto';
+import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
 
 interface AuthRequest {
   user: { id: string; email: string; role: string };
@@ -50,14 +51,14 @@ export class DocumentsController {
 
   @Get()
   @ApiOperation({
-    summary: 'Listar documentos del paciente',
+    summary: 'Listar documentos del paciente (paginado)',
     description:
-      'Retorna todos los documentos. Filtra opcionalmente por treatment_id, appointment_id o exam_id.',
+      'Retorna documentos paginados. Filtra opcionalmente por treatment_id, appointment_id o exam_id. Usa `cursor` (ISO date) para la siguiente página.',
   })
   @ApiQuery({ name: 'treatment_id', required: false })
   @ApiQuery({ name: 'appointment_id', required: false })
   @ApiQuery({ name: 'exam_id', required: false })
-  @ApiResponse({ status: 200, type: [DocumentResponseDto] })
+  @ApiResponse({ status: 200 })
   @ApiResponse({ status: 403, description: 'Sin acceso a este paciente' })
   findAll(
     @Param('patientId') patientId: string,
@@ -65,12 +66,14 @@ export class DocumentsController {
     @Query('treatment_id') treatment_id?: string,
     @Query('appointment_id') appointment_id?: string,
     @Query('exam_id') exam_id?: string,
+    @Query() query?: PaginationQueryDto,
   ) {
-    return this.documentsService.findAll(patientId, req.user.id, {
-      treatment_id,
-      appointment_id,
-      exam_id,
-    });
+    return this.documentsService.findAll(
+      patientId,
+      req.user.id,
+      { treatment_id, appointment_id, exam_id },
+      query,
+    );
   }
 
   @Post(':documentId/signed-url')

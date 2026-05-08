@@ -15,40 +15,65 @@
     "back": "Atrás",
     "next": "Siguiente",
     "previous": "Anterior",
-    "confirm": "Confirmar",
-    "appName": "CuidaBox"
+    "confirm": "Confirmar"
   },
-  "selector": {
-    "greeting": "Hola María,",
-    "question": "¿a quién cuidamos hoy?",
-    "subtitle": "Toca un familiar para abrir su historia.",
-    "addFamily": "Agregar familiar",
-    "secureNote": "Tu información está cifrada y privada"
+  "modules-auth-pages-ResetPassword": {
+    "title": "Recuperar contraseña",
+    "subtitle": "Te enviaremos un enlace a tu correo",
+    "form": {
+      "fields": {
+        "email": "Correo electrónico"
+      },
+      "placeholders": {
+        "email": "hola@ejemplo.com"
+      }
+    },
+    "submit": "Enviar enlace",
+    "back": "Volver al inicio de sesión",
+    "success": "Revisa tu correo, te enviamos el enlace"
   },
-  "dashboard": {
-    "viewing": "Cuidando a",
-    "morningGreeting": "Buenos días,",
-    "important": "Hoy hay una cosa importante",
-    "noUrgent": "Hoy todo va tranquilo",
-    "nowMoment": "Ahora mismo",
-    "upcoming": "Lo que viene",
-    "tabs": {
-      "home": "Inicio",
-      "history": "Historia",
-      "register": "Registrar",
-      "doctors": "Médicos",
-      "profile": "Perfil"
+  "modules-auth-pages-SignIn": {
+    "title": "Bienvenido",
+    "subtitle": "Inicia sesión para continuar",
+    "form": {
+      "fields": {
+        "email": "Correo electrónico",
+        "password": "Contraseña"
+      },
+      "placeholders": {
+        "email": "hola@ejemplo.com",
+        "password": "••••••••"
+      }
+    },
+    "submit": "Iniciar sesión",
+    "noAccount": "¿No tienes cuenta?",
+    "signUp": "Regístrate",
+    "forgotPassword": "¿Olvidaste tu contraseña?",
+    "errors": {
+      "invalid": "Correo o contraseña incorrectos"
     }
   },
-  "register": {
-    "title": "Cuéntame,",
-    "titleAccent": "¿qué pasó?",
-    "subtitle": "Habla, escribe o toma una foto. Yo me encargo de organizarlo.",
-    "speakNow": "Toca para hablar",
-    "typeInstead": "O escribe en su lugar",
-    "examples": "Ejemplos",
-    "process": "Procesar",
-    "save": "Guardar registro"
+  "modules-auth-pages-SignUp": {
+    "title": "Crear cuenta",
+    "subtitle": "Empieza a cuidar a tu familia",
+    "form": {
+      "fields": {
+        "name": "Nombre completo",
+        "email": "Correo electrónico",
+        "password": "Contraseña"
+      },
+      "placeholders": {
+        "name": "María García",
+        "email": "hola@ejemplo.com",
+        "password": "••••••••"
+      }
+    },
+    "submit": "Crear cuenta",
+    "hasAccount": "¿Ya tienes cuenta?",
+    "signIn": "Inicia sesión",
+    "errors": {
+      "emailTaken": "Este correo ya está en uso"
+    }
   },
   "modules-dashboard-pages-Main": {
     "viewing": "Cuidando a",
@@ -76,42 +101,6 @@
     "viewLocation": "Ver ubicación",
     "nextAppointment": "Próxima cita"
   },
-  "modules-history-pages-Main": {
-    "viewing": "Cuidando a",
-    "historyOf": "La historia de",
-    "dayByDay": "día a día",
-    "filter": "Filtrar",
-    "mostRecent": "Más reciente"
-  },
-  "modules-medications-pages-Main": {
-    "treatmentsOf": "Tratamientos de",
-    "titleAccent": "Estos son los",
-    "title": "medicamentos",
-    "tabActive": "Activos",
-    "tabPast": "Pasados",
-    "sectionActive": "En curso ahora",
-    "sectionPast": "Tratamientos pasados",
-    "addMedication": "Agregar medicamento",
-    "treatmentProgress": "Progreso del tratamiento",
-    "markDose": "Marcar dosis dada"
-  },
-  "modules-register-pages-Main": {
-    "title": "Cuéntame,",
-    "titleAccent": "¿qué pasó?",
-    "subtitle": "Habla, escribe o toma una foto. Yo me encargo de organizarlo.",
-    "speakNow": "Toca para hablar",
-    "typeInstead": "O escribe en su lugar",
-    "examples": "Ejemplos",
-    "process": "Procesar",
-    "save": "Guardar registro"
-  },
-  "modules-selector-pages-Main": {
-    "greeting": "Hola María,",
-    "question": "¿a quién cuidamos hoy?",
-    "subtitle": "Toca un familiar para abrir su historia.",
-    "addFamily": "Agregar familiar",
-    "secureNote": "Tu información está cifrada y privada"
-  },
   "modules-history-pages-Detail": {
     "notFoundTitle": "No encontramos este registro",
     "notFoundSubtitle": "Puede que se haya movido o eliminado.",
@@ -124,6 +113,13 @@
     "edit": "Editar",
     "delete": "Eliminar",
     "shareWithDoctor": "Compartir con médico"
+  },
+  "modules-history-pages-Main": {
+    "viewing": "Cuidando a",
+    "historyOf": "La historia de",
+    "dayByDay": "día a día",
+    "filter": "Filtrar",
+    "mostRecent": "Más reciente"
   },
   "modules-medications-pages-Detail": {
     "notFoundTitle": "No encontramos este medicamento",
@@ -146,6 +142,18 @@
     "statusScheduled": "Próxima",
     "startDate": "Inicio",
     "endDate": "Fin"
+  },
+  "modules-medications-pages-Main": {
+    "treatmentsOf": "Tratamientos de",
+    "titleAccent": "Estos son los",
+    "title": "medicamentos",
+    "tabActive": "Activos",
+    "tabPast": "Pasados",
+    "sectionActive": "En curso ahora",
+    "sectionPast": "Tratamientos pasados",
+    "addMedication": "Agregar medicamento",
+    "treatmentProgress": "Progreso del tratamiento",
+    "markDose": "Marcar dosis dada"
   },
   "modules-patient-pages-Detail": {
     "notFoundTitle": "No encontramos a este familiar",
@@ -204,38 +212,23 @@
     "footerNote": "Hecho con cariño en Chile",
     "version": "v0.1.0"
   },
-  "modules-auth-pages-ResetPassword": {
-    "title": "Recuperar contraseña",
-    "subtitle": "Te enviaremos un enlace a tu correo",
-    "email": "Correo electrónico",
-    "submit": "Enviar enlace",
-    "back": "Volver al inicio de sesión",
-    "success": "Revisa tu correo, te enviamos el enlace"
+  "modules-register-pages-Main": {
+    "title": "Cuéntame,",
+    "titleAccent": "¿qué pasó?",
+    "subtitle": "Habla, escribe o toma una foto. Yo me encargo de organizarlo.",
+    "speakNow": "Toca para hablar",
+    "typeInstead": "O escribe en su lugar",
+    "examples": "Ejemplos",
+    "process": "Procesar",
+    "save": "Guardar registro"
   },
-  "modules-auth-pages-SignIn": {
-    "title": "Bienvenido",
-    "subtitle": "Inicia sesión para continuar",
-    "email": "Correo electrónico",
-    "password": "Contraseña",
-    "submit": "Iniciar sesión",
-    "noAccount": "¿No tienes cuenta?",
-    "signUp": "Regístrate",
-    "forgotPassword": "¿Olvidaste tu contraseña?",
-    "errors": {
-      "invalid": "Correo o contraseña incorrectos"
-    }
-  },
-  "modules-auth-pages-SignUp": {
-    "title": "Crear cuenta",
-    "subtitle": "Empieza a cuidar a tu familia",
-    "name": "Nombre completo",
-    "email": "Correo electrónico",
-    "password": "Contraseña",
-    "submit": "Crear cuenta",
-    "hasAccount": "¿Ya tienes cuenta?",
-    "signIn": "Inicia sesión",
-    "errors": {
-      "emailTaken": "Este correo ya está en uso"
-    }
+  "modules-selector-pages-Main": {
+    "greeting": "Hola María,",
+    "question": "¿a quién cuidamos hoy?",
+    "subtitle": "Toca un familiar para abrir su historia.",
+    "addFamily": "Agregar familiar",
+    "secureNote": "Tu información está cifrada y privada",
+    "emptyTitle": "Sin familiares registrados",
+    "emptySubtitle": "Agrega a la persona que cuidas para comenzar."
   }
 }

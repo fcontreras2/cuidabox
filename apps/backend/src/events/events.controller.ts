@@ -1,4 +1,4 @@
-import { Controller, Get, Param, UseGuards, Request } from '@nestjs/common';
+import { Controller, Get, Param, Query, UseGuards, Request } from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiTags,
@@ -8,6 +8,7 @@ import {
 import { JwtGuard } from '../auth/guards/jwt.guard';
 import { EventsService } from './events.service';
 import { TimelineEventResponseDto } from './dto/event-response.dto';
+import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
 
 interface AuthRequest {
   user: { id: string; email: string; role: string };
@@ -22,16 +23,17 @@ export class EventsController {
 
   @Get()
   @ApiOperation({
-    summary: 'Timeline unificado del paciente',
+    summary: 'Timeline unificado del paciente (paginado)',
     description:
-      'Devuelve vacunas, vitales y eventos en orden cronológico descendente. El campo `type` indica el origen: vaccine, vital, medication_given, symptom, visit, exam, note.',
+      'Devuelve vacunas, vitales y eventos en orden cronológico descendente. Usa `cursor` (ISO date) para la siguiente página. El campo `type` indica el origen: vaccine, vital, medication_given, symptom, visit, exam, note.',
   })
-  @ApiResponse({ status: 200, type: [TimelineEventResponseDto] })
+  @ApiResponse({ status: 200 })
   @ApiResponse({ status: 403, description: 'Sin acceso a este paciente' })
   getTimeline(
     @Param('patientId') patientId: string,
     @Request() req: AuthRequest,
+    @Query() query: PaginationQueryDto,
   ) {
-    return this.eventsService.getTimeline(patientId, req.user.id);
+    return this.eventsService.getTimeline(patientId, req.user.id, query);
   }
 }

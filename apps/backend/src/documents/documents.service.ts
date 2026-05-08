@@ -7,6 +7,8 @@ import {
 import { SupabaseClient } from '@supabase/supabase-js';
 import { SUPABASE_CLIENT } from '../supabase/supabase.module';
 import { CreateDocumentDto } from './dto/create-document.dto';
+import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
+import { Paginated } from '../common/types/paginated';
 
 export interface Document {
   id: string;
@@ -75,8 +77,11 @@ export class DocumentsService {
       appointment_id?: string;
       exam_id?: string;
     },
-  ): Promise<Document[]> {
+    pagination: PaginationQueryDto = {},
+  ): Promise<Paginated<Document>> {
     await this.assertAccess(patientId, userId);
+
+    const limit = pagination.limit ?? 20;
 
     let query = this.supabase
       .from('documents')
@@ -88,12 +93,19 @@ export class DocumentsService {
     if (filters?.appointment_id)
       query = query.eq('appointment_id', filters.appointment_id);
     if (filters?.exam_id) query = query.eq('exam_id', filters.exam_id);
+    if (pagination.cursor) query = query.lt('uploaded_at', pagination.cursor);
 
-    const { data } = (await query.order('uploaded_at', {
-      ascending: false,
-    })) as { data: Document[] | null };
+    query = query.order('uploaded_at', { ascending: false }).limit(limit + 1);
 
-    return data ?? [];
+    const { data } = (await query) as { data: Document[] | null };
+    const rows = data ?? [];
+    const hasMore = rows.length > limit;
+    const items = hasMore ? rows.slice(0, limit) : rows;
+    const nextCursor = hasMore
+      ? items[items.length - 1].uploaded_at
+      : undefined;
+
+    return { data: items, meta: { limit, hasMore, nextCursor } };
   }
 
   async getSignedUrl(

@@ -3,9 +3,9 @@
 import { ChevronRight } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { PatientAvatar } from "@/shared/components";
-import type { Patient } from "@/shared/types";
+import type { PatientWithUI } from "@/shared/types";
 
-export function FamilyRow({ patient }: { patient: Patient }) {
+export function FamilyRow({ patient }: { patient: PatientWithUI }) {
   return (
     <Link
       href={`/patient/${patient.id}`}
@@ -21,7 +21,7 @@ export function FamilyRow({ patient }: { patient: Patient }) {
           {patient.shortName}
         </p>
         <p className="text-[12px] text-ink-400 mt-0.5 truncate">
-          {patient.age} · <span className="italic">{patient.status}</span>
+          {patient.age}
         </p>
       </div>
       <ChevronRight className="size-4 text-ink-400 shrink-0" />

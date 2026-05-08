@@ -2,6 +2,8 @@ import { Inject, Injectable, ForbiddenException } from '@nestjs/common';
 import { SupabaseClient } from '@supabase/supabase-js';
 import { SUPABASE_CLIENT } from '../supabase/supabase.module';
 import { CreateVitalDto } from './dto/create-vital.dto';
+import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
+import { Paginated } from '../common/types/paginated';
 
 export interface Vital {
   id: string;
@@ -53,17 +55,35 @@ export class VitalsService {
     return data!;
   }
 
-  async findAll(patientId: string, userId: string): Promise<Vital[]> {
+  async findAll(
+    patientId: string,
+    userId: string,
+    query: PaginationQueryDto = {},
+  ): Promise<Paginated<Vital>> {
     await this.assertAccess(patientId, userId);
 
-    const { data } = (await this.supabase
+    const limit = query.limit ?? 20;
+
+    let q = this.supabase
       .from('vitals')
       .select('*')
       .eq('patient_id', patientId)
-      .order('recorded_at', { ascending: false })) as {
-      data: Vital[] | null;
-    };
+      .order('recorded_at', { ascending: false });
 
-    return data ?? [];
+    if (query.cursor) {
+      q = q.lt('recorded_at', query.cursor);
+    }
+
+    q = q.limit(limit + 1);
+
+    const { data } = (await q) as { data: Vital[] | null };
+    const rows = data ?? [];
+    const hasMore = rows.length > limit;
+    const items = hasMore ? rows.slice(0, limit) : rows;
+    const nextCursor = hasMore
+      ? items[items.length - 1].recorded_at
+      : undefined;
+
+    return { data: items, meta: { limit, hasMore, nextCursor } };
   }
 }

@@ -16,7 +16,7 @@ export default function MedicationsMain() {
       <header className="px-6 pt-12 pb-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <PatientAvatar
-            name={activePatient.shortName}
+            name={activePatient.shortName || '-'}
             color={activePatient.avatarColor}
             size="md"
           />

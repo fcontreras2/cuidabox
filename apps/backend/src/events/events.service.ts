@@ -1,6 +1,8 @@
 import { Inject, Injectable, ForbiddenException } from '@nestjs/common';
 import { SupabaseClient } from '@supabase/supabase-js';
 import { SUPABASE_CLIENT } from '../supabase/supabase.module';
+import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
+import { Paginated } from '../common/types/paginated';
 
 export interface TimelineEvent {
   id: string;
@@ -30,34 +32,55 @@ export class EventsService {
   async getTimeline(
     patientId: string,
     userId: string,
-  ): Promise<TimelineEvent[]> {
+    query: PaginationQueryDto = {},
+  ): Promise<Paginated<TimelineEvent>> {
     await this.assertAccess(patientId, userId);
 
-    // Vacunas
-    const { data: vaccines } = (await this.supabase
+    const limit = query.limit ?? 20;
+    // Fetch limit+1 from each source to have enough data after merge+sort
+    const fetchLimit = limit + 1;
+
+    let vaccinesQ = this.supabase
       .from('vaccines')
       .select('id, name, dose_number, administered_at, administered_by, notes')
-      .eq('patient_id', patientId)) as {
-      data: Record<string, unknown>[] | null;
-    };
+      .eq('patient_id', patientId)
+      .order('administered_at', { ascending: false })
+      .limit(fetchLimit);
 
-    // Vitales
-    const { data: vitals } = (await this.supabase
+    let vitalsQ = this.supabase
       .from('vitals')
       .select(
         'id, weight_kg, height_cm, temperature_c, heart_rate, notes, recorded_at, recorded_by',
       )
-      .eq('patient_id', patientId)) as {
-      data: Record<string, unknown>[] | null;
-    };
+      .eq('patient_id', patientId)
+      .order('recorded_at', { ascending: false })
+      .limit(fetchLimit);
 
-    // Eventos directos (medicamentos, síntomas, notas, etc.)
-    const { data: events } = (await this.supabase
+    let eventsQ = this.supabase
       .from('events')
       .select('id, type, occurred_at, payload, created_by')
-      .eq('patient_id', patientId)) as {
-      data: Record<string, unknown>[] | null;
-    };
+      .eq('patient_id', patientId)
+      .order('occurred_at', { ascending: false })
+      .limit(fetchLimit);
+
+    if (query.cursor) {
+      vaccinesQ = vaccinesQ.lt('administered_at', query.cursor);
+      vitalsQ = vitalsQ.lt('recorded_at', query.cursor);
+      eventsQ = eventsQ.lt('occurred_at', query.cursor);
+    }
+
+    const [{ data: vaccines }, { data: vitals }, { data: events }] =
+      await Promise.all([
+        vaccinesQ as unknown as Promise<{
+          data: Record<string, unknown>[] | null;
+        }>,
+        vitalsQ as unknown as Promise<{
+          data: Record<string, unknown>[] | null;
+        }>,
+        eventsQ as unknown as Promise<{
+          data: Record<string, unknown>[] | null;
+        }>,
+      ]);
 
     const timeline: TimelineEvent[] = [
       ...(vaccines ?? []).map((v) => ({
@@ -83,10 +106,17 @@ export class EventsService {
       })),
     ];
 
-    // Ordenar por fecha descendente
-    return timeline.sort(
+    timeline.sort(
       (a, b) =>
         new Date(b.occurred_at).getTime() - new Date(a.occurred_at).getTime(),
     );
+
+    const hasMore = timeline.length > limit;
+    const items = hasMore ? timeline.slice(0, limit) : timeline;
+    const nextCursor = hasMore
+      ? items[items.length - 1].occurred_at
+      : undefined;
+
+    return { data: items, meta: { limit, hasMore, nextCursor } };
   }
 }

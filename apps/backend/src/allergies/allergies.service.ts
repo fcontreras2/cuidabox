@@ -59,7 +59,8 @@ export class AllergiesService {
       .from('allergies')
       .select('*')
       .eq('patient_id', patientId)
-      .order('created_at', { ascending: false })) as { data: Allergy[] | null };
+      .order('created_at', { ascending: false })
+      .limit(50)) as { data: Allergy[] | null };
 
     return data ?? [];
   }

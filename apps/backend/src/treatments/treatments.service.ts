@@ -10,6 +10,8 @@ import {
   CreateTreatmentDto,
   CreateTreatmentStepDto,
 } from './dto/create-treatment.dto';
+import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
+import { Paginated } from '../common/types/paginated';
 
 interface StepMedication {
   id: string;
@@ -147,27 +149,47 @@ export class TreatmentsService {
     return { ...step!, medication };
   }
 
-  async findAll(patientId: string, userId: string): Promise<Treatment[]> {
+  async findAll(
+    patientId: string,
+    userId: string,
+    query: PaginationQueryDto = {},
+  ): Promise<Paginated<Treatment>> {
     await this.assertAccess(patientId, userId);
 
-    const { data: treatments } = (await this.supabase
+    const limit = query.limit ?? 20;
+
+    let q = this.supabase
       .from('treatments')
       .select('*')
       .eq('patient_id', patientId)
-      .order('created_at', { ascending: false })) as {
-      data: Treatment[] | null;
-    };
+      .order('created_at', { ascending: false });
 
-    if (!treatments?.length) return [];
+    if (query.cursor) {
+      q = q.lt('created_at', query.cursor);
+    }
+
+    q = q.limit(limit + 1);
+
+    const { data: treatments } = (await q) as { data: Treatment[] | null };
+
+    if (!treatments?.length) {
+      return { data: [], meta: { limit, hasMore: false } };
+    }
+
+    const hasMore = treatments.length > limit;
+    const page = hasMore ? treatments.slice(0, limit) : treatments;
 
     const result: Treatment[] = [];
-
-    for (const treatment of treatments) {
+    for (const treatment of page) {
       const steps = await this.getSteps(treatment.id);
       result.push({ ...treatment, steps });
     }
 
-    return result;
+    const nextCursor = hasMore
+      ? page[page.length - 1].created_at
+      : undefined;
+
+    return { data: result, meta: { limit, hasMore, nextCursor } };
   }
 
   async findOne(

@@ -60,7 +60,8 @@ export class VaccinesService {
       .from('vaccines')
       .select('*')
       .eq('patient_id', patientId)
-      .order('administered_at', { ascending: false })) as {
+      .order('administered_at', { ascending: false })
+      .limit(50)) as {
       data: Vaccine[] | null;
     };
 

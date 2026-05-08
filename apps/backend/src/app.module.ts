@@ -18,7 +18,7 @@ import { DoctorsModule } from './doctors/doctors.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
+    ConfigModule.forRoot({ isGlobal: true, envFilePath: ['.env', 'apps/backend/.env'] }),
     SupabaseModule,
     AuthModule,
     UsersModule,

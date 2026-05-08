@@ -3,13 +3,13 @@
 import { ChevronRight } from "lucide-react";
 import { Card } from "fcontreras2-ui";
 import { PatientAvatar } from "@/shared/components";
-import type { Patient } from "@/shared/types";
+import type { PatientWithUI } from "@/shared/types";
 
 export function PatientCard({
   patient,
   onSelect,
 }: {
-  patient: Patient;
+  patient: PatientWithUI;
   onSelect: (id: string) => void;
 }) {
   return (
@@ -39,7 +39,7 @@ export function PatientCard({
                 {patient.age}
               </span>
               <span className="mx-2 text-ink-200">·</span>
-              <span>{patient.status}</span>
+              <span>{patient.gender === "female" ? "♀" : patient.gender === "male" ? "♂" : ""}</span>
             </div>
           </div>
           <span className="size-10 rounded-full bg-cream-2 flex items-center justify-center text-ink-400 group-hover:bg-primary-700 group-hover:text-cream transition-colors">

@@ -21,9 +21,8 @@ export default function proxy(req: NextRequest) {
   }
 
   if (isPublic && token) {
-    const locale = pathname.split("/")[1] || "es";
-    const selector = new URL(`/${locale}/selector`, req.url);
-    return NextResponse.redirect(selector);
+    const home = new URL("/", req.url);
+    return NextResponse.redirect(home);
   }
 
   return intlMiddleware(req);

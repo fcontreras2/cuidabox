@@ -72,7 +72,7 @@ export default async function LocaleLayout({
       suppressHydrationWarning
     >
       <body>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
           <GlobalProvider>
             <NextIntlClientProvider messages={messages} locale={locale}>
               <PageTransition>{children}</PageTransition>
