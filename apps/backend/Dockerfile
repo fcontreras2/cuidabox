@@ -13,7 +13,6 @@ RUN npm install --ignore-scripts
 # Copy source files
 COPY packages/api ./packages/api
 COPY apps/backend ./apps/backend
-COPY tsconfig.base.json ./
 
 # Build — webpack bundles @cuidabox/api into dist/main.js
 WORKDIR /app/apps/backend
