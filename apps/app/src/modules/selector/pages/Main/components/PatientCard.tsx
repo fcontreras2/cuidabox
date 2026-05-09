@@ -1,6 +1,7 @@
 "use client";
 
 import { ChevronRight } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Card } from "fcontreras2-ui";
 import { PatientAvatar } from "@/shared/components";
 import type { PatientWithUI } from "@/shared/types";
@@ -12,6 +13,13 @@ export function PatientCard({
   patient: PatientWithUI;
   onSelect: (id: string) => void;
 }) {
+  const t = useTranslations("modules-selector-pages-Main");
+
+  const genderLabel =
+    patient.gender && patient.gender in { male: 1, female: 1, other: 1 }
+      ? t(`gender.${patient.gender}`)
+      : null;
+
   return (
     <button
       type="button"
@@ -34,12 +42,16 @@ export function PatientCard({
             <div className="font-display text-[20px] leading-none text-primary-700">
               {patient.shortName}
             </div>
-            <div className="mt-1.5 text-sm text-ink-600">
-              <span className="font-display-italic text-coral-600">
-                {patient.age}
-              </span>
-              <span className="mx-2 text-ink-200">·</span>
-              <span>{patient.gender === "female" ? "♀" : patient.gender === "male" ? "♂" : ""}</span>
+            <div className="mt-1.5 text-sm text-ink-600 flex items-center gap-1.5">
+              {patient.age && (
+                <span className="font-display-italic text-coral-600">
+                  {patient.age}
+                </span>
+              )}
+              {patient.age && genderLabel && (
+                <span className="text-ink-200">·</span>
+              )}
+              {genderLabel && <span>{genderLabel}</span>}
             </div>
           </div>
           <span className="size-10 rounded-full bg-cream-2 flex items-center justify-center text-ink-400 group-hover:bg-primary-700 group-hover:text-cream transition-colors">

@@ -1,7 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { useLocale } from "next-intl";
+import { useRouter } from "@/i18n/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { patientsClient, authClient } from "@cuidabox/api";
 import type { PatientWithUI } from "@/shared/types";
@@ -16,7 +15,6 @@ const AVATAR_COLORS: PatientWithUI["avatarColor"][] = [
 
 export function useMain() {
   const router = useRouter();
-  const locale = useLocale();
 
   const { data: patients = [], isLoading } = useQuery({
     queryKey: ["patients"],
@@ -35,7 +33,7 @@ export function useMain() {
   });
 
   const handleSelect = (_id: string) => {
-    router.push(`/${locale}/dashboard`);
+    router.push("/dashboard");
   };
 
   const handleLogout = () => authClient.logout();

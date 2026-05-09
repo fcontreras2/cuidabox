@@ -30,7 +30,8 @@
     },
     "submit": "Send link",
     "back": "Back to sign in",
-    "success": "Check your email, we sent you the link"
+    "successTitle": "Check your email",
+    "success": "We sent you a link to reset your password."
   },
   "modules-auth-pages-SignIn": {
     "title": "Welcome back",
@@ -155,6 +156,59 @@
     "treatmentProgress": "Treatment progress",
     "markDose": "Mark dose given"
   },
+  "modules-patient-pages-Create": {
+    "title": "New patient",
+    "subtitle": "Add someone to your care",
+    "steps": {
+      "1": "Basic info",
+      "2": "Medical info",
+      "3": "Coverage"
+    },
+    "form": {
+      "fields": {
+        "name": "Full name",
+        "birthdate": "Date of birth",
+        "gender": "Gender",
+        "blood_type": "Blood type",
+        "notes": "Notes",
+        "insurance_provider": "Insurance provider",
+        "insurance_policy_number": "Policy number",
+        "relationship": "Your relationship"
+      },
+      "placeholders": {
+        "name": "E.g. Sofia Garcia",
+        "birthdate": "",
+        "gender": "Select",
+        "blood_type": "E.g. O+",
+        "notes": "Allergies, conditions, observations…",
+        "insurance_provider": "E.g. Blue Cross",
+        "insurance_policy_number": "E.g. BC-123456",
+        "relationship": "Select"
+      },
+      "genderOptions": {
+        "male": "Male",
+        "female": "Female",
+        "other": "Other"
+      },
+      "relationshipOptions": {
+        "parent": "Parent",
+        "guardian": "Guardian",
+        "self": "Myself",
+        "other": "Other"
+      }
+    },
+    "next": "Next",
+    "submit": "Create patient",
+    "exitConfirm": {
+      "title": "Exit without saving?",
+      "body": "You'll lose the data you've already entered.",
+      "cancel": "Keep editing",
+      "confirm": "Yes, exit"
+    },
+    "errors": {
+      "generic": "Something went wrong. Please try again."
+    }
+  },
   "modules-patient-pages-Detail": {
     "notFoundTitle": "We couldn't find this family member",
     "notFoundSubtitle": "The link might be outdated.",
@@ -227,8 +281,14 @@
     "question": "who are we caring for today?",
     "subtitle": "Tap a family member to open their story.",
     "addFamily": "Add family member",
+    "logout": "Log out",
     "secureNote": "Your data is encrypted and private",
     "emptyTitle": "No family members yet",
-    "emptySubtitle": "Add the person you care for to get started."
+    "emptySubtitle": "Add the person you care for to get started.",
+    "gender": {
+      "male": "Male",
+      "female": "Female",
+      "other": "Other"
+    }
   }
 }

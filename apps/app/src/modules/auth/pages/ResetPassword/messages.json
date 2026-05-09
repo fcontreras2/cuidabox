@@ -12,7 +12,8 @@
     },
     "submit": "Enviar enlace",
     "back": "Volver al inicio de sesión",
-    "success": "Revisa tu correo, te enviamos el enlace"
+    "successTitle": "Revisa tu correo",
+    "success": "Te enviamos un enlace para recuperar tu contraseña."
   },
   "en": {
     "title": "Reset password",
@@ -27,6 +28,7 @@
     },
     "submit": "Send link",
     "back": "Back to sign in",
-    "success": "Check your email, we sent you the link"
+    "successTitle": "Check your email",
+    "success": "We sent you a link to reset your password."
   }
 }

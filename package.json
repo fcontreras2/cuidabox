@@ -27,6 +27,6 @@
     "typescript": "^5"
   },
   "dependencies": {
-    "fcontreras2-ui": "^0.6.0"
+    "fcontreras2-ui": "^0.9.0"
   }
 }

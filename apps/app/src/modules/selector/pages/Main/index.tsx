@@ -1,8 +1,9 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { Plus, Lock, HeartPulse, UserRound } from "lucide-react";
-import { Button, Card, Skeleton } from "fcontreras2-ui";
+import { Plus, Lock, HeartPulse, UserRound, LogOut } from "lucide-react";
+import { Skeleton } from "fcontreras2-ui";
+import { Link } from "@/i18n/navigation";
 import { PhoneFrame } from "@/shared/components";
 import { useMain } from "./useMain";
 import { PatientCard } from "./components/PatientCard";
@@ -22,6 +23,16 @@ export default function SelectorMain() {
             CuidaBox
           </span>
         </div>
+
+        <button
+          type="button"
+          onClick={handleLogout}
+          aria-label={t("logout")}
+          title={t("logout")}
+          className="size-9 rounded-full grid place-items-center text-ink-400 hover:text-primary-700 hover:bg-neutral-100 dark:hover:bg-neutral-800 dark:hover:text-primary-300 transition-colors"
+        >
+          <LogOut className="size-4" />
+        </button>
       </header>
 
       <section className="px-6 pt-2 pb-6">
@@ -63,27 +74,32 @@ export default function SelectorMain() {
                 {t("emptySubtitle")}
               </p>
             </div>
+            {/* CTA prominente cuando la lista está vacía */}
+            <Link
+              href="/patient/create"
+              className="mt-2 flex items-center justify-center gap-2 h-12 px-6 rounded-2xl bg-primary-700 text-cream text-[15px] font-semibold hover:bg-primary-900 transition-colors"
+            >
+              <Plus className="size-4" />
+              {t("addFamily")}
+            </Link>
           </div>
         )}
 
-        <Button
-          variant="outline"
-          size="lg"
-          fullWidth
-          leftIcon={<Plus className="size-4" />}
-          className="!border-line !text-primary-700 !rounded-[18px] !h-14 !bg-paper/50 hover:!bg-paper mt-2"
-        >
-          {t("addFamily")}
-        </Button>
-       
+        {/* CTA secundario cuando ya hay pacientes */}
+        {!isLoading && patients.length > 0 && (
+          <Link
+            href="/patient/create"
+            className="flex items-center justify-center gap-2 h-14 w-full rounded-md border border-line bg-paper/50 hover:bg-paper text-primary-700 text-[15px] font-semibold mt-2 transition-colors"
+          >
+            <Plus className="size-4" />
+            {t("addFamily")}
+          </Link>
+        )}
       </section>
 
       <footer className="px-6 pt-6 pb-10 flex flex-col items-center justify-center gap-2 text-xs text-ink-400">
         <Lock className="size-3.5" />
         <span>{t("secureNote")}</span>
-         <Button variant="secondary" className="mt-4 w-full" onClick={handleLogout}>
-          Logout
-        </Button>
       </footer>
     </PhoneFrame>
   );

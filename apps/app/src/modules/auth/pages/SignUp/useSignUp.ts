@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useRouter } from "next/navigation";
-import { useLocale } from "next-intl";
+import { useRouter } from "@/i18n/navigation";
 import * as yup from "yup";
 import { authClient } from "@cuidabox/api";
 
@@ -16,7 +15,6 @@ type FormValues = yup.InferType<typeof schema>;
 
 export function useSignUp() {
   const router = useRouter();
-  const locale = useLocale();
   const [serverError, setServerError] = useState<string | null>(null);
 
   const methods = useForm<FormValues>({ resolver: yupResolver(schema) });
@@ -25,7 +23,7 @@ export function useSignUp() {
     setServerError(null);
     try {
       await authClient.register(name, email, password);
-      router.push(`/${locale}/dashboard`);
+      router.push("/dashboard");
     } catch {
       setServerError("emailTaken");
     }

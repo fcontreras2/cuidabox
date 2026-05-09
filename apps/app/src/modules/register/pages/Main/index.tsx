@@ -1,13 +1,16 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/i18n/navigation";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ArrowLeft, Sparkles, Camera, Pencil, Check } from "lucide-react";
 import { Button, Textarea } from "fcontreras2-ui";
 import { PhoneFrame } from "@/shared/components";
-import { quickRegisterSchema, type QuickRegisterValues } from "@/shared/lib/validation";
+import {
+  quickRegisterSchema,
+  type QuickRegisterValues,
+} from "@/shared/lib/validation";
 import { useMain } from "./useMain";
 import { MicCanvas } from "./components/MicCanvas";
 import { ExampleChip } from "./components/ExampleChip";
@@ -58,7 +61,9 @@ export default function RegisterMain() {
       </header>
 
       <section className="px-6 pt-2 pb-6">
-        <p className="font-display-italic text-[18px] text-coral-600">{t("title")}</p>
+        <p className="font-display-italic text-[18px] text-coral-600">
+          {t("title")}
+        </p>
         <h1 className="mt-1 font-display text-[36px] leading-[1.08] tracking-tight text-primary-700">
           {t("titleAccent")}
         </h1>
@@ -115,19 +120,25 @@ export default function RegisterMain() {
               {parsed.drug && (
                 <>
                   <dt className="text-ink-400">Fármaco</dt>
-                  <dd className="text-primary-700 font-medium">{parsed.drug}</dd>
+                  <dd className="text-primary-700 font-medium">
+                    {parsed.drug}
+                  </dd>
                 </>
               )}
               {parsed.fever && (
                 <>
                   <dt className="text-ink-400">Fiebre</dt>
-                  <dd className="text-primary-700 font-medium">{parsed.fever}</dd>
+                  <dd className="text-primary-700 font-medium">
+                    {parsed.fever}
+                  </dd>
                 </>
               )}
               {parsed.time && (
                 <>
                   <dt className="text-ink-400">Hora</dt>
-                  <dd className="text-primary-700 font-medium">{parsed.time}</dd>
+                  <dd className="text-primary-700 font-medium">
+                    {parsed.time}
+                  </dd>
                 </>
               )}
             </dl>

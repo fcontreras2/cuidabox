@@ -3,6 +3,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useMutation } from "@tanstack/react-query";
 import * as yup from "yup";
 import { authClient } from "@cuidabox/api";
+import { useRouter } from "@/i18n/navigation";
 
 const schema = yup.object({
   email: yup.string().email().required(),
@@ -12,14 +13,14 @@ const schema = yup.object({
 type FormValues = yup.InferType<typeof schema>;
 
 export function useSignIn() {
-
+  const router = useRouter();
   const methods = useForm<FormValues>({ resolver: yupResolver(schema) });
 
   const { mutate: login, error } = useMutation({
     mutationFn: ({ email, password }: FormValues) =>
       authClient.login(email, password),
     onSuccess: () => {
-      window.location.href = '/';
+      router.push("/");
     },
   });
 

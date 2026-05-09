@@ -4,17 +4,29 @@
     "question": "¿a quién cuidamos hoy?",
     "subtitle": "Toca un familiar para abrir su historia.",
     "addFamily": "Agregar familiar",
+    "logout": "Cerrar sesión",
     "secureNote": "Tu información está cifrada y privada",
     "emptyTitle": "Sin familiares registrados",
-    "emptySubtitle": "Agrega a la persona que cuidas para comenzar."
+    "emptySubtitle": "Agrega a la persona que cuidas para comenzar.",
+    "gender": {
+      "male": "Hombre",
+      "female": "Mujer",
+      "other": "Otro"
+    }
   },
   "en": {
     "greeting": "Hi María,",
     "question": "who are we caring for today?",
     "subtitle": "Tap a family member to open their story.",
     "addFamily": "Add family member",
+    "logout": "Log out",
     "secureNote": "Your data is encrypted and private",
     "emptyTitle": "No family members yet",
-    "emptySubtitle": "Add the person you care for to get started."
+    "emptySubtitle": "Add the person you care for to get started.",
+    "gender": {
+      "male": "Male",
+      "female": "Female",
+      "other": "Other"
+    }
   }
 }

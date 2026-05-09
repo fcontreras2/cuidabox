@@ -30,7 +30,8 @@
     },
     "submit": "Enviar enlace",
     "back": "Volver al inicio de sesión",
-    "success": "Revisa tu correo, te enviamos el enlace"
+    "successTitle": "Revisa tu correo",
+    "success": "Te enviamos un enlace para recuperar tu contraseña."
   },
   "modules-auth-pages-SignIn": {
     "title": "Bienvenido",
@@ -155,6 +156,59 @@
     "treatmentProgress": "Progreso del tratamiento",
     "markDose": "Marcar dosis dada"
   },
+  "modules-patient-pages-Create": {
+    "title": "Nuevo paciente",
+    "subtitle": "Agrega a alguien a tu cuidado",
+    "steps": {
+      "1": "Datos básicos",
+      "2": "Info médica",
+      "3": "Cobertura"
+    },
+    "form": {
+      "fields": {
+        "name": "Nombre completo",
+        "birthdate": "Fecha de nacimiento",
+        "gender": "Género",
+        "blood_type": "Tipo de sangre",
+        "notes": "Notas",
+        "insurance_provider": "Aseguradora",
+        "insurance_policy_number": "Número de póliza",
+        "relationship": "Tu relación"
+      },
+      "placeholders": {
+        "name": "Ej. Sofía García",
+        "birthdate": "",
+        "gender": "Selecciona",
+        "blood_type": "Ej. O+",
+        "notes": "Alergias, condiciones, observaciones…",
+        "insurance_provider": "Ej. Seguros Caracas",
+        "insurance_policy_number": "Ej. SC-123456",
+        "relationship": "Selecciona"
+      },
+      "genderOptions": {
+        "male": "Masculino",
+        "female": "Femenino",
+        "other": "Otro"
+      },
+      "relationshipOptions": {
+        "parent": "Padre / Madre",
+        "guardian": "Tutor/a",
+        "self": "Yo mismo/a",
+        "other": "Otro"
+      }
+    },
+    "next": "Siguiente",
+    "submit": "Crear paciente",
+    "exitConfirm": {
+      "title": "¿Salir sin guardar?",
+      "body": "Perderás los datos que ya ingresaste.",
+      "cancel": "Seguir editando",
+      "confirm": "Sí, salir"
+    },
+    "errors": {
+      "generic": "Ocurrió un error. Inténtalo de nuevo."
+    }
+  },
   "modules-patient-pages-Detail": {
     "notFoundTitle": "No encontramos a este familiar",
     "notFoundSubtitle": "Puede que el enlace esté desactualizado.",
@@ -227,8 +281,14 @@
     "question": "¿a quién cuidamos hoy?",
     "subtitle": "Toca un familiar para abrir su historia.",
     "addFamily": "Agregar familiar",
+    "logout": "Cerrar sesión",
     "secureNote": "Tu información está cifrada y privada",
     "emptyTitle": "Sin familiares registrados",
-    "emptySubtitle": "Agrega a la persona que cuidas para comenzar."
+    "emptySubtitle": "Agrega a la persona que cuidas para comenzar.",
+    "gender": {
+      "male": "Hombre",
+      "female": "Mujer",
+      "other": "Otro"
+    }
   }
 }
