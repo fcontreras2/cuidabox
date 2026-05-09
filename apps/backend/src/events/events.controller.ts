@@ -1,4 +1,13 @@
-import { Controller, Get, Param, Query, UseGuards, Request } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Query,
+  UseGuards,
+  Request,
+} from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiTags,
@@ -8,6 +17,7 @@ import {
 import { JwtGuard } from '../auth/guards/jwt.guard';
 import { EventsService } from './events.service';
 import { TimelineEventResponseDto } from './dto/event-response.dto';
+import { CreateEventDto } from './dto/create-event.dto';
 import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
 
 interface AuthRequest {
@@ -20,6 +30,20 @@ interface AuthRequest {
 @Controller('patients/:patientId/events')
 export class EventsController {
   constructor(private readonly eventsService: EventsService) {}
+
+  @Post()
+  @ApiOperation({
+    summary: 'Registrar un evento manual (medication_given, symptom, etc.)',
+  })
+  @ApiResponse({ status: 201, type: TimelineEventResponseDto })
+  @ApiResponse({ status: 403, description: 'Sin acceso a este paciente' })
+  create(
+    @Param('patientId') patientId: string,
+    @Body() dto: CreateEventDto,
+    @Request() req: AuthRequest,
+  ) {
+    return this.eventsService.create(patientId, req.user.id, dto);
+  }
 
   @Get()
   @ApiOperation({

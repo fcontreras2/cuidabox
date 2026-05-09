@@ -1,1 +1,5 @@
-export { default } from "@/modules/selector/pages/Main";
+import { redirect } from "next/navigation";
+
+export default function Page() {
+  redirect("/patient");
+}

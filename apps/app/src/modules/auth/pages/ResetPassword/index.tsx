@@ -70,7 +70,7 @@ export default function ResetPassword() {
             </p>
 
             <Link
-              href="/sign-in"
+              href="/auth/sign-in"
               className="mt-10 inline-flex items-center gap-2 text-[14px] font-semibold text-primary-700 dark:text-primary-300 hover:text-primary-900 transition-colors"
             >
               <ChevronLeft className="size-4" />
@@ -113,7 +113,7 @@ export default function ResetPassword() {
             </FormProvider>
 
             <Link
-              href="/sign-in"
+              href="/auth/sign-in"
               className="mt-8 inline-flex items-center justify-center gap-1.5 text-[13px] text-ink-400 dark:text-ink-500 hover:text-primary-700 dark:hover:text-primary-300 transition-colors animate-fade-up"
               style={{ animationDelay: "200ms" }}
             >

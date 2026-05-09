@@ -107,7 +107,7 @@ export default function SignUp() {
         >
           {t("hasAccount")}{" "}
           <Link
-            href="/sign-in"
+            href="/auth/sign-in"
             className="text-primary-700 dark:text-primary-300 font-semibold hover:underline"
           >
             {t("signIn")}

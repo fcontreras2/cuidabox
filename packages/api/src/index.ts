@@ -1,9 +1,9 @@
-export type { Paginated, PaginatedMeta, PaginationParams } from './types';
+export type { Paginated, PaginatedMeta, PaginationParams } from "./types";
 
-export { authClient } from './auth/auth.client';
-export type { AuthUser, AuthResponse } from './auth/auth.client';
+export { authClient } from "./auth/auth.client";
+export type { AuthUser, AuthResponse } from "./auth/auth.client";
 
-export { patientsClient } from './patients/patients.client';
+export { patientsClient } from "./patients/patients.client";
 export type {
   Patient,
   PatientSummary,
@@ -11,7 +11,17 @@ export type {
   UpdatePatientInput,
   AppointmentSnapshot,
   VitalSnapshot,
-} from './patients/types';
+} from "./patients/types";
 
-export { appointmentsClient } from './appointments/appointments.client';
-export type { Appointment, CreateAppointmentInput } from './appointments/types';
+export { appointmentsClient } from "./appointments/appointments.client";
+export type { Appointment, CreateAppointmentInput } from "./appointments/types";
+
+export { eventsClient } from "./events/events.client";
+export type { TimelineEvent } from "./events/types";
+
+export { treatmentsClient } from "./treatments/treatments.client";
+export type {
+  Treatment,
+  TreatmentStep,
+  StepMedication,
+} from "./treatments/types";

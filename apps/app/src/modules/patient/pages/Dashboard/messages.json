@@ -1,0 +1,96 @@
+{
+  "es": {
+    "viewing": "Cuidando a",
+    "viewingLabel": "Ver ficha del paciente",
+    "stats": {
+      "treatments": "tratamientos",
+      "allergies": "alergias"
+    },
+    "treatment": {
+      "title": "Tratamiento activo",
+      "none": "Sin tratamiento activo",
+      "daysLeft": "días restantes",
+      "nextDose": "Próxima dosis",
+      "markTaken": "Tomado",
+      "pendingToday": "pendientes hoy",
+      "progressTaken": "avanzado",
+      "progressPending": "pendiente",
+      "progressMissed": "no completado"
+    },
+    "appointment": {
+      "title": "Próxima cita",
+      "none": "Sin citas programadas",
+      "schedule": "Agendar cita"
+    },
+    "activity": {
+      "title": "Actividad reciente",
+      "empty": "Sin actividad registrada",
+      "firstEvent": "Registrar primer evento",
+      "viewAll": "Ver historial completo",
+      "types": {
+        "vaccine": "Vacuna",
+        "vital": "Signos vitales",
+        "medication_given": "Medicamento",
+        "symptom": "Síntoma",
+        "visit": "Visita médica",
+        "exam": "Examen",
+        "note": "Nota"
+      }
+    },
+    "registerEvent": "Registrar evento",
+    "tabs": {
+      "home": "Inicio",
+      "history": "Historia",
+      "register": "Registrar",
+      "doctors": "Médicos",
+      "profile": "Perfil"
+    }
+  },
+  "en": {
+    "viewing": "Caring for",
+    "viewingLabel": "View patient card",
+    "stats": {
+      "treatments": "treatments",
+      "allergies": "allergies"
+    },
+    "treatment": {
+      "title": "Active treatment",
+      "none": "No active treatment",
+      "daysLeft": "days left",
+      "nextDose": "Next dose",
+      "markTaken": "Taken",
+      "pendingToday": "pending today",
+      "progressTaken": "elapsed",
+      "progressPending": "remaining",
+      "progressMissed": "missed"
+    },
+    "appointment": {
+      "title": "Next appointment",
+      "none": "No appointments scheduled",
+      "schedule": "Schedule appointment"
+    },
+    "activity": {
+      "title": "Recent activity",
+      "empty": "No activity recorded",
+      "firstEvent": "Log first event",
+      "viewAll": "View full history",
+      "types": {
+        "vaccine": "Vaccine",
+        "vital": "Vital signs",
+        "medication_given": "Medication",
+        "symptom": "Symptom",
+        "visit": "Medical visit",
+        "exam": "Exam",
+        "note": "Note"
+      }
+    },
+    "registerEvent": "Log event",
+    "tabs": {
+      "home": "Home",
+      "history": "History",
+      "register": "Log",
+      "doctors": "Doctors",
+      "profile": "Profile"
+    }
+  }
+}

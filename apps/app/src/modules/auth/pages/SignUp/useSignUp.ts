@@ -23,7 +23,7 @@ export function useSignUp() {
     setServerError(null);
     try {
       await authClient.register(name, email, password);
-      router.push("/dashboard");
+      router.push("/patient");
     } catch {
       setServerError("emailTaken");
     }

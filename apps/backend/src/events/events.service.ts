@@ -29,6 +29,37 @@ export class EventsService {
     if (!data) throw new ForbiddenException('No tienes acceso a este paciente');
   }
 
+  async create(
+    patientId: string,
+    userId: string,
+    dto: {
+      type: string;
+      occurred_at: string;
+      payload?: Record<string, unknown>;
+    },
+  ): Promise<TimelineEvent> {
+    await this.assertAccess(patientId, userId);
+
+    const { data, error } = (await this.supabase
+      .from('events')
+      .insert({
+        patient_id: patientId,
+        created_by: userId,
+        type: dto.type,
+        occurred_at: dto.occurred_at,
+        payload: dto.payload ?? {},
+      })
+      .select('id, type, occurred_at, payload, created_by')
+      .single()) as {
+      data: TimelineEvent | null;
+      error: { message: string } | null;
+    };
+
+    if (error || !data)
+      throw new Error(error?.message ?? 'Error creating event');
+    return data;
+  }
+
   async getTimeline(
     patientId: string,
     userId: string,

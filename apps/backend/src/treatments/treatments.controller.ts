@@ -20,7 +20,7 @@ import { TreatmentsService } from './treatments.service';
 import { CreateTreatmentDto } from './dto/create-treatment.dto';
 import { UpdateTreatmentStatusDto } from './dto/update-treatment-status.dto';
 import { TreatmentResponseDto } from './dto/treatment-response.dto';
-import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
+import { TreatmentQueryDto } from './dto/treatment-query.dto';
 
 interface AuthRequest {
   user: { id: string; email: string; role: string };
@@ -59,7 +59,7 @@ export class TreatmentsController {
   findAll(
     @Param('patientId') patientId: string,
     @Request() req: AuthRequest,
-    @Query() query: PaginationQueryDto,
+    @Query() query: TreatmentQueryDto,
   ) {
     return this.treatmentsService.findAll(patientId, req.user.id, query);
   }

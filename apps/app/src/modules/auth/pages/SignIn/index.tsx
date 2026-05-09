@@ -73,7 +73,7 @@ export default function SignIn() {
                 <FieldInput name="password" type="password" />
                 <div className="flex justify-end mt-2">
                   <Link
-                    href="/reset-password"
+                    href="/auth/reset-password"
                     className="text-[12.5px] text-ink-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors"
                   >
                     {t("forgotPassword")}
@@ -113,7 +113,7 @@ export default function SignIn() {
         >
           {t("noAccount")}{" "}
           <Link
-            href="/sign-up"
+            href="/auth/sign-up"
             className="text-primary-700 dark:text-primary-300 font-semibold hover:underline"
           >
             {t("signUp")}

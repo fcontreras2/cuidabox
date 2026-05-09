@@ -10,7 +10,7 @@ import {
   CreateTreatmentDto,
   CreateTreatmentStepDto,
 } from './dto/create-treatment.dto';
-import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
+import { TreatmentQueryDto } from './dto/treatment-query.dto';
 import { Paginated } from '../common/types/paginated';
 
 interface StepMedication {
@@ -152,7 +152,7 @@ export class TreatmentsService {
   async findAll(
     patientId: string,
     userId: string,
-    query: PaginationQueryDto = {},
+    query: TreatmentQueryDto = {},
   ): Promise<Paginated<Treatment>> {
     await this.assertAccess(patientId, userId);
 
@@ -163,6 +163,10 @@ export class TreatmentsService {
       .select('*')
       .eq('patient_id', patientId)
       .order('created_at', { ascending: false });
+
+    if (query.status) {
+      q = q.eq('status', query.status);
+    }
 
     if (query.cursor) {
       q = q.lt('created_at', query.cursor);
@@ -185,9 +189,7 @@ export class TreatmentsService {
       result.push({ ...treatment, steps });
     }
 
-    const nextCursor = hasMore
-      ? page[page.length - 1].created_at
-      : undefined;
+    const nextCursor = hasMore ? page[page.length - 1].created_at : undefined;
 
     return { data: result, meta: { limit, hasMore, nextCursor } };
   }
