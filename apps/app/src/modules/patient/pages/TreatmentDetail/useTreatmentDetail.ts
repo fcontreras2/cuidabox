@@ -5,8 +5,9 @@ import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { treatmentsClient, eventsClient } from "@cuidabox/api";
 import { computeDoseSlots, computeProgress } from "@/shared/lib/doses";
+import type { StepCard } from "../Medications/useMedications";
 
-export function useMedicationDetail(stepId: string) {
+export function useTreatmentDetail(treatmentId: string) {
   const params = useParams();
   const patientId = typeof params?.id === "string" ? params.id : "";
 
@@ -43,21 +44,30 @@ export function useMedicationDetail(stepId: string) {
 
   const events = useMemo(() => eventsData?.data ?? [], [eventsData]);
 
-  const result = useMemo(() => {
-    for (const treatment of allTreatments) {
-      const step = treatment.steps.find((s) => s.id === stepId);
-      if (step) {
-        const slots = computeDoseSlots(step, treatment, events);
-        const progress = computeProgress(slots);
-        return { treatment, step, slots, progress };
-      }
-    }
-    return null;
-  }, [allTreatments, stepId, events]);
+  const treatment = useMemo(
+    () => allTreatments.find((t) => t.id === treatmentId) ?? null,
+    [allTreatments, treatmentId],
+  );
+
+  const stepCards = useMemo<StepCard[]>(() => {
+    if (!treatment) return [];
+    return treatment.steps.map((step) => {
+      const slots = computeDoseSlots(step, treatment, events);
+      const progress = computeProgress(slots);
+      return { step, treatment, slots, progress };
+    });
+  }, [treatment, events]);
+
+  const overallProgress = useMemo(() => {
+    const allSlots = stepCards.flatMap((c) => c.slots);
+    return computeProgress(allSlots);
+  }, [stepCards]);
 
   return {
     patientId,
     isLoading: activeLoading || eventsLoading,
-    ...result,
+    treatment,
+    stepCards,
+    overallProgress,
   };
 }

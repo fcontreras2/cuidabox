@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useTranslations } from "next-intl";
 import { Bell, Plus } from "lucide-react";
 import { Skeleton } from "fcontreras2-ui";
@@ -19,9 +19,11 @@ import { PatientSheet } from "./components/PatientSheet";
 
 export default function PatientDashboard({ id }: { id: string }) {
   const t = useTranslations("modules-patient-pages-Dashboard");
-  const { isLoading, patient, summary, recentEvents, activeTreatment } =
+  const { isLoading, patient, summary, recentEvents, activeTreatments } =
     useDashboard(id);
   const [sheetOpen, setSheetOpen] = useState(false);
+  const [activeSlide, setActiveSlide] = useState(0);
+  const carouselRef = useRef<HTMLDivElement>(null);
 
   return (
     <PhoneFrame>
@@ -67,24 +69,105 @@ export default function PatientDashboard({ id }: { id: string }) {
       </header>
 
       <main className="flex-1 overflow-y-auto px-6 pb-6 space-y-6">
-        {/* Tratamiento activo */}
+        {/* Tratamientos activos */}
         <section>
-          <SectionTitle>{t("treatment.title")}</SectionTitle>
-          <TreatmentCard
-            treatment={activeTreatment}
-            patientId={id}
-            isLoading={isLoading}
-            labels={{
-              noTreatment: t("treatment.none"),
-              daysLeft: t("treatment.daysLeft"),
-              nextDose: t("treatment.nextDose"),
-              markTaken: t("treatment.markTaken"),
-              pendingToday: t("treatment.pendingToday"),
-              progressTaken: t("treatment.progressTaken"),
-              progressPending: t("treatment.progressPending"),
-              progressMissed: t("treatment.progressMissed"),
-            }}
-          />
+          <SectionTitle
+            hint={
+              !isLoading && activeTreatments.length > 1
+                ? `${activeTreatments.length}`
+                : undefined
+            }
+          >
+            {t("treatment.title")}
+          </SectionTitle>
+
+          {isLoading ? (
+            <Skeleton
+              variant="rectangular"
+              height={200}
+              className="rounded-[20px]!"
+            />
+          ) : activeTreatments.length === 0 ? (
+            <TreatmentCard
+              treatment={null}
+              patientId={id}
+              isLoading={false}
+              labels={{
+                noTreatment: t("treatment.none"),
+                daysLeft: t("treatment.daysLeft"),
+                nextDose: t("treatment.nextDose"),
+                markTaken: t("treatment.markTaken"),
+                pendingToday: t("treatment.pendingToday"),
+                progressTaken: t("treatment.progressTaken"),
+                progressPending: t("treatment.progressPending"),
+                progressMissed: t("treatment.progressMissed"),
+              }}
+            />
+          ) : (
+            <div className="space-y-2">
+              <div
+                ref={carouselRef}
+                onScroll={(e) => {
+                  const el = e.currentTarget;
+                  const index = Math.round(
+                    el.scrollLeft / (el.offsetWidth - 24),
+                  );
+                  setActiveSlide(index);
+                }}
+                className="flex gap-3 overflow-x-auto snap-x snap-mandatory -mx-6 pb-1 scrollbar-none"
+                style={{ scrollbarWidth: "none", scrollPaddingLeft: "1.5rem" }}
+              >
+                {activeTreatments.map((treatment, i) => (
+                  <div
+                    key={treatment.id}
+                    className={`snap-start shrink-0 w-[calc(100%-60px)] ${i === 0 ? "ml-6" : ""} ${i === activeTreatments.length - 1 ? "mr-6" : ""}`}
+                  >
+                    <TreatmentCard
+                      treatment={treatment}
+                      patientId={id}
+                      isLoading={false}
+                      labels={{
+                        noTreatment: t("treatment.none"),
+                        daysLeft: t("treatment.daysLeft"),
+                        nextDose: t("treatment.nextDose"),
+                        markTaken: t("treatment.markTaken"),
+                        pendingToday: t("treatment.pendingToday"),
+                        progressTaken: t("treatment.progressTaken"),
+                        progressPending: t("treatment.progressPending"),
+                        progressMissed: t("treatment.progressMissed"),
+                      }}
+                    />
+                  </div>
+                ))}
+              </div>
+
+              {activeTreatments.length > 1 && (
+                <div className="flex justify-center gap-1.5">
+                  {activeTreatments.map((_, i) => (
+                    <button
+                      key={i}
+                      type="button"
+                      aria-label={`Tratamiento ${i + 1}`}
+                      onClick={() => {
+                        const el = carouselRef.current;
+                        if (!el) return;
+                        el.scrollTo({
+                          left: i * el.offsetWidth,
+                          behavior: "smooth",
+                        });
+                        setActiveSlide(i);
+                      }}
+                      className={`h-1.5 rounded-full transition-all ${
+                        i === activeSlide
+                          ? "w-4 bg-primary-600"
+                          : "w-1.5 bg-neutral-300 dark:bg-neutral-600"
+                      }`}
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
         </section>
 
         {/* Próxima cita */}

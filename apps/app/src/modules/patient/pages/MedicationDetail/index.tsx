@@ -1,46 +1,120 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { useParams } from "next/navigation";
-import { Link } from "@/i18n/navigation";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   Pill,
-  Pencil,
-  XCircle,
+  FlaskConical,
+  Activity,
   Clock,
   AlertCircle,
   Check,
+  X,
+  CheckCircle2,
+  XCircle,
   CircleDashed,
-  ChevronRight,
   Calendar,
-  StickyNote,
+  Pencil,
 } from "lucide-react";
-import { Button } from "fcontreras2-ui";
+import { Skeleton } from "fcontreras2-ui";
+import { Link } from "@/i18n/navigation";
+import { eventsClient } from "@cuidabox/api";
 import {
   PhoneFrame,
-  PatientAvatar,
   SectionTitle,
   BackButton,
+  TabBar,
 } from "@/shared/components";
-import { useMedicationDetail } from "./useMedicationDetail";
 import { cn } from "@/shared/lib/cn";
+import {
+  formatSlotShort,
+  formatSlotFull,
+  formatMarkedAt,
+} from "@/shared/lib/doses";
+import type { DoseSlot } from "@/shared/lib/doses";
+import { useMedicationDetail } from "./useMedicationDetail";
 
-interface Props {
-  id: string;
-}
+const STEP_GRADIENT = {
+  medication: "from-gold-500 to-coral-500",
+  exam: "from-sky-500 to-primary-600",
+  action: "from-primary-500 to-primary-700",
+} as const;
 
-export default function MedicationDetail({ id }: Props) {
+const STEP_ICON = {
+  medication: Pill,
+  exam: FlaskConical,
+  action: Activity,
+} as const;
+
+export default function MedicationDetail({ id }: { id: string }) {
   const t = useTranslations("modules-patient-pages-MedicationDetail");
-  const params = useParams();
-  const patientId = typeof params?.id === "string" ? params.id : "";
-  const result = useMedicationDetail(id);
+  const { patientId, isLoading, treatment, step, slots, progress } =
+    useMedicationDetail(id);
 
-  if (!result.med) {
+  const queryClient = useQueryClient();
+  const { mutate, isPending: isMarking } = useMutation({
+    mutationFn: ({ slot, skipped }: { slot: DoseSlot; skipped?: boolean }) => {
+      if (step?.type === "medication") {
+        return eventsClient.create(patientId, {
+          type: "medication_given",
+          occurred_at: new Date().toISOString(),
+          payload: {
+            medication_name: step.medication?.medication_name ?? step.title,
+            dose: step.medication?.dose ?? null,
+            unit: step.medication?.unit ?? null,
+            time: slot.time,
+            step_id: step.id,
+            ...(skipped ? { status: "skipped" } : {}),
+          },
+        });
+      }
+      return eventsClient.create(patientId, {
+        type: step?.type === "exam" ? "exam" : "note",
+        occurred_at: new Date().toISOString(),
+        payload: { step_id: step?.id, title: step?.title },
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["patient-events-all", patientId],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["patient-events-recent", patientId],
+      });
+    },
+  });
+
+  if (isLoading) {
+    return (
+      <PhoneFrame>
+        <Skeleton variant="rectangular" height={200} />
+        <div className="px-6 pt-6 space-y-4">
+          <Skeleton
+            variant="rectangular"
+            height={120}
+            className="rounded-[20px]!"
+          />
+          <Skeleton
+            variant="rectangular"
+            height={80}
+            className="rounded-[20px]!"
+          />
+          <Skeleton
+            variant="rectangular"
+            height={300}
+            className="rounded-[20px]!"
+          />
+        </div>
+      </PhoneFrame>
+    );
+  }
+
+  if (!step || !treatment || !slots || !progress) {
     return (
       <PhoneFrame>
         <div className="flex-1 grid place-items-center px-8 text-center">
           <div>
-            <h1 className="font-display text-[24px] text-primary-700">
+            <h1 className="font-display text-[24px] text-primary-700 dark:text-neutral-100">
               {t("notFoundTitle")}
             </h1>
             <p className="text-[14px] text-ink-600 mt-2">
@@ -58,22 +132,35 @@ export default function MedicationDetail({ id }: Props) {
     );
   }
 
-  const { med, detail, doctor } = result;
-  const isActive = med.status === "active";
-  const progress = med.doseProgress;
-  const progressPct = progress
-    ? Math.min(100, Math.round((progress.taken / progress.total) * 100))
-    : 0;
+  const Icon = STEP_ICON[step.type];
+  const gradient = STEP_GRADIENT[step.type];
+  const oldest = progress.oldestPending;
+  const { taken, skipped, pending, total } = progress;
+  const takenPct = total > 0 ? (taken / total) * 100 : 0;
+  const pendingPct = total > 0 ? (pending / total) * 100 : 0;
+  const skippedPct = total > 0 ? (skipped / total) * 100 : 0;
+
+  const title =
+    step.type === "medication" && step.medication
+      ? step.medication.medication_name
+      : step.title;
+
+  const subtitle =
+    step.type === "medication" && step.medication
+      ? `${step.medication.dose ?? ""} ${step.medication.unit ?? ""} · ${step.medication.frequency ?? ""}`.trim()
+      : treatment.title;
+
+  const sortedSlots = [...slots].sort(
+    (a, b) => a.scheduledAt.getTime() - b.scheduledAt.getTime(),
+  );
 
   return (
     <PhoneFrame>
-      {/* Header — gold/coral for active, neutral for past */}
+      {/* Gradient header */}
       <header
         className={cn(
           "relative px-6 pt-12 pb-7 text-paper overflow-hidden bg-gradient-to-br",
-          isActive
-            ? "from-gold-500 to-coral-500"
-            : "from-primary-500 to-primary-700",
+          gradient,
         )}
       >
         <div
@@ -85,263 +172,308 @@ export default function MedicationDetail({ id }: Props) {
             variant="dark"
             fallbackHref={`/patient/${patientId}/medications`}
           />
-          <div className="flex gap-2">
-            <button
-              type="button"
-              aria-label={t("edit")}
-              className="size-9 rounded-full bg-paper/15 grid place-items-center hover:bg-paper/25 transition-colors text-paper"
-            >
-              <Pencil className="size-4" />
-            </button>
-            {isActive && (
-              <button
-                type="button"
-                aria-label={t("stop")}
-                className="size-9 rounded-full bg-paper/15 grid place-items-center hover:bg-paper/25 transition-colors text-paper"
-              >
-                <XCircle className="size-4" />
-              </button>
-            )}
-          </div>
+          <button
+            type="button"
+            aria-label={t("edit")}
+            className="size-9 rounded-full bg-paper/15 grid place-items-center hover:bg-paper/25 transition-colors text-paper"
+          >
+            <Pencil className="size-4" />
+          </button>
         </div>
 
         <div className="relative mt-5 flex items-start gap-4">
           <span className="size-14 rounded-3xl bg-paper/20 grid place-items-center shrink-0">
-            <Pill className="size-7" />
+            <Icon className="size-7" />
           </span>
           <div className="flex-1 min-w-0">
             <p className="text-[11px] uppercase tracking-[0.18em] font-semibold opacity-85">
-              {med.reason ?? (isActive ? "Activo" : "Pasado")}
+              {treatment.title}
             </p>
             <h1 className="font-display text-[28px] leading-tight mt-1">
-              {med.name}
+              {title}
             </h1>
             <p className="font-display-italic text-[15px] mt-1 opacity-95">
-              {med.shortDose} · {med.schedule}
+              {subtitle}
             </p>
           </div>
         </div>
 
-        {/* Date strip */}
-        {detail && (
+        {treatment.start_date && (
           <div className="relative mt-5 flex items-center gap-2 text-[12px] opacity-90">
             <Calendar className="size-3.5" />
             <span className="font-medium">{t("startDate")}:</span>
-            <span>{detail.startDate}</span>
-            {detail.endDate && (
+            <span>{treatment.start_date}</span>
+            {treatment.end_date && (
               <>
                 <span className="opacity-60 mx-1">→</span>
                 <span className="font-medium">{t("endDate")}:</span>
-                <span>{detail.endDate}</span>
+                <span>{treatment.end_date}</span>
               </>
             )}
           </div>
         )}
       </header>
 
-      <main className="flex-1 overflow-y-auto px-6 pt-6 pb-6 space-y-7">
-        {/* Progress bar (active only) */}
-        {isActive && progress && (
-          <section className="rounded-[20px] bg-paper border border-line p-4">
-            <div className="flex items-end justify-between gap-3 mb-3">
-              <div>
-                <p className="text-[11px] uppercase tracking-[0.12em] font-semibold text-ink-400">
-                  {t("progressTitle")}
-                </p>
-                <p className="font-display text-[22px] text-primary-700 leading-tight mono-num mt-1">
-                  {progress.taken}{" "}
-                  <span className="text-ink-400">/ {progress.total}</span>
-                </p>
-              </div>
-              <span className="font-display-italic text-coral-600 text-[15px] mono-num">
-                {progressPct}%
-              </span>
+      <main className="flex-1 overflow-y-auto px-6 pt-6 pb-6 space-y-6">
+        {/* Progress + action */}
+        <section className="rounded-[20px] bg-paper dark:bg-neutral-900/60 border border-line p-4 space-y-3">
+          <div className="flex items-end justify-between">
+            <div>
+              <p className="text-[11px] uppercase tracking-[0.12em] font-semibold text-ink-400">
+                {t("progressTitle")}
+              </p>
+              <p className="font-display text-[22px] text-primary-700 dark:text-neutral-100 leading-tight mono-num mt-1">
+                {taken}{" "}
+                <span className="text-ink-400 text-[16px]">/ {total}</span>
+              </p>
             </div>
-            <div className="h-2.5 rounded-full bg-cream overflow-hidden">
+            <div className="flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.1em]">
+              {pending > 0 && (
+                <span className="text-gold-600">{pending} pend.</span>
+              )}
+              {skipped > 0 && (
+                <span className="text-coral-500">{skipped} omit.</span>
+              )}
+            </div>
+          </div>
+
+          {/* Tricolor bar */}
+          <div className="h-2.5 rounded-full bg-neutral-200 dark:bg-neutral-700 overflow-hidden flex">
+            {takenPct > 0 && (
               <div
-                className="h-full bg-gradient-to-r from-gold-500 to-coral-500 rounded-full transition-all"
-                style={{ width: `${progressPct}%` }}
+                className="h-full bg-primary-500 shrink-0 transition-all"
+                style={{ width: `${takenPct}%` }}
               />
-            </div>
+            )}
+            {pendingPct > 0 && (
+              <div
+                className="h-full bg-gold-400 shrink-0 transition-all"
+                style={{ width: `${pendingPct}%` }}
+              />
+            )}
+            {skippedPct > 0 && (
+              <div
+                className="h-full bg-coral-400 shrink-0 transition-all"
+                style={{ width: `${skippedPct}%` }}
+              />
+            )}
+          </div>
 
-            {/* Next dose card */}
-            <div className="mt-4 flex items-center gap-3 rounded-[16px] bg-coral-100/60 border border-coral-200 px-4 py-3">
-              <span className="size-10 rounded-2xl bg-coral-500 text-paper grid place-items-center shrink-0">
-                <Clock className="size-[18px]" />
-              </span>
-              <div className="flex-1 min-w-0">
-                <p className="text-[11px] uppercase tracking-[0.12em] font-semibold text-coral-600">
-                  {t("nextDose")}
-                </p>
-                <p className="font-display text-[20px] text-primary-700 leading-tight mono-num mt-0.5">
-                  {med.nextDoseAt}
-                </p>
+          {/* Oldest pending + action buttons */}
+          {oldest && (
+            <div className="rounded-[14px] bg-gold-50 dark:bg-gold-950/30 border border-gold-200 dark:border-gold-800 p-3 space-y-2.5">
+              <div className="flex items-center gap-2">
+                <AlertCircle className="size-4 text-gold-500 shrink-0" />
+                <div>
+                  <p className="text-[10px] uppercase tracking-[0.12em] font-semibold text-gold-600">
+                    {t("nextDose")}
+                  </p>
+                  <p className="font-display text-[18px] text-gold-700 dark:text-gold-300 leading-tight mono-num">
+                    {formatSlotShort(oldest.date, oldest.time)}
+                  </p>
+                </div>
               </div>
-              <Button
-                size="sm"
-                className="!bg-primary-700 hover:!bg-primary-500 !text-cream !rounded-full !h-10 !px-4"
+              <div
+                className={cn(
+                  "flex gap-2",
+                  step.type === "medication"
+                    ? "justify-between"
+                    : "justify-center",
+                )}
               >
-                {t("markGiven")}
-              </Button>
-            </div>
-          </section>
-        )}
-
-        {/* Schedule */}
-        {detail && detail.doseTimes.length > 0 && (
-          <section>
-            <SectionTitle>{t("scheduleTitle")}</SectionTitle>
-            <div className="flex flex-wrap gap-2">
-              {detail.doseTimes.map((time) => (
-                <span
-                  key={time}
-                  className="inline-flex items-center gap-1.5 rounded-full bg-paper border border-line text-[14px] font-medium px-3.5 py-1.5 text-primary-700 mono-num"
+                <button
+                  type="button"
+                  disabled={isMarking}
+                  onClick={() => mutate({ slot: oldest })}
+                  className={cn(
+                    "flex-1 flex items-center justify-center gap-1.5 h-10 rounded-[12px] text-[13px] font-semibold transition-colors",
+                    isMarking
+                      ? "bg-primary-100 text-primary-400 cursor-not-allowed"
+                      : "bg-primary-700 hover:bg-primary-500 text-cream dark:bg-primary-600",
+                  )}
                 >
-                  <Clock className="size-3.5 text-ink-400" />
-                  {time}
-                </span>
-              ))}
-            </div>
-          </section>
-        )}
-
-        {/* Presentation */}
-        {detail && (
-          <section>
-            <SectionTitle>{t("presentationTitle")}</SectionTitle>
-            <div className="rounded-[18px] bg-paper border border-line px-4 py-3.5">
-              <p className="text-[14.5px] text-ink-600">
-                {detail.presentation}
-              </p>
-            </div>
-          </section>
-        )}
-
-        {/* Instructions */}
-        {detail && (
-          <section>
-            <SectionTitle>
-              <span className="inline-flex items-center gap-2">
-                <StickyNote className="size-4 text-primary-600" />
-                {t("instructionsTitle")}
-              </span>
-            </SectionTitle>
-            <div className="rounded-[18px] bg-cream border border-line/60 px-4 py-3.5">
-              <p className="text-[14.5px] text-ink-600 leading-relaxed">
-                {detail.instructions}
-              </p>
-            </div>
-          </section>
-        )}
-
-        {/* Warnings */}
-        {detail?.warnings && detail.warnings.length > 0 && (
-          <section>
-            <SectionTitle>
-              <span className="inline-flex items-center gap-2">
-                <AlertCircle className="size-4 text-coral-600" />
-                {t("warningsTitle")}
-              </span>
-            </SectionTitle>
-            <ul className="flex flex-col gap-2">
-              {detail.warnings.map((w) => (
-                <li
-                  key={w}
-                  className="rounded-[14px] bg-coral-100/60 border border-coral-200 px-4 py-2.5 text-[13.5px] text-coral-600 flex items-start gap-2"
-                >
-                  <AlertCircle className="size-4 shrink-0 mt-0.5" />
-                  <span>{w}</span>
-                </li>
-              ))}
-            </ul>
-          </section>
-        )}
-
-        {/* Doctor */}
-        {doctor && (
-          <section>
-            <SectionTitle>{t("doctorTitle")}</SectionTitle>
-            <Link
-              href={`/patient/${patientId}/doctors`}
-              className="flex items-center gap-3 rounded-[18px] bg-paper border border-line p-4 hover:border-coral-200 hover:shadow-sage transition-all"
-            >
-              <PatientAvatar
-                name={doctor.name.replace(/^(Dra?\.\s*)/, "")}
-                color={doctor.avatarColor}
-                size="md"
-              />
-              <div className="flex-1 min-w-0">
-                <p className="font-display text-[16px] text-primary-700 leading-tight">
-                  {doctor.name}
-                </p>
-                <p className="text-[12.5px] text-ink-600 mt-0.5">
-                  {doctor.specialty}
-                </p>
+                  <Check className="size-4" />
+                  {step.type === "medication" ? t("markTaken") : t("markDone")}
+                </button>
+                {step.type === "medication" && (
+                  <button
+                    type="button"
+                    disabled={isMarking}
+                    onClick={() => mutate({ slot: oldest, skipped: true })}
+                    className={cn(
+                      "flex items-center justify-center gap-1.5 h-10 px-4 rounded-[12px] text-[13px] font-semibold border transition-colors",
+                      isMarking
+                        ? "border-line text-ink-300 cursor-not-allowed"
+                        : "border-gold-300 text-gold-700 hover:border-coral-300 hover:text-coral-600",
+                    )}
+                  >
+                    <X className="size-4" />
+                    {t("markSkipped")}
+                  </button>
+                )}
               </div>
-              <ChevronRight className="size-4 text-ink-400" />
-            </Link>
+            </div>
+          )}
+        </section>
+
+        {/* Schedule chips — medication only */}
+        {step.type === "medication" &&
+          step.medication?.times_of_day?.length && (
+            <section>
+              <SectionTitle>{t("scheduleTitle")}</SectionTitle>
+              <div className="flex flex-wrap gap-2">
+                {step.medication.times_of_day.map((time) => (
+                  <span
+                    key={time}
+                    className="inline-flex items-center gap-1.5 rounded-full bg-paper dark:bg-neutral-900/60 border border-line text-[14px] font-medium px-3.5 py-1.5 text-primary-700 dark:text-neutral-100 mono-num"
+                  >
+                    <Clock className="size-3.5 text-ink-400" />
+                    {time}
+                  </span>
+                ))}
+              </div>
+            </section>
+          )}
+
+        {/* Description */}
+        {step.description && (
+          <section>
+            <SectionTitle>{t("descriptionTitle")}</SectionTitle>
+            <div className="rounded-[18px] bg-cream dark:bg-neutral-900/40 border border-line/60 px-4 py-3.5">
+              <p className="text-[14.5px] text-ink-600 leading-relaxed">
+                {step.description}
+              </p>
+            </div>
           </section>
         )}
 
         {/* Dose history */}
-        {detail && detail.doseHistory.length > 0 && (
-          <section>
-            <SectionTitle>{t("historyTitle")}</SectionTitle>
-            <ul className="rounded-[18px] bg-paper border border-line overflow-hidden">
-              {detail.doseHistory.map((d, i) => {
-                const isLast = i === detail.doseHistory.length - 1;
-                const tone =
-                  d.status === "taken"
-                    ? "bg-primary-100 text-primary-600"
-                    : d.status === "missed"
-                      ? "bg-coral-100 text-coral-600"
-                      : "bg-gold-100 text-gold-500";
-                const Icon =
-                  d.status === "taken"
-                    ? Check
-                    : d.status === "missed"
-                      ? XCircle
-                      : CircleDashed;
-                const statusLabel =
-                  d.status === "taken"
-                    ? t("statusTaken")
-                    : d.status === "missed"
-                      ? t("statusMissed")
-                      : t("statusScheduled");
-                return (
-                  <li
-                    key={d.id}
-                    className={cn(
-                      "flex items-center gap-3 px-4 py-3",
-                      !isLast && "border-b border-line/60",
-                    )}
-                  >
+        <section>
+          <SectionTitle>{t("historyTitle")}</SectionTitle>
+          <ul className="rounded-[18px] bg-paper dark:bg-neutral-900/60 border border-line overflow-hidden">
+            {sortedSlots.map((slot, i) => {
+              const isLast = i === sortedSlots.length - 1;
+              const isPending = slot.status === "pending";
+
+              const iconEl = {
+                taken: (
+                  <CheckCircle2 className="size-[18px] text-primary-600" />
+                ),
+                skipped: <XCircle className="size-[18px] text-coral-500" />,
+                pending: <AlertCircle className="size-[18px] text-gold-500" />,
+                scheduled: (
+                  <CircleDashed className="size-[18px] text-ink-300" />
+                ),
+              }[slot.status];
+
+              const iconBg = {
+                taken: "bg-primary-100 dark:bg-primary-900/40",
+                skipped: "bg-coral-100 dark:bg-coral-900/40",
+                pending: "bg-gold-100 dark:bg-gold-900/40",
+                scheduled: "bg-neutral-100 dark:bg-neutral-800",
+              }[slot.status];
+
+              const statusLabel = {
+                taken: t("statusTaken"),
+                skipped: t("statusSkipped"),
+                pending: t("statusPending"),
+                scheduled: t("statusScheduled"),
+              }[slot.status];
+
+              return (
+                <li
+                  key={slot.key}
+                  className={cn(
+                    "px-4 py-3",
+                    !isLast && "border-b border-line/60",
+                  )}
+                >
+                  <div className="flex items-center gap-3">
                     <span
                       className={cn(
                         "size-9 rounded-full grid place-items-center shrink-0",
-                        tone,
+                        iconBg,
                       )}
                     >
-                      <Icon className="size-[16px]" />
+                      {iconEl}
                     </span>
                     <div className="flex-1 min-w-0">
-                      <p className="font-display text-[15px] text-primary-700 leading-tight">
-                        {d.label}
+                      <p className="font-display text-[14px] text-primary-700 dark:text-neutral-100 leading-tight mono-num">
+                        {formatSlotFull(slot.date, slot.time)}
                       </p>
-                      <p className="text-[12px] text-ink-400 mt-0.5">
-                        {d.takenAt}
-                      </p>
+                      {slot.markedAt && (
+                        <p className="text-[11.5px] text-ink-400 mt-0.5">
+                          {t("takenAt")} · {formatMarkedAt(slot.markedAt)}
+                        </p>
+                      )}
                     </div>
-                    <span className="text-[11px] uppercase tracking-[0.12em] font-semibold text-ink-400">
+                    <span
+                      className={cn(
+                        "text-[11px] uppercase tracking-[0.1em] font-semibold shrink-0",
+                        {
+                          taken: "text-primary-600",
+                          skipped: "text-coral-500",
+                          pending: "text-gold-600",
+                          scheduled: "text-ink-400",
+                        }[slot.status],
+                      )}
+                    >
                       {statusLabel}
                     </span>
-                  </li>
-                );
-              })}
-            </ul>
-          </section>
-        )}
+                  </div>
+
+                  {/* Inline action for pending slots */}
+                  {isPending && (
+                    <div
+                      className={cn(
+                        "flex gap-2 mt-2.5",
+                        step.type === "medication"
+                          ? "justify-between"
+                          : "justify-center",
+                      )}
+                    >
+                      <button
+                        type="button"
+                        disabled={isMarking}
+                        onClick={() => mutate({ slot })}
+                        className={cn(
+                          "flex-1 flex items-center justify-center gap-1.5 h-9 rounded-[10px] text-[12.5px] font-semibold transition-colors",
+                          isMarking
+                            ? "bg-primary-100 text-primary-400 cursor-not-allowed"
+                            : "bg-primary-700 hover:bg-primary-500 text-cream dark:bg-primary-600",
+                        )}
+                      >
+                        <Check className="size-3.5" />
+                        {step.type === "medication"
+                          ? t("markTaken")
+                          : t("markDone")}
+                      </button>
+                      {step.type === "medication" && (
+                        <button
+                          type="button"
+                          disabled={isMarking}
+                          onClick={() => mutate({ slot, skipped: true })}
+                          className={cn(
+                            "flex items-center justify-center gap-1.5 h-9 px-3 rounded-[10px] text-[12.5px] font-semibold border transition-colors",
+                            isMarking
+                              ? "border-line text-ink-300 cursor-not-allowed"
+                              : "border-line text-ink-600 hover:border-coral-300 hover:text-coral-600",
+                          )}
+                        >
+                          <X className="size-3.5" />
+                          {t("markSkipped")}
+                        </button>
+                      )}
+                    </div>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+        </section>
       </main>
+
+      <TabBar />
     </PhoneFrame>
   );
 }

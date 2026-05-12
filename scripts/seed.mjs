@@ -58,8 +58,13 @@ const ID = {
   apptPast: "00000000-0000-0000-0002-000000000001",
   apptNext: "00000000-0000-0000-0002-000000000002",
   treatment1: "00000000-0000-0000-0003-000000000001",
+  treatment2: "00000000-0000-0000-0003-000000000002",
   step1: "00000000-0000-0000-0004-000000000001",
+  step2: "00000000-0000-0000-0004-000000000002",
+  step3: "00000000-0000-0000-0004-000000000003",
   med1: "00000000-0000-0000-0005-000000000001",
+  med2: "00000000-0000-0000-0005-000000000002",
+  med3: "00000000-0000-0000-0005-000000000003",
   allergy1: "00000000-0000-0000-0006-000000000001",
   vaccine1: "00000000-0000-0000-0007-000000000001",
   vital1: "00000000-0000-0000-0008-000000000001",
@@ -203,22 +208,36 @@ async function main() {
     },
   ]);
 
-  // Treatment
+  // Treatments
+  // treatment1: plan completo faringitis (amoxicilina + ibuprofeno como steps)
+  // treatment2: plan separado para control de peso (diagnóstico distinto)
   await upsert("treatments", [
     {
       id: ID.treatment1,
       patient_id: ID.sofia,
       doctor_id: ID.doctor,
       appointment_id: ID.apptPast,
-      title: "Amoxicilina — Faringitis bacteriana",
+      title: "Faringitis bacteriana",
       start_date: dateOnly(daysAgo(3)),
       end_date: dateOnly(daysFromNow(4)),
       status: "active",
       created_by: ID.holder,
     },
+    {
+      id: ID.treatment2,
+      patient_id: ID.sofia,
+      doctor_id: ID.doctor,
+      title: "Control dermatitis atópica",
+      start_date: dateOnly(daysAgo(10)),
+      end_date: dateOnly(daysFromNow(20)),
+      status: "active",
+      created_by: ID.holder,
+    },
   ]);
 
-  // Treatment step
+  // Treatment steps
+  // treatment1: amoxicilina (step1) + ibuprofeno si fiebre (step2)
+  // treatment2: hidrocortisona crema (step3)
   await upsert("treatment_steps", [
     {
       id: ID.step1,
@@ -230,9 +249,31 @@ async function main() {
       start_offset_days: 0,
       duration_days: 7,
     },
+    {
+      id: ID.step2,
+      treatment_id: ID.treatment1,
+      order: 2,
+      type: "medication",
+      title: "Ibuprofeno 5 ml",
+      description:
+        "Solo si temperatura supera 38°C. No superar 4 dosis al día.",
+      start_offset_days: 0,
+      duration_days: 5,
+    },
+    {
+      id: ID.step3,
+      treatment_id: ID.treatment2,
+      order: 1,
+      type: "medication",
+      title: "Hidrocortisona crema 1%",
+      description:
+        "Aplicar capa fina en zonas afectadas. Evitar contacto con ojos.",
+      start_offset_days: 0,
+      duration_days: 30,
+    },
   ]);
 
-  // Medication
+  // Medications
   await upsert("treatment_step_medications", [
     {
       id: ID.med1,
@@ -242,6 +283,24 @@ async function main() {
       unit: "ml",
       frequency: "cada 8 horas",
       times_of_day: ["07:00", "15:00", "23:00"],
+    },
+    {
+      id: ID.med2,
+      step_id: ID.step2,
+      medication_name: "Ibuprofeno",
+      dose: 5,
+      unit: "ml",
+      frequency: "cada 6 horas si fiebre",
+      times_of_day: ["08:00", "14:00", "20:00"],
+    },
+    {
+      id: ID.med3,
+      step_id: ID.step3,
+      medication_name: "Hidrocortisona crema 1%",
+      dose: null,
+      unit: "aplicación",
+      frequency: "2 veces al día",
+      times_of_day: ["08:00", "20:00"],
     },
   ]);
 

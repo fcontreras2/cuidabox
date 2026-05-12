@@ -3,24 +3,24 @@
     "treatmentsOf": "Tratamientos de",
     "titleAccent": "Estos son los",
     "title": "medicamentos",
-    "tabActive": "Activos",
-    "tabPast": "Pasados",
+    "tabActive": "Pendientes",
+    "tabCulminated": "Culminados",
     "sectionActive": "En curso ahora",
-    "sectionPast": "Tratamientos pasados",
+    "sectionCulminated": "Culminados",
     "addMedication": "Agregar medicamento",
-    "treatmentProgress": "Progreso del tratamiento",
-    "markDose": "Marcar dosis dada"
+    "emptyActive": "No tienes medicamentos pendientes",
+    "emptyCulminated": "Aún no hay culminados"
   },
   "en": {
     "treatmentsOf": "Treatments for",
     "titleAccent": "These are the",
     "title": "medications",
-    "tabActive": "Active",
-    "tabPast": "Past",
+    "tabActive": "Pending",
+    "tabCulminated": "Completed",
     "sectionActive": "Currently ongoing",
-    "sectionPast": "Past treatments",
+    "sectionCulminated": "Completed",
     "addMedication": "Add medication",
-    "treatmentProgress": "Treatment progress",
-    "markDose": "Mark dose given"
+    "emptyActive": "No pending medications",
+    "emptyCulminated": "Nothing completed yet"
   }
 }

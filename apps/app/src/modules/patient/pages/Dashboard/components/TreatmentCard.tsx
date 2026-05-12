@@ -129,6 +129,9 @@ export function TreatmentCard({
       queryClient.invalidateQueries({
         queryKey: ["patient-events-recent", patientId],
       });
+      queryClient.invalidateQueries({
+        queryKey: ["patient-events-all", patientId],
+      });
     },
   });
 
@@ -164,7 +167,7 @@ export function TreatmentCard({
     <div className="rounded-[20px] bg-paper border border-line overflow-hidden">
       {/* Title row — tappable, links to medications */}
       <Link
-        href={`/patient/${patientId}/medications`}
+        href={`/patient/${patientId}/treatments/${treatment.id}`}
         className="px-4 pt-4 pb-3 flex items-center gap-3 hover:bg-neutral-50 dark:hover:bg-neutral-900/40 transition-colors"
       >
         <span className="size-10 rounded-2xl bg-gold-100 dark:bg-gold-900/40 text-gold-600 dark:text-gold-400 grid place-items-center shrink-0">

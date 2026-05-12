@@ -1,0 +1,28 @@
+{
+  "es": {
+    "notFoundTitle": "No encontramos este tratamiento",
+    "notFoundSubtitle": "Puede que haya sido eliminado.",
+    "notFoundCta": "Volver a medicamentos",
+    "progressTitle": "Progreso total",
+    "filterAll": "Todos",
+    "filterMedication": "Medicamentos",
+    "filterExam": "Exámenes",
+    "filterAction": "Acciones",
+    "startDate": "Inicio",
+    "endDate": "Fin",
+    "emptyFilter": "No hay eventos de este tipo"
+  },
+  "en": {
+    "notFoundTitle": "We couldn't find this treatment",
+    "notFoundSubtitle": "It may have been removed.",
+    "notFoundCta": "Back to medications",
+    "progressTitle": "Total progress",
+    "filterAll": "All",
+    "filterMedication": "Medications",
+    "filterExam": "Exams",
+    "filterAction": "Actions",
+    "startDate": "Start",
+    "endDate": "End",
+    "emptyFilter": "No events of this type"
+  }
+}

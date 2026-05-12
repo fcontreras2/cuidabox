@@ -39,7 +39,7 @@ export function useDashboard(id: string) {
 
   const { data: treatmentsData, isLoading: treatmentsLoading } = useQuery({
     queryKey: ["patient-treatments-active", id],
-    queryFn: () => treatmentsClient.list(id, { status: "active", limit: 1 }),
+    queryFn: () => treatmentsClient.list(id, { status: "active", limit: 5 }),
     staleTime: 2 * 60 * 1000,
   });
 
@@ -59,6 +59,6 @@ export function useDashboard(id: string) {
     patient,
     summary,
     recentEvents: eventsData?.data ?? [],
-    activeTreatment: treatmentsData?.data?.[0] ?? null,
+    activeTreatments: treatmentsData?.data ?? [],
   };
 }
