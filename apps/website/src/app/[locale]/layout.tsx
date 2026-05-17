@@ -5,8 +5,8 @@ import { notFound } from "next/navigation";
 import { Fraunces, DM_Sans } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import { routing } from "@/i18n/routing";
-import "@/styles/globals.css";
 import "fcontreras2-ui/styles.css";
+import "@/styles/globals.css";
 
 type Locale = (typeof routing.locales)[number];
 
