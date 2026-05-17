@@ -19,7 +19,7 @@ import { PatientSheet } from "./components/PatientSheet";
 
 export default function PatientDashboard({ id }: { id: string }) {
   const t = useTranslations("modules-patient-pages-Dashboard");
-  const { isLoading, patient, summary, recentEvents, activeTreatments } =
+  const { isLoading, patient, summary, recentEvents, allEvents, activeTreatments } =
     useDashboard(id);
   const [sheetOpen, setSheetOpen] = useState(false);
   const [activeSlide, setActiveSlide] = useState(0);
@@ -91,6 +91,7 @@ export default function PatientDashboard({ id }: { id: string }) {
             <TreatmentCard
               treatment={null}
               patientId={id}
+              events={allEvents}
               isLoading={false}
               labels={{
                 noTreatment: t("treatment.none"),
@@ -125,6 +126,7 @@ export default function PatientDashboard({ id }: { id: string }) {
                     <TreatmentCard
                       treatment={treatment}
                       patientId={id}
+                      events={allEvents}
                       isLoading={false}
                       labels={{
                         noTreatment: t("treatment.none"),

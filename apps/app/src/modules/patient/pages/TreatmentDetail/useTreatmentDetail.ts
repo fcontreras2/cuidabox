@@ -11,43 +11,26 @@ export function useTreatmentDetail(treatmentId: string) {
   const params = useParams();
   const patientId = typeof params?.id === "string" ? params.id : "";
 
-  const { data: activeTreatmentsData, isLoading: activeLoading } = useQuery({
-    queryKey: ["patient-treatments-active", patientId],
-    queryFn: () =>
-      treatmentsClient.list(patientId, { status: "active", limit: 20 }),
+  // findOne en lugar de list() — una sola petición al endpoint específico
+  const { data: treatment, isLoading: treatmentLoading } = useQuery({
+    queryKey: ["patient-treatment", patientId, treatmentId],
+    queryFn: () => treatmentsClient.findOne(patientId, treatmentId),
     staleTime: 2 * 60 * 1000,
-    enabled: !!patientId,
-  });
-
-  const { data: completedTreatmentsData } = useQuery({
-    queryKey: ["patient-treatments-completed", patientId],
-    queryFn: () =>
-      treatmentsClient.list(patientId, { status: "completed", limit: 20 }),
-    staleTime: 5 * 60 * 1000,
-    enabled: !!patientId,
+    enabled: !!patientId && !!treatmentId,
   });
 
   const { data: eventsData, isLoading: eventsLoading } = useQuery({
-    queryKey: ["patient-events-all", patientId],
-    queryFn: () => eventsClient.getTimeline(patientId, { limit: 200 }),
+    queryKey: ["patient-events-medication", patientId],
+    queryFn: () =>
+      eventsClient.getTimeline(patientId, {
+        type: "medication_given",
+        limit: 100,
+      }),
     staleTime: 60 * 1000,
     enabled: !!patientId,
   });
 
-  const allTreatments = useMemo(
-    () => [
-      ...(activeTreatmentsData?.data ?? []),
-      ...(completedTreatmentsData?.data ?? []),
-    ],
-    [activeTreatmentsData, completedTreatmentsData],
-  );
-
   const events = useMemo(() => eventsData?.data ?? [], [eventsData]);
-
-  const treatment = useMemo(
-    () => allTreatments.find((t) => t.id === treatmentId) ?? null,
-    [allTreatments, treatmentId],
-  );
 
   const stepCards = useMemo<StepCard[]>(() => {
     if (!treatment) return [];
@@ -65,8 +48,8 @@ export function useTreatmentDetail(treatmentId: string) {
 
   return {
     patientId,
-    isLoading: activeLoading || eventsLoading,
-    treatment,
+    isLoading: treatmentLoading || eventsLoading,
+    treatment: treatment ?? null,
     stepCards,
     overallProgress,
   };

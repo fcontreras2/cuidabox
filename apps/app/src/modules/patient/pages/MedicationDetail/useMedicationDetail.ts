@@ -27,8 +27,12 @@ export function useMedicationDetail(stepId: string) {
   });
 
   const { data: eventsData, isLoading: eventsLoading } = useQuery({
-    queryKey: ["patient-events-all", patientId],
-    queryFn: () => eventsClient.getTimeline(patientId, { limit: 200 }),
+    queryKey: ["patient-events-medication", patientId],
+    queryFn: () =>
+      eventsClient.getTimeline(patientId, {
+        type: "medication_given",
+        limit: 100,
+      }),
     staleTime: 60 * 1000,
     enabled: !!patientId,
   });

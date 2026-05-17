@@ -263,7 +263,8 @@
     "startDate": "Inicio",
     "endDate": "Fin",
     "edit": "Editar",
-    "stop": "Suspender"
+    "stop": "Suspender",
+    "saveError": "No se pudo guardar. Intenta de nuevo."
   },
   "modules-patient-pages-Medications": {
     "treatmentsOf": "Tratamientos de",

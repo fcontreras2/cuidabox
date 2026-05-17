@@ -1,23 +1,25 @@
 "use client";
 
+import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   Pill,
-  Clock,
   CheckCircle2,
   AlertCircle,
   CalendarClock,
   ChevronRight,
+  Loader2,
 } from "lucide-react";
 import { Skeleton } from "fcontreras2-ui";
 import { Link } from "@/i18n/navigation";
 import { eventsClient } from "@cuidabox/api";
-import type { Treatment } from "@cuidabox/api";
+import type { Treatment, TimelineEvent } from "@cuidabox/api";
 import { cn } from "@/shared/lib/cn";
 
 interface Props {
   treatment: Treatment | null;
   patientId: string;
+  events: TimelineEvent[];
   isLoading?: boolean;
   labels: {
     noTreatment: string;
@@ -39,22 +41,36 @@ interface DoseSchedule {
   totalToday: number;
 }
 
-function computeDoseSchedule(treatment: Treatment): DoseSchedule {
+function computeDoseSchedule(
+  treatment: Treatment,
+  events: TimelineEvent[],
+): DoseSchedule {
   const now = new Date();
   const nowMinutes = now.getHours() * 60 + now.getMinutes();
+  const todayStr = now.toISOString().split("T")[0];
+
+  // Construir set de dosis ya marcadas hoy: "medName_HH:MM"
+  const markedToday = new Set<string>();
+  for (const event of events) {
+    if (event.type !== "medication_given") continue;
+    if (event.occurred_at.split("T")[0] !== todayStr) continue;
+    const p = event.payload as Record<string, unknown>;
+    const medName = p.medication_name as string | undefined;
+    const time = p.time as string | undefined;
+    if (medName && time) markedToday.add(`${medName}_${time}`);
+  }
 
   const allTimes: Array<{ minutes: number; time: string; medName: string }> =
     [];
 
   for (const step of treatment.steps) {
     if (step.type !== "medication" || !step.medication?.times_of_day) continue;
+    const medName = step.medication.medication_name;
     for (const t of step.medication.times_of_day) {
+      // Saltar dosis ya marcadas (tomadas o saltadas)
+      if (markedToday.has(`${medName}_${t}`)) continue;
       const [h, m] = t.split(":").map(Number);
-      allTimes.push({
-        minutes: h * 60 + m,
-        time: t,
-        medName: step.medication.medication_name,
-      });
+      allTimes.push({ minutes: h * 60 + m, time: t, medName });
     }
   }
 
@@ -108,30 +124,44 @@ function formatTime(time: string): string {
 export function TreatmentCard({
   treatment,
   patientId,
+  events,
   isLoading,
   labels,
 }: Props) {
   const queryClient = useQueryClient();
+  const [mutationError, setMutationError] = useState<string | null>(null);
 
   const { mutate: markTaken, isPending: isMarking } = useMutation({
-    mutationFn: (payload: { medication_name: string; time: string }) =>
-      eventsClient.create(patientId, {
+    mutationFn: (payload: { medication_name: string; time: string }) => {
+      // Buscar el step correcto por nombre de medicamento
+      const step = treatment?.steps.find(
+        (s) =>
+          s.type === "medication" &&
+          s.medication?.medication_name === payload.medication_name,
+      );
+      return eventsClient.create(patientId, {
         type: "medication_given",
         occurred_at: new Date().toISOString(),
         payload: {
           medication_name: payload.medication_name,
-          dose: treatment?.steps[0]?.medication?.dose,
-          unit: treatment?.steps[0]?.medication?.unit,
+          dose: step?.medication?.dose ?? null,
+          unit: step?.medication?.unit ?? null,
           time: payload.time,
+          step_id: step?.id ?? null,
         },
-      }),
+      });
+    },
     onSuccess: () => {
+      setMutationError(null);
       queryClient.invalidateQueries({
         queryKey: ["patient-events-recent", patientId],
       });
       queryClient.invalidateQueries({
-        queryKey: ["patient-events-all", patientId],
+        queryKey: ["patient-events-medication", patientId],
       });
+    },
+    onError: () => {
+      setMutationError("No se pudo guardar. Intenta de nuevo.");
     },
   });
 
@@ -159,7 +189,7 @@ export function TreatmentCard({
   const { elapsedPct, remainingPct, daysLeft, totalDays } =
     computeProgress(treatment);
   const { nextTime, nextMedName, pendingCount, pastCount } =
-    computeDoseSchedule(treatment);
+    computeDoseSchedule(treatment, events);
 
   const hasMissedRisk = pastCount > 0 && nextTime === null;
 
@@ -247,9 +277,10 @@ export function TreatmentCard({
           <button
             type="button"
             disabled={isMarking}
-            onClick={() =>
-              markTaken({ medication_name: nextMedName, time: nextTime })
-            }
+            onClick={() => {
+              setMutationError(null);
+              markTaken({ medication_name: nextMedName, time: nextTime });
+            }}
             className={cn(
               "inline-flex items-center gap-1.5 h-11 px-5 rounded-full text-[14px] font-semibold transition-colors shrink-0",
               isMarking
@@ -257,11 +288,21 @@ export function TreatmentCard({
                 : "bg-primary-700 hover:bg-primary-500 text-cream",
             )}
           >
-            <CheckCircle2 className="size-4" />
-            {labels.markTaken}
+            {isMarking ? (
+              <Loader2 className="size-4 animate-spin" />
+            ) : (
+              <CheckCircle2 className="size-4" />
+            )}
+            {isMarking ? "Guardando…" : labels.markTaken}
           </button>
         )}
       </div>
+
+      {mutationError && (
+        <p className="px-4 pb-3 text-[12px] text-coral-600 font-medium">
+          {mutationError}
+        </p>
+      )}
     </div>
   );
 }

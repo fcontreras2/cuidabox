@@ -20,7 +20,8 @@
     "startDate": "Inicio",
     "endDate": "Fin",
     "edit": "Editar",
-    "stop": "Suspender"
+    "stop": "Suspender",
+    "saveError": "No se pudo guardar. Intenta de nuevo."
   },
   "en": {
     "notFoundTitle": "We couldn't find this medication",
@@ -43,6 +44,7 @@
     "startDate": "Start",
     "endDate": "End",
     "edit": "Edit",
-    "stop": "Stop"
+    "stop": "Stop",
+    "saveError": "Couldn't save. Please try again."
   }
 }

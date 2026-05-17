@@ -263,7 +263,8 @@
     "startDate": "Start",
     "endDate": "End",
     "edit": "Edit",
-    "stop": "Stop"
+    "stop": "Stop",
+    "saveError": "Couldn't save. Please try again."
   },
   "modules-patient-pages-Medications": {
     "treatmentsOf": "Treatments for",

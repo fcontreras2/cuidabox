@@ -1,8 +1,17 @@
 import { Inject, Injectable, ForbiddenException } from '@nestjs/common';
 import { SupabaseClient } from '@supabase/supabase-js';
 import { SUPABASE_CLIENT } from '../supabase/supabase.module';
-import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
+import { EventsQueryDto } from './dto/events-query.dto';
 import { Paginated } from '../common/types/paginated';
+
+// Tipos que solo existen en la tabla `events` (no en vaccines ni vitals)
+const EVENT_ONLY_TYPES = new Set([
+  'medication_given',
+  'symptom',
+  'visit',
+  'exam',
+  'note',
+]);
 
 export interface TimelineEvent {
   id: string;
@@ -63,72 +72,102 @@ export class EventsService {
   async getTimeline(
     patientId: string,
     userId: string,
-    query: PaginationQueryDto = {},
+    query: EventsQueryDto = {},
   ): Promise<Paginated<TimelineEvent>> {
     await this.assertAccess(patientId, userId);
 
     const limit = query.limit ?? 20;
-    // Fetch limit+1 from each source to have enough data after merge+sort
     const fetchLimit = limit + 1;
 
-    let vaccinesQ = this.supabase
-      .from('vaccines')
-      .select('id, name, dose_number, administered_at, administered_by, notes')
-      .eq('patient_id', patientId)
-      .order('administered_at', { ascending: false })
-      .limit(fetchLimit);
+    // Si el tipo pedido solo existe en la tabla events, saltamos vaccines y vitals
+    const onlyEvents = query.type ? EVENT_ONLY_TYPES.has(query.type) : false;
+    const onlyVaccines = query.type === 'vaccine';
+    const onlyVitals = query.type === 'vital';
 
-    let vitalsQ = this.supabase
-      .from('vitals')
-      .select(
-        'id, weight_kg, height_cm, temperature_c, heart_rate, notes, recorded_at, recorded_by',
-      )
-      .eq('patient_id', patientId)
-      .order('recorded_at', { ascending: false })
-      .limit(fetchLimit);
+    // ── Queries condicionales ────────────────────────────────────────────────
 
-    let eventsQ = this.supabase
-      .from('events')
-      .select('id, type, occurred_at, payload, created_by')
-      .eq('patient_id', patientId)
-      .order('occurred_at', { ascending: false })
-      .limit(fetchLimit);
+    const runVaccines = !onlyEvents && !onlyVitals;
+    const runVitals = !onlyEvents && !onlyVaccines;
+    const runEvents = !onlyVaccines && !onlyVitals;
 
-    if (query.cursor) {
-      vaccinesQ = vaccinesQ.lt('administered_at', query.cursor);
-      vitalsQ = vitalsQ.lt('recorded_at', query.cursor);
-      eventsQ = eventsQ.lt('occurred_at', query.cursor);
-    }
+    const buildVaccinesQ = () => {
+      let q = this.supabase
+        .from('vaccines')
+        .select('id, name, dose_number, administered_at, administered_by, notes')
+        .eq('patient_id', patientId)
+        .order('administered_at', { ascending: false })
+        .limit(fetchLimit);
+      if (query.cursor) q = q.lt('administered_at', query.cursor);
+      if (query.from) q = q.gte('administered_at', query.from);
+      if (query.to) q = q.lte('administered_at', query.to + 'T23:59:59Z');
+      return q;
+    };
 
-    const [{ data: vaccines }, { data: vitals }, { data: events }] =
-      await Promise.all([
-        vaccinesQ as unknown as Promise<{
-          data: Record<string, unknown>[] | null;
-        }>,
-        vitalsQ as unknown as Promise<{
-          data: Record<string, unknown>[] | null;
-        }>,
-        eventsQ as unknown as Promise<{
-          data: Record<string, unknown>[] | null;
-        }>,
-      ]);
+    const buildVitalsQ = () => {
+      let q = this.supabase
+        .from('vitals')
+        .select(
+          'id, weight_kg, height_cm, temperature_c, heart_rate, notes, recorded_at, recorded_by',
+        )
+        .eq('patient_id', patientId)
+        .order('recorded_at', { ascending: false })
+        .limit(fetchLimit);
+      if (query.cursor) q = q.lt('recorded_at', query.cursor);
+      if (query.from) q = q.gte('recorded_at', query.from);
+      if (query.to) q = q.lte('recorded_at', query.to + 'T23:59:59Z');
+      return q;
+    };
+
+    const buildEventsQ = () => {
+      let q = this.supabase
+        .from('events')
+        .select('id, type, occurred_at, payload, created_by')
+        .eq('patient_id', patientId)
+        .order('occurred_at', { ascending: false })
+        .limit(fetchLimit);
+      if (query.type && EVENT_ONLY_TYPES.has(query.type))
+        q = q.eq('type', query.type);
+      if (query.cursor) q = q.lt('occurred_at', query.cursor);
+      if (query.from) q = q.gte('occurred_at', query.from);
+      if (query.to) q = q.lte('occurred_at', query.to + 'T23:59:59Z');
+      return q;
+    };
+
+    // Solo lanzamos las queries necesarias en paralelo
+    const [vaccinesResult, vitalsResult, eventsResult] = await Promise.all([
+      runVaccines
+        ? (buildVaccinesQ() as unknown as Promise<{
+            data: Record<string, unknown>[] | null;
+          }>)
+        : Promise.resolve({ data: [] as Record<string, unknown>[] }),
+      runVitals
+        ? (buildVitalsQ() as unknown as Promise<{
+            data: Record<string, unknown>[] | null;
+          }>)
+        : Promise.resolve({ data: [] as Record<string, unknown>[] }),
+      runEvents
+        ? (buildEventsQ() as unknown as Promise<{
+            data: Record<string, unknown>[] | null;
+          }>)
+        : Promise.resolve({ data: [] as Record<string, unknown>[] }),
+    ]);
 
     const timeline: TimelineEvent[] = [
-      ...(vaccines ?? []).map((v) => ({
+      ...(vaccinesResult.data ?? []).map((v) => ({
         id: v.id as string,
         type: 'vaccine',
         occurred_at: (v.administered_at as string) ?? '',
         payload: v,
         created_by: null,
       })),
-      ...(vitals ?? []).map((v) => ({
+      ...(vitalsResult.data ?? []).map((v) => ({
         id: v.id as string,
         type: 'vital',
         occurred_at: v.recorded_at as string,
         payload: v,
         created_by: v.recorded_by as string,
       })),
-      ...(events ?? []).map((e) => ({
+      ...(eventsResult.data ?? []).map((e) => ({
         id: e.id as string,
         type: e.type as string,
         occurred_at: e.occurred_at as string,

@@ -37,6 +37,14 @@ export function useDashboard(id: string) {
     staleTime: 2 * 60 * 1000,
   });
 
+  // Solo medication_given — para que TreatmentCard sepa qué dosis ya fueron marcadas hoy
+  const { data: allEventsData } = useQuery({
+    queryKey: ["patient-events-medication", id],
+    queryFn: () =>
+      eventsClient.getTimeline(id, { type: "medication_given", limit: 100 }),
+    staleTime: 60 * 1000,
+  });
+
   const { data: treatmentsData, isLoading: treatmentsLoading } = useQuery({
     queryKey: ["patient-treatments-active", id],
     queryFn: () => treatmentsClient.list(id, { status: "active", limit: 5 }),
@@ -59,6 +67,7 @@ export function useDashboard(id: string) {
     patient,
     summary,
     recentEvents: eventsData?.data ?? [],
+    allEvents: allEventsData?.data ?? [],
     activeTreatments: treatmentsData?.data ?? [],
   };
 }

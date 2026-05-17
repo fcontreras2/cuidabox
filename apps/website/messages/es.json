@@ -16,5 +16,141 @@
     "next": "Siguiente",
     "previous": "Anterior",
     "confirm": "Confirmar"
+  },
+  "modules-landing-pages-Main": {
+    "nav": {
+      "audiences": "Para quién",
+      "families": "Familias",
+      "doctors": "Médicos",
+      "howItWorks": "Cómo funciona",
+      "ctaFamilies": "Soy cuidador",
+      "ctaDoctors": "Soy médico",
+      "openMenu": "Abrir menú",
+      "closeMenu": "Cerrar menú"
+    },
+    "hero": {
+      "eyebrow": "Salud familiar · Para cuidadores y médicos",
+      "titleA": "La salud que cuidas,",
+      "titleB": "en un solo lugar",
+      "subtitle": "CuidaBox conecta a familias que llevan el día a día de la salud de un ser querido con los médicos que les acompañan. Una historia clara, recordatorios a tiempo, todo el equipo médico en la misma página.",
+      "ctaFamiliesTitle": "Estoy cuidando a alguien",
+      "ctaFamiliesSub": "Lleva el historial, dosis y citas de tu familia",
+      "ctaDoctorsTitle": "Soy profesional de la salud",
+      "ctaDoctorsSub": "Agenda, expediente y tratamientos en un portal",
+      "trustNote": "Cifrado de extremo a extremo · Sin publicidad",
+      "phoneAppName": "App familiar",
+      "phoneNext": "Próxima dosis",
+      "phoneMedication": "Paracetamol · 5ml",
+      "phoneTime": "Hoy · 14:00",
+      "phonePatient": "Emma · 5 años",
+      "phoneFever": "Fiebre 38.2°",
+      "desktopAppName": "Portal médico",
+      "desktopHeader": "Agenda de hoy",
+      "desktopGreeting": "Buenos días, Dra. Mendoza",
+      "desktopPatientA": "Emma R.",
+      "desktopPatientB": "Lucas R.",
+      "desktopPatientC": "Sofía R.",
+      "desktopTimeA": "10:30",
+      "desktopTimeB": "11:00",
+      "desktopTimeC": "12:00"
+    },
+    "families": {
+      "eyebrow": "Para ti, que cuidas a alguien",
+      "title": "Llevar el control",
+      "titleAccent": "ya no es agotador",
+      "subtitle": "Olvídate de notas sueltas y mensajes perdidos. CuidaBox guarda todo el historial de tu familia con la calidez con la que tú lo cuentas.",
+      "features": {
+        "history": {
+          "title": "Una sola historia",
+          "body": "Cada fiebre, dosis y consulta, en orden cronológico. Comparte con un toque cuando vas al médico."
+        },
+        "reminders": {
+          "title": "Recordatorios que entienden",
+          "body": "La próxima dosis, la vacuna pendiente, la cita del jueves. Sin alarmas estresantes."
+        },
+        "voice": {
+          "title": "Registra hablando",
+          "body": "Dile a la app lo que pasó. La IA organiza síntomas, medicación y horarios por ti."
+        },
+        "family": {
+          "title": "Toda la familia",
+          "body": "Mamá, papá, los hijos, tú. Un perfil por persona, con su propio color y su propia historia."
+        }
+      },
+      "cta": "Empieza a cuidar",
+      "ctaSub": "Es gratis · sin tarjeta"
+    },
+    "doctors": {
+      "eyebrow": "Para médicos y clínicas",
+      "title": "El expediente",
+      "titleAccent": "que tus pacientes ya escriben",
+      "subtitle": "Tus pacientes traen contigo todo el contexto que necesitas. Tú aportas el diagnóstico y el seguimiento. Sin papeleo, sin Excel.",
+      "features": {
+        "agenda": {
+          "title": "Agenda viva",
+          "body": "Citas, recordatorios y notas previas. Sabes qué pasa antes de que crucen la puerta."
+        },
+        "records": {
+          "title": "Expediente unificado",
+          "body": "Síntomas registrados por la familia, vacunas, tratamientos anteriores. Todo en una pantalla."
+        },
+        "treatments": {
+          "title": "Tratamientos con seguimiento",
+          "body": "Prescribes, defines pasos y horarios. La app guía a la familia día por día."
+        },
+        "notes": {
+          "title": "Notas clínicas claras",
+          "body": "Lo que escribes queda asociado al evento, fecha y tratamiento. Búsqueda en segundos."
+        }
+      },
+      "cta": "Entrar al portal",
+      "ctaSub": "Acceso de prueba para clínicas"
+    },
+    "how": {
+      "eyebrow": "Cómo funciona",
+      "title": "Tres pasos. Sin curva.",
+      "subtitle": "Si pudiste registrar un síntoma en un papel, puedes usar CuidaBox.",
+      "steps": {
+        "one": {
+          "label": "Paso uno",
+          "title": "Crea tu espacio",
+          "body": "Decides si entras como cuidador o como médico. Cada uno tiene su propio panel."
+        },
+        "two": {
+          "label": "Paso dos",
+          "title": "Registra lo que pasa",
+          "body": "La familia anota síntomas y dosis. El médico añade diagnósticos y tratamientos."
+        },
+        "three": {
+          "label": "Paso tres",
+          "title": "Síguelo en el tiempo",
+          "body": "Una historia clara y compartida. Recordatorios, reportes, y nadie se pierde de nada."
+        }
+      }
+    },
+    "finalCta": {
+      "eyebrow": "Listo cuando tú lo estés",
+      "title": "Elige por dónde entras",
+      "subtitle": "Te llevamos al espacio correcto según quién eres.",
+      "familiesTitle": "Estoy cuidando a alguien",
+      "familiesBody": "Te llevo a la app móvil — la del día a día.",
+      "familiesCta": "Abrir la app",
+      "doctorsTitle": "Soy profesional de la salud",
+      "doctorsBody": "Te llevo al portal de gestión clínica.",
+      "doctorsCta": "Abrir el portal"
+    },
+    "footer": {
+      "tagline": "Cuidar a alguien es serio. La app no tiene que serlo.",
+      "copyright": "© {year} CuidaBox. Hecho con cariño en Latinoamérica.",
+      "linksProduct": "Producto",
+      "linksFamilies": "Para familias",
+      "linksDoctors": "Para médicos",
+      "linksHow": "Cómo funciona",
+      "linksLegal": "Legal",
+      "linksPrivacy": "Privacidad",
+      "linksTerms": "Términos",
+      "linksContact": "Contacto",
+      "language": "Idioma"
+    }
   }
 }

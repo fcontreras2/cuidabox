@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
@@ -15,6 +16,7 @@ import {
   CircleDashed,
   Calendar,
   Pencil,
+  Loader2,
 } from "lucide-react";
 import { Skeleton } from "fcontreras2-ui";
 import { Link } from "@/i18n/navigation";
@@ -52,6 +54,8 @@ export default function MedicationDetail({ id }: { id: string }) {
     useMedicationDetail(id);
 
   const queryClient = useQueryClient();
+  const [mutationError, setMutationError] = useState<string | null>(null);
+
   const { mutate, isPending: isMarking } = useMutation({
     mutationFn: ({ slot, skipped }: { slot: DoseSlot; skipped?: boolean }) => {
       if (step?.type === "medication") {
@@ -75,12 +79,16 @@ export default function MedicationDetail({ id }: { id: string }) {
       });
     },
     onSuccess: () => {
+      setMutationError(null);
       queryClient.invalidateQueries({
-        queryKey: ["patient-events-all", patientId],
+        queryKey: ["patient-events-medication", patientId],
       });
       queryClient.invalidateQueries({
         queryKey: ["patient-events-recent", patientId],
       });
+    },
+    onError: () => {
+      setMutationError(t("saveError"));
     },
   });
 
@@ -284,7 +292,10 @@ export default function MedicationDetail({ id }: { id: string }) {
                 <button
                   type="button"
                   disabled={isMarking}
-                  onClick={() => mutate({ slot: oldest })}
+                  onClick={() => {
+                    setMutationError(null);
+                    mutate({ slot: oldest });
+                  }}
                   className={cn(
                     "flex-1 flex items-center justify-center gap-1.5 h-10 rounded-[12px] text-[13px] font-semibold transition-colors",
                     isMarking
@@ -292,14 +303,25 @@ export default function MedicationDetail({ id }: { id: string }) {
                       : "bg-primary-700 hover:bg-primary-500 text-cream dark:bg-primary-600",
                   )}
                 >
-                  <Check className="size-4" />
-                  {step.type === "medication" ? t("markTaken") : t("markDone")}
+                  {isMarking ? (
+                    <Loader2 className="size-4 animate-spin" />
+                  ) : (
+                    <Check className="size-4" />
+                  )}
+                  {isMarking
+                    ? "Guardando…"
+                    : step.type === "medication"
+                      ? t("markTaken")
+                      : t("markDone")}
                 </button>
                 {step.type === "medication" && (
                   <button
                     type="button"
                     disabled={isMarking}
-                    onClick={() => mutate({ slot: oldest, skipped: true })}
+                    onClick={() => {
+                      setMutationError(null);
+                      mutate({ slot: oldest, skipped: true });
+                    }}
                     className={cn(
                       "flex items-center justify-center gap-1.5 h-10 px-4 rounded-[12px] text-[13px] font-semibold border transition-colors",
                       isMarking
@@ -312,6 +334,12 @@ export default function MedicationDetail({ id }: { id: string }) {
                   </button>
                 )}
               </div>
+
+              {mutationError && (
+                <p className="text-[12px] text-coral-600 font-medium pt-0.5">
+                  {mutationError}
+                </p>
+              )}
             </div>
           )}
         </section>
@@ -435,7 +463,10 @@ export default function MedicationDetail({ id }: { id: string }) {
                       <button
                         type="button"
                         disabled={isMarking}
-                        onClick={() => mutate({ slot })}
+                        onClick={() => {
+                          setMutationError(null);
+                          mutate({ slot });
+                        }}
                         className={cn(
                           "flex-1 flex items-center justify-center gap-1.5 h-9 rounded-[10px] text-[12.5px] font-semibold transition-colors",
                           isMarking
@@ -443,16 +474,25 @@ export default function MedicationDetail({ id }: { id: string }) {
                             : "bg-primary-700 hover:bg-primary-500 text-cream dark:bg-primary-600",
                         )}
                       >
-                        <Check className="size-3.5" />
-                        {step.type === "medication"
-                          ? t("markTaken")
-                          : t("markDone")}
+                        {isMarking ? (
+                          <Loader2 className="size-3.5 animate-spin" />
+                        ) : (
+                          <Check className="size-3.5" />
+                        )}
+                        {isMarking
+                          ? "Guardando…"
+                          : step.type === "medication"
+                            ? t("markTaken")
+                            : t("markDone")}
                       </button>
                       {step.type === "medication" && (
                         <button
                           type="button"
                           disabled={isMarking}
-                          onClick={() => mutate({ slot, skipped: true })}
+                          onClick={() => {
+                            setMutationError(null);
+                            mutate({ slot, skipped: true });
+                          }}
                           className={cn(
                             "flex items-center justify-center gap-1.5 h-9 px-3 rounded-[10px] text-[12.5px] font-semibold border transition-colors",
                             isMarking

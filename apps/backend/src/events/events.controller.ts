@@ -18,7 +18,7 @@ import { JwtGuard } from '../auth/guards/jwt.guard';
 import { EventsService } from './events.service';
 import { TimelineEventResponseDto } from './dto/event-response.dto';
 import { CreateEventDto } from './dto/create-event.dto';
-import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
+import { EventsQueryDto } from './dto/events-query.dto';
 
 interface AuthRequest {
   user: { id: string; email: string; role: string };
@@ -56,7 +56,7 @@ export class EventsController {
   getTimeline(
     @Param('patientId') patientId: string,
     @Request() req: AuthRequest,
-    @Query() query: PaginationQueryDto,
+    @Query() query: EventsQueryDto,
   ) {
     return this.eventsService.getTimeline(patientId, req.user.id, query);
   }
